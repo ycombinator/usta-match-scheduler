@@ -3,18 +3,18 @@ teams:
     title: Men's 3.5 18+
     captain: Cory Caouette
     scheduling_type: evening
-    day_preferences: [ monday, wednesday, thursday ]
+    day_preferences: [ monday ]
     weeks: [ 20240408, 20240422, 20240513, 20240527, 20240610 ]
   w35:
     title: Women's 3.5 18+
     captain: Laurie Christian-Neff
     scheduling_type: evening
-    day_preferences: [ tuesday, friday, sunday ]
+    day_preferences: [ monday ]
     weeks: [ 20240408, 20240422, 20240513, 20240527, 20240610 ]
   w35d: 
     title: Women's 3.5 Daytime 18+
     scheduling_type: daytime
-    day_preferences: [ tuesday, thursday, saturday ]
+    day_preferences: [ monday ]
     weeks: [ 20240408, 20240422, 20240513, 20240527, 20240610 ]
 
 scheduling_types:

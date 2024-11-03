@@ -58,7 +58,7 @@ func (d *Day) HasDaytimeCapacity() bool {
 }
 
 func (d *Day) HasEveningCapacity() bool {
-	return d.DaytimeTeam == nil
+	return d.EveningTeam == nil
 }
 
 func (d *Day) HasCapacity() bool {

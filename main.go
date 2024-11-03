@@ -26,7 +26,8 @@ func main() {
 
 	//fmt.Printf("%#+v\n", input)
 
-	s, err := scheduler.NewEager(input)
+	//s, err := scheduler.NewEager(input)
+	s, err := scheduler.NewPreferring(input)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(3)
