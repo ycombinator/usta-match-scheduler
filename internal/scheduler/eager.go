@@ -40,12 +40,17 @@ func (s *Eager) Run() (*models.Schedule, error) {
 	// Initialize schedule
 	schedule := models.NewSchedule(*firstDayOfMatches, *lastDayOfMatches)
 
-	setScheduleEagerly(firstDayOfMatches, lastDayOfMatches, schedule, daytimeTeamsByWeek, eveningTeamsByWeek)
+	setScheduleEagerly(firstDayOfMatches, lastDayOfMatches, schedule, daytimeTeamsByWeek, eveningTeamsByWeek, s.input.BlackoutDates)
 
 	return schedule, nil
 }
 
-func setScheduleEagerly(firstDayOfMatches *time.Time, lastDayOfMatches *time.Time, schedule *models.Schedule, daytimeTeamsByWeek map[string][]models.Team, eveningTeamsByWeek map[string][]models.Team) {
+func setScheduleEagerly(
+	firstDayOfMatches *time.Time, lastDayOfMatches *time.Time,
+	schedule *models.Schedule,
+	daytimeTeamsByWeek map[string][]models.Team, eveningTeamsByWeek map[string][]models.Team,
+	blackoutDates []string,
+) {
 	// Loop over each day in schedule, keeping track of the current week (by start date); for each day:
 	// - check if there's capacity to schedule matches on that day
 	// - if so, filter teams to those that have matches that week
@@ -57,6 +62,11 @@ func setScheduleEagerly(firstDayOfMatches *time.Time, lastDayOfMatches *time.Tim
 		currentDaySchedule := schedule.ForDay(currentDay)
 		if !currentDaySchedule.HasCapacity() {
 			// Day is full; cannot schedule
+			continue
+		}
+
+		if isBlackoutDate(currentDay, blackoutDates) {
+			//fmt.Println(currentDay.Format("20060102"), "is a blackout day, skipping it")
 			continue
 		}
 

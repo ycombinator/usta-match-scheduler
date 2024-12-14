@@ -122,3 +122,15 @@ func removeTeam(teams []models.Team, team models.Team) []models.Team {
 	newTeams := append(teams[:chosenTeamIdx], teams[chosenTeamIdx+1:]...)
 	return newTeams
 }
+
+func isBlackoutDate(candidate time.Time, blackoutDates []string) bool {
+	candidateStr := candidate.Format("20060102")
+	fmt.Println(candidateStr, blackoutDates)
+	for _, blackoutDate := range blackoutDates {
+		if blackoutDate == candidateStr {
+			return true
+		}
+	}
+
+	return false
+}

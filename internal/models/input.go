@@ -11,6 +11,7 @@ type Input struct {
 		Daytime schedulingType
 		Evening schedulingType
 	} `yaml:"scheduling_types"`
+	BlackoutDates []string `yaml:"blackout_dates"`
 }
 
 type schedulingType struct {

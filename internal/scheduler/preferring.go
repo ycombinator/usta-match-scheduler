@@ -55,6 +55,11 @@ func (p *Preferring) Run() (*models.Schedule, error) {
 			continue
 		}
 
+		if isBlackoutDate(currentDay, p.input.BlackoutDates) {
+			//fmt.Println(currentDay.Format("20060102"), "is a blackout day, skipping it")
+			continue
+		}
+
 		// Daytime
 		if currentDaySchedule.HasDaytimeCapacity() {
 			candidateTeams := daytimeTeamsByWeek[currentWeek]
@@ -104,7 +109,7 @@ func (p *Preferring) Run() (*models.Schedule, error) {
 	}
 
 	// Second pass: set schedule eagerly for unassigned teams
-	setScheduleEagerly(firstDayOfMatches, lastDayOfMatches, schedule, daytimeTeamsByWeek, eveningTeamsByWeek)
+	setScheduleEagerly(firstDayOfMatches, lastDayOfMatches, schedule, daytimeTeamsByWeek, eveningTeamsByWeek, p.input.BlackoutDates)
 
 	return schedule, nil
 }
