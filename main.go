@@ -6,6 +6,7 @@ import (
 	"github.com/ycombinator/usta-match-scheduler/internal/scheduler"
 	"gopkg.in/yaml.v3"
 	"os"
+	"time"
 )
 
 // TODO make CLI arg
@@ -43,12 +44,21 @@ func main() {
 	// Print schedule
 	schedule.ResetIterator()
 	for day := schedule.Next(); day != nil; day = schedule.Next() {
-		fmt.Println(day.Date.Format("Mon, 01/02/2006"))
+		fmt.Printf("%12s: ", day.Date.Format("Mon, 01/02"))
+		teamTitle := ""
 		if day.DaytimeTeam != nil {
-			fmt.Println("  Daytime:", day.DaytimeTeam.Title)
+			teamTitle = day.DaytimeTeam.Title
 		}
+		fmt.Printf("%25s\t", teamTitle)
+
+		teamTitle = ""
 		if day.EveningTeam != nil {
-			fmt.Println("  Evening:", day.EveningTeam.Title)
+			teamTitle = day.EveningTeam.Title
+		}
+		fmt.Printf("%15s\n", teamTitle)
+
+		if day.Date.Weekday() == time.Sunday {
+			fmt.Println()
 		}
 	}
 }
