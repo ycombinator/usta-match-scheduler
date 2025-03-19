@@ -1,91 +1,61 @@
 blackout_dates:
-  - 20250120 # MLK Day / long weekend
-  - 20250217 # Presidents Day / long weekend
+  - 20250420 # Easter Sunday
+  - 20250511 # Mother's Day
+  - 2025024 # Memorial Day weekend
+  - 2025025 # Memorial Day weekend
+  - 2025026 # Memorial Day weekend
+isolated_teams:
+  - w35dt, w35
+  - w25dt, w30
 teams:
-  m35dt:
-    title: Mens 3.5 Daytime
-    captain: Cory Caouette
-    scheduling_type: daytime
-    day_preferences: [ friday, tuesday ]
-    weeks: [ 20250113, 20250127, 20250210, 20250224, 20250310 ]
   w25dt:
-    title: Womens 2.5+ Daytime
+    title: Women's 2.5+ Daytime
     captain: Theresa Opp
     scheduling_type: daytime
-    day_preferences: [ friday, thursday, tuesday ]
-    weeks: [ 20250113, 20250120, 20250203, 20250210, 20250210 ]
+    day_preferences: [ friday, tuesday ]
+    weeks: [ 20250414, 20250421, 20250505, 202505326, 20250609 ]
   w35dt:
     title: Womens 3.5 Daytime
     captain: Janice Passarello
     scheduling_type: daytime
     day_preferences: [ friday, wednesday ]
-    weeks: [ 20250113, 20250210, 20250217, 20250303, 20250310 ]
-  w40dt:
-    title: Womens 4.0 Daytime
-    captain: Esther Chung
-    scheduling_type: daytime
-    day_preferences: [ friday, thursday, tuesday ]
-    weeks: [ 20250106, 20250120, 20250203, 20250217, 20250303 ]
-  mx60:
-    title: Mixed 6.0
-    captain: Lisa Szabo
-    scheduling_type: evening
-    day_preferences: [ monday, sunday ]
-    weeks: [ 20250106, 20250120, 20250203, 20250217, 20250303 ]
-  mx70:
-    title: Mixed 7.0
-    captain: Kevin Jacks
-    scheduling_type: evening
-    day_preferences: [ monday, friday, sunday ]
-    weeks: [ 20250113, 20250127, 20250203, 20250210, 20250224 ]
-  mx80:
-    title: Mixed 8.0
-    captain: Esther Chung
-    scheduling_type: evening
-    day_preferences: [ sunday, wednesday, tuesday ]
-    weeks: [ 20250106, 20250120, 20250127, 20250224, 20250303 ]
-  mx90:
-    title: Mixed 9.0
-    captain: Sanggyum Kim
-    scheduling_type: evening
-    day_preferences: [ tuesday, wednesday, saturday, sunday ]
-    weeks: [ 20250106, 20250120, 20250127, 20250203, 20250224 ]
+    weeks: [ 20250407, 20250428, 20250519, 20250526, 20250609 ]
   m30:
     title: Mens 3.0
     captain: Phu Bui-Quang
     scheduling_type: evening
-    day_preferences: [ thursday, monday, sunday ]
-    weeks: [ 20250113, 20250127, 20250127, 20250210, 20250224 ]
+    day_preferences: [ saturday, tuesday, friday ]
+    weeks: [ 20250407, 20250421, 20250428, 20250505, 20250609 ]  
   m35:
     title: Mens 3.5
-    captain: Kevin Jacks
+    captain: Rick McKinney
     scheduling_type: evening
-    day_preferences: [ monday, wednesday, friday ]
-    weeks: [ 20250120, 20250210, 20250224, 20250303, 20250310 ]
+    day_preferences: [ sunday, tuesday, wednesday ]
+    weeks: [ 20250407, 20250421, 20250428, 20250505, 20250609 ]  
   m40:
     title: Mens 4.0
-    captain: Paul Kim
+    captain: Cory Caouette
     scheduling_type: evening
-    day_preferences: [ tuesday, wednesday, saturday, sunday ]
-    weeks: [ 20250106, 20250120, 20250203, 20250217, 20250303 ]
+    day_preferences: [ monday, friday, saturday ]
+    weeks: [ 20250414, 20250428, 20250505, 20250519, 20250602 ]  
   m45:
     title: Mens 4.5
     captain: Herve Alexanian
     scheduling_type: evening
-    day_preferences: [ saturday, sunday, thursday, friday ]
-    weeks: [ 20250106, 20250120, 20250203, 20250217, 20250303 ]
+    day_preferences: [ saturday, wednesday, friday ]
+    weeks: [ 20250407, 20250421, 20250505, 20250519, 20250602 ]  
   w30:
     title: Womens 3.0
-    captain: Shelley Richardson
+    captain: Shelley Goglio
     scheduling_type: evening
-    day_preferences: [ wednesday, thursday, saturday ]
-    weeks: [ 20250113, 20250120, 20250203, 20250210, 20250303 ]
+    day_preferences: [ monday, thursday, sunday ]
+    weeks: [ 20250421, 20250505, 20250519, 20250602, 20250609 ]  
   w35:
     title: Womens 3.5
-    captain: Lisa Cesario
+    captain: Julie Boncher
     scheduling_type: evening
-    day_preferences: [ tuesday, thursday, sunday ]
-    weeks: [ 20250113, 20250203, 20250210, 20250224, 20250310 ]
+    day_preferences: [ tuesday, thursday, saturday ]
+    weeks: [ 20250428, 20250512, 20250519, 20250602, 20250609 ]  
 scheduling_types:
   evening:
     start_times:
