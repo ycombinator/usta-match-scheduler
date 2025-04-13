@@ -1,0 +1,4 @@
+.calendar-week {
+    display: flex;
+    flex-direction: row;
+}

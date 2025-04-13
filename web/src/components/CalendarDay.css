@@ -1,0 +1,36 @@
+.calendar-day {
+    border-color: #cfcfcf;
+    border-width: 0.01rem;
+    border-style: dotted;
+
+    padding: 0.2rem;
+    height: 8rem;
+    width: 11rem;
+
+    overflow: scroll;
+}
+
+.calendar-day h4 {
+    margin-bottom: 0.4rem;
+    padding: 0.4rem;
+    max-width: fit-content;
+}
+
+.calendar-day h4.not-this-month {
+    color: lightgray;
+}
+
+.calendar-day h4.weekend {
+    color: red;
+}
+
+.calendar-day h4.today {
+    color: white;
+    background-color: cornflowerblue;
+    border-color: cornflowerblue;
+    border-radius: 1rem;
+}
+
+.calendar-day-event {
+    list-style: none;
+}

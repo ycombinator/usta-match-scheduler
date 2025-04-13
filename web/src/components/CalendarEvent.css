@@ -1,0 +1,16 @@
+.calendar-event {
+    margin: 0.1rem 0.1rem;
+    background-color: skyblue;
+    padding: 0.25rem;
+    border-radius: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    font-family: Helvetica, sans-serif;
+    font-size: 0.7rem;
+}
+
+.calendar-event:hover {
+    white-space: wrap;
+}

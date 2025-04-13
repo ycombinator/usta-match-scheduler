@@ -1,7 +1,9 @@
 .App {
     background-color: #eee;
-    height: 100vh;
-    width: 100vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .search-bar-container {

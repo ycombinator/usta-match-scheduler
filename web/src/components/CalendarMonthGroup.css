@@ -1,0 +1,8 @@
+.calendar-month-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-month-container {
+    margin: 1em;
+}
