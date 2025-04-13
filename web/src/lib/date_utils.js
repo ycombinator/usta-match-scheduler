@@ -48,31 +48,16 @@ export function isEventInDay (year, month, day, event) {
         || (year == endYear && month == endMonth && day == endDay)
 }
 
-export function getPreviousMonth(month) {
-    if (month == 0) {
-        return 11
-    }
-
-    return month - 1
+export function getPreviousYearMonth(year, month) {
+    const prevMonth = getPreviousMonth(month)
+    const prevYear = getPreviousMonthYear(year, month)
+    return { prevYear, prevMonth }
 }
 
-export function getPreviousMonthYear(year, month) {
-    if (month == 0) {
-        return year - 1
-    }
-
-    return year
-}
-export function getNextMonth(month) {
-    return (month + 1) % 12
-}
-
-export function getNextMonthYear(year, month) {
-    if (month == 11) {
-        return year + 1
-    }
-
-    return year
+export function getNextYearMonth(year, month) {
+    const nextMonth = getNextMonth(month)
+    const nextYear = getNextMonthYear(year, month)
+    return { nextYear, nextMonth }
 }
 
 export function monthDaysInFirstWeek(firstDayOfMonthWeekday) {
@@ -111,4 +96,32 @@ export function getPaddedTime(date) {
 export function getMonthName(year, month) {
     const date = new Date(year, month, 1)
     return date.toLocaleString('default', { month: 'long' });
+}
+
+function getPreviousMonth(month) {
+    if (month == 0) {
+        return 11
+    }
+
+    return month - 1
+}
+
+function getPreviousMonthYear(year, month) {
+    if (month == 0) {
+        return year - 1
+    }
+
+    return year
+}
+
+function getNextMonth(month) {
+    return (month + 1) % 12
+}
+
+function getNextMonthYear(year, month) {
+    if (month == 11) {
+        return year + 1
+    }
+
+    return year
 }

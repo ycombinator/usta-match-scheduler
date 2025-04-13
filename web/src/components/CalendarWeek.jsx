@@ -1,4 +1,4 @@
-import { daysInMonth, getPreviousMonth, getPreviousMonthYear, getNextMonth, getNextMonthYear, isEventInDay, monthDaysInFirstWeek } from "../lib/date_utils"
+import { daysInMonth, isEventInDay, monthDaysInFirstWeek, getPreviousYearMonth, getNextYearMonth } from "../lib/date_utils"
 import { CalendarDay } from "./CalendarDay"
 import "./CalendarWeek.css"
 
@@ -18,8 +18,9 @@ export const CalendarWeek = ({year, month, week, events}) => {
 
         if (week == 0) {
             if (i < firstDayOfMonthWeekday) {
-                month = getPreviousMonth(thisMonth)
-                year = getPreviousMonthYear(thisYear, thisMonth)
+                const { prevYear, prevMonth } = getPreviousYearMonth(thisYear, thisMonth)
+                year = prevYear
+                month = prevMonth
 
                 const dayDiff = firstDayOfMonthWeekday - i - 1
                 day = daysInMonth(year, month) - dayDiff
@@ -34,8 +35,9 @@ export const CalendarWeek = ({year, month, week, events}) => {
                 day = 1 + nextMonthDays
                 nextMonthDays++ 
 
-                month = getNextMonth(thisMonth)
-                year = getNextMonthYear(thisYear, thisMonth)
+                const { nextYear, nextMonth } = getNextYearMonth(thisYear, thisMonth)
+                year = nextYear
+                month = nextMonth
             }
         }
 

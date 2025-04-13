@@ -1,15 +1,13 @@
 import { useState } from 'react'
 import './App.css'
-import { SearchBar } from './components/SearchBar'
-import { SearchResultsList } from './components/SearchResultsList'
 import { CalendarMonthGroup } from './components/CalendarMonthGroup'
 
 function App() {
-    const [results, setResults] = useState([])
-
     const now = new Date()
-    const startYear = now.getFullYear()
-    const startMonth = now.getMonth()
+    const [startYearMonth, setStartYearMonth] = useState({year: now.getFullYear(), month: now.getMonth()})
+
+    const startYear = startYearMonth.year
+    const startMonth = startYearMonth.month
 
     const events = [
         { start: new Date("2025-04-12T19:00:00Z"), end: new Date("2025-04-12T22:00:00Z"), title: "[W3.5] vs. Morgan Hill Tennis Club"},
@@ -21,11 +19,13 @@ function App() {
     return (
         <div className="App">
             <div className="calendar-container">
-                <CalendarMonthGroup startYear={startYear} startMonth={startMonth} numMonths={3} events={events}/>
-            </div>
-            <div className="search-bar-container">
-                <SearchBar setResults={setResults}/>
-                <SearchResultsList results={results}/>
+                <CalendarMonthGroup 
+                    startYear={startYear} 
+                    startMonth={startMonth} 
+                    setStartYearMonth={setStartYearMonth}
+                    numMonths={3} 
+                    events={events}
+                />
             </div>
         </div>
     )
