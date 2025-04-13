@@ -6,11 +6,11 @@
     padding: 1em;
 
     background-color: #ffffff;
-    width: 86rem;
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
+
 }
 
 .calendar-month h3 {
