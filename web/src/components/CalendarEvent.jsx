@@ -1,13 +1,13 @@
-import { getPaddedTime, isEventInDay } from "../lib/date_utils"
+import { doesEventEndInDay, doesEventStartInDay, getPaddedTime } from "../lib/date_utils"
 import "./CalendarEvent.css"
 
 export const CalendarEvent = ({year, month, day, event}) => {
-    const start = isEventInDay(year, month, day, event) 
+    const start = doesEventStartInDay(year, month, day, event) 
         ? getPaddedTime(event.start)
-        : ""
-    const end = isEventInDay(year, month, day, event)
+        : "..."
+    const end = doesEventEndInDay(year, month, day, event)
         ? getPaddedTime(event.end)
-        : ""
+        : "..."
     const title = event.title
 
     return (

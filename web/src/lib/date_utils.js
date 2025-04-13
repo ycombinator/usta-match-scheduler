@@ -35,17 +35,25 @@ export function isEventInMonth(year, month, event) {
         || (year == endYear && month == endMonth)
 }
 
-export function isEventInDay (year, month, day, event) {
+export function isEventInDay(year, month, day, event) {
+    return doesEventStartInDay(year, month, day, event)
+        || doesEventEndInDay(year, month, day, event)
+}
+
+export function doesEventStartInDay (year, month, day, event) {
     const startYear = event.start.getFullYear()
     const startMonth = event.start.getMonth()
     const startDay = event.start.getDate()
 
+    return (year == startYear && month == startMonth && day == startDay)
+}
+
+export function doesEventEndInDay (year, month, day, event) {
     const endYear = event.end.getFullYear()
     const endMonth = event.end.getMonth()
     const endDay = event.end.getDate()
 
-    return (year == startYear && month == startMonth && day == startDay)
-        || (year == endYear && month == endMonth && day == endDay)
+    return (year == endYear && month == endMonth && day == endDay)
 }
 
 export function getPreviousYearMonth(year, month) {
