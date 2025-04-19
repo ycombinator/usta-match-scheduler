@@ -6,7 +6,7 @@ import (
 )
 
 type Input struct {
-	Teams           map[string]Team `yaml:"teams"`
+	Teams           map[string]SchedulingTeam `yaml:"teams"`
 	SchedulingTypes struct {
 		Daytime schedulingType
 		Evening schedulingType

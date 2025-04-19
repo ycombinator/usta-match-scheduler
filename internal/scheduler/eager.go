@@ -2,9 +2,10 @@ package scheduler
 
 import (
 	"fmt"
-	"github.com/ycombinator/usta-match-scheduler/internal/models"
 	"math/rand"
 	"time"
+
+	"github.com/ycombinator/usta-match-scheduler/internal/models"
 )
 
 type Eager struct {
@@ -83,7 +84,7 @@ func setScheduleEagerly(
 				// Assign chosen team to schedule
 				currentDaySchedule.DaytimeTeam = &chosenTeam
 
-				//fmt.Printf("- Assigned [%s] to daytime\n", chosenTeam.Title)
+				//fmt.Printf("- Assigned [%s] to daytime\n", chosenTeam.Name)
 			}
 		}
 
@@ -101,7 +102,7 @@ func setScheduleEagerly(
 				// Assign chosen team to schedule
 				currentDaySchedule.EveningTeam = &chosenTeam
 
-				//fmt.Printf("- Assigned [%s] to evening\n", chosenTeam.Title)
+				//fmt.Printf("- Assigned [%s] to evening\n", chosenTeam.Name)
 			}
 		}
 	}

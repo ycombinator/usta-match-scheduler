@@ -2,8 +2,9 @@ package scheduler
 
 import (
 	"fmt"
-	"github.com/ycombinator/usta-match-scheduler/internal/models"
 	"math/rand"
+
+	"github.com/ycombinator/usta-match-scheduler/internal/models"
 )
 
 type Preferring struct {
@@ -78,7 +79,7 @@ func (p *Preferring) Run() (*models.Schedule, error) {
 				// Assign chosen team to schedule
 				currentDaySchedule.DaytimeTeam = &chosenTeam
 
-				//fmt.Printf("- Assigned [%s] to daytime\n", chosenTeam.Title)
+				//fmt.Printf("- Assigned [%s] to daytime\n", chosenTeam.Name)
 			}
 		}
 
@@ -94,7 +95,7 @@ func (p *Preferring) Run() (*models.Schedule, error) {
 				chosenTeamIdx := rand.Intn(len(candidateTeamsForDay))
 				chosenTeam := candidateTeams[chosenTeamIdx]
 
-				//fmt.Println("chosen team:", chosenTeam.Title)
+				//fmt.Println("chosen team:", chosenTeam.Name)
 
 				// Remove chosen team from teams by week, so it's not chosen again
 				eveningTeamsByWeek[currentWeek] = removeTeam(candidateTeams, chosenTeam)
@@ -103,7 +104,7 @@ func (p *Preferring) Run() (*models.Schedule, error) {
 				// Assign chosen team to schedule
 				currentDaySchedule.EveningTeam = &chosenTeam
 
-				//fmt.Printf("- Assigned [%s] to evening\n", chosenTeam.Title)
+				//fmt.Printf("- Assigned [%s] to evening\n", chosenTeam.Name)
 			}
 		}
 	}

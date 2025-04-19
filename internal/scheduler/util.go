@@ -2,10 +2,11 @@ package scheduler
 
 import (
 	"fmt"
-	"github.com/ycombinator/usta-match-scheduler/internal/models"
 	"slices"
 	"strings"
 	"time"
+
+	"github.com/ycombinator/usta-match-scheduler/internal/models"
 )
 
 func mapTeamsByWeek(teams []models.Team) map[string][]models.Team {
@@ -36,7 +37,7 @@ func teamsThatPreferDay(teams []models.Team, day time.Weekday) ([]models.Team, e
 		for _, preferredDay := range team.DayPreferences {
 			weekday, err := weekdayFromStr(preferredDay)
 			if err != nil {
-				return nil, fmt.Errorf("cannot parse preferred day [%s] for team [%s]: %w", preferredDay, team.Title, err)
+				return nil, fmt.Errorf("cannot parse preferred day [%s] for team [%s]: %w", preferredDay, team.Name, err)
 			}
 
 			if weekday == day {
@@ -103,7 +104,7 @@ func filterTeamsBySchedulingType(teams map[string]models.Team, schedulingType st
 func findTeamIdx(candidateTeams []models.Team, candidateTeam models.Team) int {
 	teamIdx := -1
 	for idx, team := range candidateTeams {
-		if team.Title == candidateTeam.Title {
+		if team.Name == candidateTeam.Name {
 			return idx
 		}
 	}

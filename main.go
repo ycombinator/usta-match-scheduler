@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"time"
+
 	"github.com/ycombinator/usta-match-scheduler/internal/models"
 	"github.com/ycombinator/usta-match-scheduler/internal/scheduler"
 	"gopkg.in/yaml.v3"
-	"os"
-	"time"
 )
 
 // TODO make CLI arg
@@ -47,13 +48,13 @@ func main() {
 		fmt.Printf("%12s: ", day.Date.Format("Mon, 01/02"))
 		teamTitle := ""
 		if day.DaytimeTeam != nil {
-			teamTitle = day.DaytimeTeam.Title
+			teamTitle = day.DaytimeTeam.Name
 		}
 		fmt.Printf("%25s\t", teamTitle)
 
 		teamTitle = ""
 		if day.EveningTeam != nil {
-			teamTitle = day.EveningTeam.Title
+			teamTitle = day.EveningTeam.Name
 		}
 		fmt.Printf("%15s\n", teamTitle)
 
