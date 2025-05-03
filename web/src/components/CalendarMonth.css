@@ -21,3 +21,17 @@
     gap: 1rem;
     align-items: center;   
 }
+
+.calendar-month .calendar-weekday {
+    border-width: 0;
+
+    padding: 0.2rem;
+    margin-bottom: 0.2rem;
+    width: 12rem;
+
+    overflow: scroll;
+}
+
+.calendar-month .calendar-weekday.weekend {
+    color: red;
+}
