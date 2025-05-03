@@ -22,9 +22,9 @@ GET /organization/{id}/matches
 | `id` | Integer | USTA NorCal Organization ID | Yes       | -             |
 
 ### Query string parameters
-| Name           | Type    | Description                                                                        | Required? | Default value |
-|----------------|---------|------------------------------------------------------------------------------------|-----------|---------------|
-| `is_scheduled` | Boolean | Filter results to include only scheduled (`true`) or unscheduled (`false`) matches | No        | -             |
-| `location`     | String  | Filter results to include only `home` or `away` matches                            | No        | -             |
-| `after`        | String  | Filter results to include only matches after this date (ISO8601 format)            | No        | -             |
-| `before`       | String  | Filter results to include only matches before this date (ISO8601 format)           | No        | -             |
+| Name           | Type    | Description                                                                         | Required? | Default value |
+|----------------|---------|-------------------------------------------------------------------------------------|-----------|---------------|
+| `is_scheduled` | Boolean | Filter results to include only scheduled (`true`) or unscheduled (`false`) matches  | No        | -             |
+| `location`     | String  | Filter results to include only `home` or `away` matches                             | No        | -             |
+| `after`        | String  | Filter results to include only matches after this date (inclusive; ISO8601 format)  | No        | -             |
+| `before`       | String  | Filter results to include only matches before this date (inclusive; ISO8601 format) | No        | -             |
