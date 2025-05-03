@@ -46,7 +46,7 @@ func GetOrganizationMatches(w http.ResponseWriter, r *http.Request) {
 	if qLocationStr != "" {
 		qLocation, err := models.MatchLocationFromString(qLocationStr)
 		if err != nil {
-			err = fmt.Errorf("expected location to be home or away, got [%s] instead", qLocationStr)
+			err = fmt.Errorf("expected location to be home or away, got [%s] instead: %w", qLocationStr, err)
 			handleError(w, err, http.StatusBadRequest)
 			return
 		}
@@ -57,11 +57,22 @@ func GetOrganizationMatches(w http.ResponseWriter, r *http.Request) {
 	if qAfterStr != "" {
 		qAfter, err := time.Parse(time.RFC3339, qAfterStr)
 		if err != nil {
-			err = fmt.Errorf("could not parse after time [%s]", qAfterStr)
+			err = fmt.Errorf("could not parse after time [%s]: %w", qAfterStr, err)
 			handleError(w, err, http.StatusBadRequest)
 			return
 		}
 		filters = append(filters, usta.WithFilterAfter(qAfter))
+	}
+
+	qBeforeStr := q.Get("before")
+	if qBeforeStr != "" {
+		qBefore, err := time.Parse(time.RFC3339, qBeforeStr)
+		if err != nil {
+			err = fmt.Errorf("could not parse before time [%s]: %w", qBeforeStr, err)
+			handleError(w, err, http.StatusBadRequest)
+			return
+		}
+		filters = append(filters, usta.WithFilterBefore(qBefore))
 	}
 
 	// Get teams for organization

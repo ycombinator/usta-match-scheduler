@@ -45,12 +45,19 @@ func WithFilterAfter(a time.Time) TeamMatchesFilterOpt {
 	}
 }
 
+func WithFilterBefore(b time.Time) TeamMatchesFilterOpt {
+	return func(f *TeamMatchesFilter) {
+		f.before = &b
+	}
+}
+
 type TeamMatchesFilterOpt = func(f *TeamMatchesFilter)
 
 type TeamMatchesFilter struct {
 	isScheduled *bool
 	location    *models.MatchLocation
 	after       *time.Time
+	before      *time.Time
 }
 
 func GetTeamMatches(t models.Team, opts ...TeamMatchesFilterOpt) ([]models.TeamMatch, error) {
