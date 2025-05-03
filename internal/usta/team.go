@@ -196,9 +196,23 @@ func GetTeamMatches(t models.Team, opts ...TeamMatchesFilterOpt) ([]models.TeamM
 			return nil, fmt.Errorf("unable to determine match location for team: %w", err)
 		}
 
-		// Filter by location if that filter is set
+		// Filter by match location if that filter is set
 		if f.location != nil {
 			if *f.location != location {
+				continue
+			}
+		}
+
+		// Filter by match date if after filter is set
+		if f.after != nil {
+			if m.Date.Before(*f.after) {
+				continue
+			}
+		}
+
+		// Filter by match date if before filter is set
+		if f.before != nil {
+			if m.Date.After(*f.before) {
 				continue
 			}
 		}
