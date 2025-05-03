@@ -8,12 +8,12 @@ npm install
 
 1. Generate public assets.
 ```
-npm build
+npm run build
 ```
 
 2. Start server (API proxy + public assets).
 ```
-npm start
+npm run start
 ```
 
 Public assets are served at http://localhost:3000
