@@ -26,3 +26,4 @@ GET /organization/{id}/matches
 |----------------|---------|------------------------------------------------------------------------------------|-----------|---------------|
 | `is_scheduled` | Boolean | Filter results to include only scheduled (`true`) or unscheduled (`false`) matches | No        | -             |
 | `location`     | String  | Filter results to include only `home` or `away` matches                            | No        | -             |
+| `after`        | String  | Filter results to include only matches after this date (ISO8601 format)            | No        | -             |

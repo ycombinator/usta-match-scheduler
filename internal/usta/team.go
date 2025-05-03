@@ -19,6 +19,7 @@ var (
 	tz, _ = time.LoadLocation("America/Los_Angeles")
 )
 
+// TODO: memoize when we actual get team information over the network
 func GetTeam(id int) (models.Team, error) {
 	fmt.Printf("Getting team [%d]...\n", id)
 	return models.Team{
@@ -38,11 +39,18 @@ func WithFilterMatchLocation(l models.MatchLocation) TeamMatchesFilterOpt {
 	}
 }
 
+func WithFilterAfter(a time.Time) TeamMatchesFilterOpt {
+	return func(f *TeamMatchesFilter) {
+		f.after = &a
+	}
+}
+
 type TeamMatchesFilterOpt = func(f *TeamMatchesFilter)
 
 type TeamMatchesFilter struct {
 	isScheduled *bool
 	location    *models.MatchLocation
+	after       *time.Time
 }
 
 func GetTeamMatches(t models.Team, opts ...TeamMatchesFilterOpt) ([]models.TeamMatch, error) {

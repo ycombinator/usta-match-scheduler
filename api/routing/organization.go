@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"strconv"
 	"sync"
+	"time"
 
 	"github.com/ycombinator/usta-match-scheduler/internal/models"
 
@@ -50,6 +51,17 @@ func GetOrganizationMatches(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		filters = append(filters, usta.WithFilterMatchLocation(qLocation))
+	}
+
+	qAfterStr := q.Get("after")
+	if qAfterStr != "" {
+		qAfter, err := time.Parse(time.RFC3339, qAfterStr)
+		if err != nil {
+			err = fmt.Errorf("could not parse after time [%s]", qAfterStr)
+			handleError(w, err, http.StatusBadRequest)
+			return
+		}
+		filters = append(filters, usta.WithFilterAfter(qAfter))
 	}
 
 	// Get teams for organization
