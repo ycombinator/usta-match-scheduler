@@ -48,6 +48,7 @@ func GetOrganizationTeams(id int, opts ...TeamsFilterOpt) ([]models.Team, error)
 
 	var teams = make([]models.Team, 0)
 	doc.Find("table tbody tr td table tr").Each(func(i int, sel *goquery.Selection) {
+		// Parse team ID
 		aSel := sel.Find("td").Next().Find("a")
 		l, exists := aSel.Attr("href")
 		if !exists {
@@ -58,19 +59,10 @@ func GetOrganizationTeams(id int, opts ...TeamsFilterOpt) ([]models.Team, error)
 			return
 		}
 
-		// Parse team ID
 		teamID, err := parseTeamID(l)
 		if err != nil {
 			return
 		}
-
-		// Parse name
-		nSel := sel.Find("td").Get(1).FirstChild
-		name := nSel.FirstChild.Data
-
-		// Parse captain
-		cSel := sel.Find("td").Get(3)
-		captain := cSel.FirstChild.Data
 
 		// Parse start date
 		sdSel := sel.Find("td").Get(5)
@@ -92,11 +84,26 @@ func GetOrganizationTeams(id int, opts ...TeamsFilterOpt) ([]models.Team, error)
 			}
 		}
 
+		// Parse team name
+		nSel := sel.Find("td").Get(1).FirstChild
+		name := nSel.FirstChild.Data
+
+		// Parse schedule type
+		scheduleType := models.TeamScheduleGroupEvening // Default to evening
+		if strings.HasSuffix(name, "-DT") {
+			scheduleType = models.TeamScheduleGroupDaytime
+		}
+
+		// Parse captain
+		cSel := sel.Find("td").Get(3)
+		captain := cSel.FirstChild.Data
+
 		team := models.Team{
-			ID:        teamID,
-			Name:      name,
-			Captain:   captain,
-			StartDate: startDate,
+			ID:            teamID,
+			Name:          name,
+			Captain:       captain,
+			StartDate:     startDate,
+			ScheduleGroup: scheduleType,
 		}
 
 		teams = append(teams, team)

@@ -2,11 +2,19 @@ package models
 
 import "time"
 
+type TeamScheduleGroup string
+
+const (
+	TeamScheduleGroupDaytime TeamScheduleGroup = "daytime"
+	TeamScheduleGroupEvening TeamScheduleGroup = "evening"
+)
+
 type Team struct {
-	ID        int       `json:"id"`
-	Name      string    `yaml:"name" json:"name"`
-	Captain   string    `yaml:"captain" json:"captain"`
-	StartDate time.Time `yaml:"start_date" json:"start_date"`
+	ID            int               `json:"id"`
+	Name          string            `yaml:"name" json:"name"`
+	Captain       string            `yaml:"captain" json:"captain"`
+	StartDate     time.Time         `yaml:"start_date" json:"start_date"`
+	ScheduleGroup TeamScheduleGroup `yaml:"schedule_group" json:"schedule_group"`
 }
 
 type TeamMatch struct {
@@ -16,7 +24,6 @@ type TeamMatch struct {
 
 type SchedulingTeam struct {
 	Team
-	SchedulingType string   `yaml:"scheduling_type"`
 	DayPreferences []string `yaml:"day_preferences"`
 	Weeks          []string `yaml:"weeks"`
 }
