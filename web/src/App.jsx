@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import { TeamPreferences } from './components/TeamPreferences'
 import { CalendarMonthGroup } from './components/CalendarMonthGroup'
+import { Step } from './components/Step'
 
 const asrcOrganizationID = 225
 const initialDayPreferences = {
@@ -58,21 +59,33 @@ function App() {
     }
 
     // States:
-    // - Blackout dates set
     // - Team preferences set
+    // - Blackout dates set
     // - Schedule generated
     const appState = "set_team_preferences"
     let component = <TeamPreferences teams={teams} changeDayPreference={changeDayPreference} />
+    let step = 1
+    let stepLabel = "Set team preferences"
+    const totalSteps = 3
     switch (appState) {
         case "set_blackout_dates":
             component = <BlackoutDates events={events} />
+            step = 2
+            stepLabel = "Set blackout dates"
+            break
         case "edit_schedule":
             component = <EditSchedule events={events} />
+            step = 3
+            stepLabel = "Review schedule"
+            break
     }
 
     return (
         <div className="App">
-            <h1>USTA match scheduler</h1>
+            <header>
+                <h1>USTA match scheduler</h1>
+                <h2><Step current={step} total={totalSteps} label={stepLabel} /></h2>
+            </header>
             { component }
         </div>
     )

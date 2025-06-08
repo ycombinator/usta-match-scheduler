@@ -8,6 +8,14 @@
     /* justify-content: left; */
 }
 
-.App h1 {
+.App header {
     margin-bottom: 1em;
+}
+
+h1 {
+    font-size: large;
+}
+
+h2 {
+    font-size: medium;
 }

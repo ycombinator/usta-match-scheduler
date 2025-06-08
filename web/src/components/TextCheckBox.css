@@ -1,11 +1,11 @@
-span {
+span.textcheckbox.unchecked {
     color: lightgray;
 }
 
-span.checked {
+span.textcheckbox.checked {
     color: black;
 }
 
-span:hover {
+span.textcheckbox:hover {
     cursor: pointer;
 }
