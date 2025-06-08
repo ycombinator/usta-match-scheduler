@@ -1,19 +1,17 @@
 package routing
 
 import (
-	"fmt"
 	"net/http"
 )
 
 func NewRouter() *http.ServeMux {
 	router := http.NewServeMux()
 
-	router.HandleFunc("GET /hello", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("in hello handler")
-		w.Write([]byte("hello"))
-	})
+	// USTA "proxy" API routes
+	router.HandleFunc("GET /usta/organization/{id}/teams", GetUSTAOrganizationTeams)
+	router.HandleFunc("GET /usta/organization/{id}/matches", GetUSTAOrganizationMatches)
 
-	router.HandleFunc("GET /organization/{id}/matches", GetOrganizationMatches)
+	// App API routes
 
 	return router
 }

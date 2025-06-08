@@ -9,11 +9,31 @@ API is served at http://localhost:8000/
 
 ## Routes
 
-### Get organization matches
+### Get USTA organization teams
+Retrieves the list of teams for a specific USTA NorCal organization.
 
 #### Endpoint
 ```
-GET /organization/{id}/matches
+GET /usta/organization/{id}/teams
+```
+
+#### Path parameters
+| Name | Type    | Description                 | Required? | Default value |
+|------|---------|-----------------------------|-----------|---------------|
+| `id` | Integer | USTA NorCal Organization ID | Yes       | -             |
+
+### Query string parameters
+| Name       | Type    | Description                                                                         | Required? | Default value |
+|------------|---------|-------------------------------------------------------------------------------------|-----------|---------------|
+| `upcoming` | Boolean | Filter results to include only teams whose season has not yet started               | No        | False         |
+
+
+### Get USTA organization matches
+Retrieves the list of matches for a specific USTA NorCal organization.
+
+#### Endpoint
+```
+GET /usta/organization/{id}/matches
 ```
 
 #### Path parameters

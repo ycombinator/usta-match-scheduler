@@ -14,13 +14,10 @@ import (
 	"github.com/ycombinator/usta-match-scheduler/internal/usta"
 )
 
-func GetOrganizationMatches(w http.ResponseWriter, r *http.Request) {
-	idStr := r.PathValue("id")
-
-	id, err := strconv.Atoi(idStr)
+func GetUSTAOrganizationMatches(w http.ResponseWriter, r *http.Request) {
+	orgId, err := strconv.Atoi(r.PathValue("id"))
 	if err != nil {
-		err = fmt.Errorf("expected organization ID to be an integer, got [%s] instead: %w", idStr, err)
-		handleError(w, err, http.StatusBadRequest)
+		handleError(w, fmt.Errorf("invalid organization ID: %w", err), http.StatusBadRequest)
 		return
 	}
 
@@ -76,7 +73,7 @@ func GetOrganizationMatches(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get teams for organization
-	teams, err := usta.GetOrganizationTeams(id)
+	teams, err := usta.GetOrganizationTeams(orgId)
 
 	w.Header().Set(HeaderContentType, ContentTypeApplicationJson)
 	if err != nil {

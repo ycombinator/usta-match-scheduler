@@ -14,7 +14,24 @@ func getOrganizationUrl(id int) string {
 	return fmt.Sprintf(baseURL+"/organization.asp?id=%d", id)
 }
 
-func GetOrganizationTeams(id int) ([]models.Team, error) {
+func WithFilterIsTeamSeasonUpcoming(u bool) TeamsFilterOpt {
+	return func(f *TeamsFilter) {
+		f.isSeasonUpcoming = &u
+	}
+}
+
+type TeamsFilterOpt = func(f *TeamsFilter)
+
+type TeamsFilter struct {
+	isSeasonUpcoming *bool
+}
+
+func GetOrganizationTeams(id int, opts ...TeamsFilterOpt) ([]models.Team, error) {
+	var f TeamsFilter
+	for _, opt := range opts {
+		opt(&f)
+	}
+
 	u := getOrganizationUrl(id)
 	fmt.Printf("Getting teams for organization [%d] from url [%s]...\n", id, u)
 
@@ -60,6 +77,19 @@ func GetOrganizationTeams(id int) ([]models.Team, error) {
 		startDate, err := time.ParseInLocation("01/02/2006", sdSel.FirstChild.Data, time.Local)
 		if err != nil {
 			return
+		}
+
+		// Filter by isTeamSeasonUpcoming if that filter is set
+		if f.isSeasonUpcoming != nil {
+			if *f.isSeasonUpcoming {
+				if startDate.Before(time.Now()) {
+					return // Skip teams with a start date in the past
+				}
+			} else {
+				if startDate.After(time.Now()) {
+					return // Skip teams with a start date in the future
+				}
+			}
 		}
 
 		team := models.Team{
