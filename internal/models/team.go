@@ -1,9 +1,12 @@
 package models
 
+import "time"
+
 type Team struct {
-	ID      int    `json:"id"`
-	Name    string `yaml:"name" json:"name"`
-	Captain string `yaml:"captain" json:"captain"`
+	ID        int       `json:"id"`
+	Name      string    `yaml:"name" json:"name"`
+	Captain   string    `yaml:"captain" json:"captain"`
+	StartDate time.Time `yaml:"start_date" json:"start_date"`
 }
 
 type TeamMatch struct {
