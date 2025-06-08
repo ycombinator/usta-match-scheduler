@@ -9,7 +9,6 @@ const compiler = webpack(config);
 
 const app = express();
 
-
 app.use('/api', proxy("localhost:8000", {
     proxyReqPathResolver: (req) => {
         return req.url;
@@ -17,10 +16,10 @@ app.use('/api', proxy("localhost:8000", {
 }));
 
 app.use(express.static("dist"))
-// app.use(webpackDevMiddleware(compiler, {
-//   publicPath: config.devServer.static.directory
-// }));
+app.use(webpackDevMiddleware(compiler, {
+  publicPath: config.devServer.static.directory
+}));
 
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+  console.log('Application listening on port 3000!');
 });
