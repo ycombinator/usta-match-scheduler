@@ -1,0 +1,10 @@
+table {
+    width: 80%;
+    text-align: left;
+}
+
+.days {
+    display: flex;
+    flex-direction: row;
+    column-gap: 0.5em;
+}

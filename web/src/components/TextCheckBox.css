@@ -1,0 +1,11 @@
+span {
+    color: lightgray;
+}
+
+span.checked {
+    color: black;
+}
+
+span:hover {
+    cursor: pointer;
+}
