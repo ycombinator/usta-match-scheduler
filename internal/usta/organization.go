@@ -1,7 +1,10 @@
 package usta
 
 import (
+	"bytes"
+	_ "embed"
 	"fmt"
+	"io"
 	"net/http"
 	"strings"
 	"time"
@@ -9,6 +12,9 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/ycombinator/usta-match-scheduler/internal/models"
 )
+
+//go:embed testdata/organization_225.html
+var organization225Html []byte
 
 func getOrganizationUrl(id int) string {
 	return fmt.Sprintf(baseURL+"/organization.asp?id=%d", id)
@@ -33,15 +39,27 @@ func GetOrganizationTeams(id int, opts ...TeamsFilterOpt) ([]models.Team, error)
 	}
 
 	u := getOrganizationUrl(id)
-	fmt.Printf("Getting teams for organization [%d] from url [%s]...\n", id, u)
 
-	resp, err := http.Get(u)
-	if err != nil {
-		return nil, fmt.Errorf("unable to get organization page from URL [%s]: %w", u, err)
+	var body io.ReadCloser
+	if useMockData() {
+		body = io.NopCloser(bytes.NewReader(organization225Html))
+		if f.isSeasonUpcoming != nil && *f.isSeasonUpcoming {
+			f.isSeasonUpcoming = ptrTo[bool](false)
+		}
+
+	} else {
+		fmt.Printf("Getting teams for organization [%d] from url [%s]...\n", id, u)
+
+		resp, err := http.Get(u)
+		if err != nil {
+			return nil, fmt.Errorf("unable to get organization page from URL [%s]: %w", u, err)
+		}
+		defer resp.Body.Close()
+
+		body = resp.Body
 	}
-	defer resp.Body.Close()
 
-	doc, err := goquery.NewDocumentFromReader(resp.Body)
+	doc, err := goquery.NewDocumentFromReader(body)
 	if err != nil {
 		return nil, fmt.Errorf("unable to read organization page from URL [%s]: %w", u, err)
 	}

@@ -1,7 +1,6 @@
 package usta
 
 import (
-	_ "embed"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -11,9 +10,6 @@ import (
 
 	"github.com/stretchr/testify/require"
 )
-
-//go:embed testdata/organization_225.html
-var organization225Html []byte
 
 func TestGetOrganizationTeams(t *testing.T) {
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -34,10 +30,11 @@ func TestGetOrganizationTeams(t *testing.T) {
 	require.Len(t, teams, 38)
 
 	expectedFirstTeam := models.Team{
-		ID:        106665,
-		Name:      "ALMADEN SR 40MX6.0A",
-		Captain:   "Bui-Quang, Phu",
-		StartDate: time.Date(2025, 6, 9, 0, 0, 0, 0, time.Local),
+		ID:            106665,
+		Name:          "ALMADEN SR 40MX6.0A",
+		Captain:       "Bui-Quang, Phu",
+		StartDate:     time.Date(2025, 6, 9, 0, 0, 0, 0, time.Local),
+		ScheduleGroup: models.TeamScheduleGroupEvening,
 	}
 	require.Equal(t, expectedFirstTeam, teams[0])
 }
