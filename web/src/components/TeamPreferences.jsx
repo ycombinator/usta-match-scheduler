@@ -1,20 +1,23 @@
+import { useState } from 'react'
+import { OrderedSelectionGroup } from "./OrderedSelectionGroup"
 import "./TeamPreferences.css"
-import { TextCheckBox } from "./TextCheckBox"
 
 const dayOfWeekMap = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
 export const TeamPreferences = ({teams, changeDayPreference}) => {
     teams = teams.map((team, teamIdx)=> {
-        const days = []
+        const allDays = []
         for (let i = 0; i < 7; i++) {
-            days.push(<TextCheckBox isChecked={team.day_preferences[i]} onClick={() => changeDayPreference(teamIdx, i)}>{dayOfWeekMap[i]}</TextCheckBox>)
+            allDays.push(dayOfWeekMap[i])
         }
+
+        const [selectedDays, setSelectedDays] = useState([])
 
         return (
             <tr key={team.id}>
                 <td>{team.name}</td>
                 <td>{team.captain}</td>
-                <td className="days">{days}</td>
+                <td className="days"><OrderedSelectionGroup allItems={allDays} selectedItems={selectedDays} setSelectedItems={setSelectedDays} /></td>
             </tr>
         )
     })
