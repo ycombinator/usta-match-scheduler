@@ -1,7 +1,6 @@
 import './OrderedSelectionItem.css'
 
 export const OrderedSelectionItem = ({label, order, onClick}) => {
-    console.log({label, order})
     const isChecked = order >= 0
     const classes = isChecked ? "ordered-selection-item checked" : "ordered-selection-item unchecked"
     return (
