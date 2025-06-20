@@ -6,14 +6,14 @@ npm install
 
 ## Running
 
-1. Generate public assets.
+1. Generate public assets whenever there are changes to files.
 ```
-npm run build
+fswatch -o -r ./ | xargs -n1 -I% npm run build
 ```
 
-2. Start server (API proxy + public assets).
+2. (In a different window) Start server (API proxy + public assets).
 ```
-npm run start
+npm run serve
 ```
 
 Public assets are served at http://localhost:3000
