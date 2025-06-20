@@ -10,23 +10,23 @@ import (
 type TeamScheduleGroup string
 
 const (
-	TeamScheduleGroupDaytime TeamScheduleGroup = "daytime"
-	TeamScheduleGroupEvening TeamScheduleGroup = "evening"
+	TeamScheduleGroupDaytime TeamScheduleGroup = "Daytime"
+	TeamScheduleGroupEvening TeamScheduleGroup = "Evening"
 )
 
 type TeamType string
 
 const (
-	TeamTypeAdult TeamType = "adult"
-	TeamTypeMixed TeamType = "mixed"
-	TeamTypeCombo TeamType = "combo"
+	TeamTypeAdult TeamType = "Adult"
+	TeamTypeMixed TeamType = "Mixed"
+	TeamTypeCombo TeamType = "Combo"
 )
 
 type Gender string
 
 const (
-	GenderMale   Gender = "male"
-	GenderFemale Gender = "female"
+	GenderMale   Gender = "Men's"
+	GenderFemale Gender = "Women's"
 )
 
 type Team struct {
