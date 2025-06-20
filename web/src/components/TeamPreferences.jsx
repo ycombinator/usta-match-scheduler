@@ -12,10 +12,11 @@ export const TeamPreferences = ({teams, changePreferredMatchDays}) => {
         }
 
         const setSelectedMatchDays = days => changePreferredMatchDays(teamIdx, days)
+        const teamType = team.type == "Adult"?  "" : team.type
 
         return (
             <tr key={team.id}>
-                <td>{team.name}</td>
+                <td>{teamType} {team.gender} {team.min_age}+ {team.level} <span class="team-name">{team.name}</span></td>
                 <td>{team.captain}</td>
                 <td className="days"><OrderedSelectionGroup allItems={allDays} selectedItems={team.preferred_match_days} setSelectedItems={setSelectedMatchDays} /></td>
             </tr>

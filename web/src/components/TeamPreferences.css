@@ -3,8 +3,17 @@ table {
     text-align: left;
 }
 
+td {
+    vertical-align: middle;
+}
+
 .days {
     display: flex;
     flex-direction: row;
     column-gap: 0.5em;
+}
+
+.team-name {
+    font-size: small;
+    color: gray
 }
