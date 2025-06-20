@@ -41,12 +41,12 @@ func GetOrganizationTeams(id int, opts ...TeamsFilterOpt) ([]models.Team, error)
 	u := getOrganizationUrl(id)
 
 	var body io.ReadCloser
+	now := time.Now()
 	if useMockData() {
 		body = io.NopCloser(bytes.NewReader(organization225Html))
 		if f.isSeasonUpcoming != nil && *f.isSeasonUpcoming {
-			f.isSeasonUpcoming = ptrTo[bool](false)
+			now = time.Date(2025, 6, 1, 0, 0, 0, 0, time.Local) // Mock date for upcoming season
 		}
-
 	} else {
 		fmt.Printf("Getting teams for organization [%d] from url [%s]...\n", id, u)
 
@@ -92,11 +92,11 @@ func GetOrganizationTeams(id int, opts ...TeamsFilterOpt) ([]models.Team, error)
 		// Filter by isTeamSeasonUpcoming if that filter is set
 		if f.isSeasonUpcoming != nil {
 			if *f.isSeasonUpcoming {
-				if startDate.Before(time.Now()) {
+				if startDate.Before(now) {
 					return // Skip teams with a start date in the past
 				}
 			} else {
-				if startDate.After(time.Now()) {
+				if startDate.After(now) {
 					return // Skip teams with a start date in the future
 				}
 			}
