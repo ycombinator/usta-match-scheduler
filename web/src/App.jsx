@@ -5,15 +5,6 @@ import { CalendarMonthGroup } from './components/CalendarMonthGroup'
 import { Step } from './components/Step'
 
 const asrcOrganizationID = 225
-const initialDayPreferences = {
-    0: false, // Monday
-    1: false, // Tuesday
-    2: false, // Wednesday
-    3: false, // Thursday
-    4: false, // Friday
-    5: false, // Saturday
-    6: false, // Sunday
-}
 
 function App() {
     const now = new Date()
@@ -43,18 +34,13 @@ function App() {
     const [teams, setTeams] = useState([]);
     useEffect(() => {
         fetchUpcomingTeams(asrcOrganizationID)
-        .then(teams => { teams.forEach(team => team.day_preferences = structuredClone(initialDayPreferences)); return teams })
+        .then(teams => { teams.forEach(team => team.preferred_match_days = []); return teams })
         .then(setTeams)
     }, [])
 
-    const changeDayPreference = function(teamIdx, dayIdx) {
-        const preference = teams[teamIdx].day_preferences[dayIdx]
+    const changePreferredMatchDays = function(teamIdx, days) {
         const newTeams = structuredClone(teams)
-        if (preference == true) {
-            newTeams[teamIdx].day_preferences[dayIdx] = false
-        } else {
-            newTeams[teamIdx].day_preferences[dayIdx] = true
-        }
+        newTeams[teamIdx].preferred_match_days = days
         setTeams(newTeams)
     }
 
@@ -63,7 +49,7 @@ function App() {
     // - Blackout dates set
     // - Schedule generated
     const appState = "set_team_preferences"
-    let component = <TeamPreferences teams={teams} changeDayPreference={changeDayPreference} />
+    let component = <TeamPreferences teams={teams} changePreferredMatchDays={changePreferredMatchDays} />
     let step = 1
     let stepLabel = "Set team preferences"
     const totalSteps = 3
