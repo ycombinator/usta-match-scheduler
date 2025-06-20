@@ -115,6 +115,8 @@ func GetOrganizationTeams(id int, opts ...TeamsFilterOpt) ([]models.Team, error)
 		// Parse captain
 		cSel := sel.Find("td").Get(3)
 		captain := cSel.FirstChild.Data
+		captainParts := strings.SplitN(captain, ",", 2)
+		captain = captainParts[1] + " " + captainParts[0]
 
 		team := models.Team{
 			ID:            teamID,
