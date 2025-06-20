@@ -118,10 +118,13 @@ func GetOrganizationTeams(id int, opts ...TeamsFilterOpt) ([]models.Team, error)
 
 		team := models.Team{
 			ID:            teamID,
-			Name:          name,
 			Captain:       captain,
 			StartDate:     startDate,
 			ScheduleGroup: scheduleType,
+		}
+
+		if err := team.SetRawName(name); err != nil {
+			return
 		}
 
 		teams = append(teams, team)
