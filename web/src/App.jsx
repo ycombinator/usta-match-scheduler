@@ -78,7 +78,7 @@ function App() {
 }
 
 async function fetchUpcomingTeams(organizationID) {
-    return fetch("http://localhost:3000/api/usta/organization/"+organizationID+"/teams?upcoming=true")
+    return fetch("/api/usta/organization/"+organizationID+"/teams?upcoming=true")
     .then(r => r.json())
     .then(j => j.teams)
 }
