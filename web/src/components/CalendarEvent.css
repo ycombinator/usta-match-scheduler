@@ -1,6 +1,5 @@
 .calendar-event {
     margin: 0.1rem 0.1rem;
-    background-color: skyblue;
     padding: 0.25rem;
     border-radius: 10px;
     white-space: nowrap;
@@ -9,8 +8,22 @@
 
     font-family: Helvetica, sans-serif;
     font-size: 0.7rem;
+
+    background-color: red;
+    color: whitesmoke;
+
 }
 
 .calendar-event:hover {
     white-space: wrap;
+}
+
+.calendar-event.blackout {
+    background-color: black;
+    color: white;
+}
+
+.calendar-event.match {
+    background-color: lightblue;
+    color: navy;
 }

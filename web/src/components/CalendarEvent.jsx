@@ -9,9 +9,10 @@ export const CalendarEvent = ({year, month, day, event}) => {
         ? getPaddedTime(event.end)
         : "..."
     const title = event.title
+    const className = `calendar-event ${event.type}`
 
     return (
-        <p className="calendar-event">
+        <p className={className}>
             {start}-{end}: {title}
         </p>
     )
