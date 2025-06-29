@@ -2,13 +2,21 @@ import { isEventInMonth } from "../lib/date_utils"
 import { CalendarMonth } from "./CalendarMonth"
 import "./CalendarMonthGroup.css"
 
-export const CalendarMonthGroup = ({startYear, startMonth, setStartYearMonth, numMonths, events}) => {
+export const CalendarMonthGroup = ({startYear, startMonth, setStartYearMonth, numMonths, events, addEventLabel}) => {
     const months = []
     let year = startYear
     let month = startMonth
     for (let i = 0; i < numMonths; i++) {
         const monthEvents = events.filter(event => isEventInMonth(year, month, event))
-        months.push(<div key={i} className="calendar-month-container"><CalendarMonth year={year} month={month} setStartYearMonth={setStartYearMonth} events={monthEvents} /></div>)
+        months.push(
+            <div key={i} className="calendar-month-container">
+                <CalendarMonth 
+                    year={year} month={month} 
+                    setStartYearMonth={setStartYearMonth}
+                    events={monthEvents} addEventLabel={addEventLabel}
+                />
+            </div>
+        )
 
         month++
         // Check if we should start the new year

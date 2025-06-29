@@ -1,5 +1,4 @@
 .calendar-event {
-    margin: 0.1rem 0.1rem;
     padding: 0.25rem;
     border-radius: 10px;
     white-space: nowrap;
@@ -26,4 +25,15 @@
 .calendar-event.match {
     background-color: lightblue;
     color: navy;
+}
+
+.calendar-event.new {
+    background-color: white;
+    border-style: dotted;
+    border-color: lightcyan;
+}
+
+.calendar-event.new a {
+    color: cornflowerblue;
+    text-decoration: none;
 }

@@ -33,4 +33,5 @@
 
 .calendar-day-event {
     list-style: none;
+    margin-bottom: 0.2rem;
 }

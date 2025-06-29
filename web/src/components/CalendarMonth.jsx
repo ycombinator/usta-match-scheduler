@@ -5,7 +5,7 @@ import { CalendarWeek } from "./CalendarWeek"
 import "./CalendarMonth.css"
 import "./CalendarWeek.css"
 
-export const CalendarMonth = ({year, month, setStartYearMonth, events}) => {
+export const CalendarMonth = ({year, month, setStartYearMonth, events, addEventLabel}) => {
     const numWeeks = weeksInMonth(year, month)
     const monthName = getMonthName(year, month)
 
@@ -19,7 +19,14 @@ export const CalendarMonth = ({year, month, setStartYearMonth, events}) => {
     const calendarWeeks = []
     for(let i = 0; i < numWeeks; i++) {
         const key = year+"_"+month+"_"+i
-        calendarWeeks.push(<div key={key}><CalendarWeek year={year} month={month} week={i} events={events} /></div>)
+        calendarWeeks.push(
+            <div key={key}>
+                <CalendarWeek 
+                    year={year} month={month} week={i} 
+                    events={events} addEventLabel={addEventLabel}
+                />
+            </div>
+        )
     }
 
     function goBack(e) {

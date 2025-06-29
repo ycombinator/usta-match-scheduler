@@ -14,11 +14,11 @@ function App() {
     const startMonth = startYearMonth.month
 
     const events = [
-        { start: new Date("2025-04-08T16:00:00Z"), end: new Date("2025-04-08T20:00:00Z"), title: "Club social", type:"blackout"},
-        { start: new Date("2025-04-12T19:00:00Z"), end: new Date("2025-04-12T22:00:00Z"), title: "[W3.5] vs. Morgan Hill Tennis Club", type:"match"},
-        { start: new Date("2025-04-13T16:00:00Z"), end: new Date("2025-04-13T19:00:00Z"), title: "[W3.5DT] vs. Bay Club Courtside", type:"match"},
-        { start: new Date("2025-04-13T19:30:00Z"), end: new Date("2025-04-13T22:30:00Z"), title: "[M4.5] vs. Los Gatos", type:"match"},
-        { start: new Date("2025-04-13T23:00:00Z"), end: new Date("2025-04-14T02:00:00Z"), title: "[M3.5] vs. Bramhall", type:"match"},
+        { start: new Date("2025-04-08T16:00:00Z"), end: new Date("2025-04-08T20:00:00Z"), title: "Club social", type:"blackout", slot:"morning"},
+        { start: new Date("2025-04-12T19:00:00Z"), end: new Date("2025-04-12T22:00:00Z"), title: "[W3.5] vs. Morgan Hill Tennis Club", type:"match", slot:"afternoon"},
+        { start: new Date("2025-04-13T16:00:00Z"), end: new Date("2025-04-13T19:00:00Z"), title: "[W3.5DT] vs. Bay Club Courtside", type:"match", slot:"morning"},
+        { start: new Date("2025-04-13T19:30:00Z"), end: new Date("2025-04-13T22:30:00Z"), title: "[M4.5] vs. Los Gatos", type:"match", slot:"afternoon"},
+        { start: new Date("2025-04-13T23:00:00Z"), end: new Date("2025-04-14T02:00:00Z"), title: "[M3.5] vs. Bramhall", type:"match", slot:"evening"},
     ]
 
     const matches = [
@@ -50,10 +50,10 @@ function App() {
 
     // States:
     // - Team preferences set
-    // - Blackout dates set
+    // - Blackout slots set
     // - Schedule generated
     // const appState = "set_team_preferences"
-    const appState = "set_blackout_dates"
+    const appState = "set_blackout_slots"
     let component, step, stepLabel
     const totalSteps = 3
     switch (appState) {
@@ -62,7 +62,7 @@ function App() {
             step = 1
             stepLabel = "Set team preferences"
             break
-        case "set_blackout_dates":
+        case "set_blackout_slots":
             component = <CalendarMonthGroup
                 startYear={startYear} 
                 startMonth={startMonth} 
@@ -70,9 +70,10 @@ function App() {
                 setStartYearMonth={setStartYearMonth} 
                 events={events} 
                 addEvent={addEvent}
+                addEventLabel="blackout"
             />
             step = 2
-            stepLabel = "Set blackout dates"
+            stepLabel = "Set blackout slots"
             break
         case "edit_schedule":
             component = <CalendarMonthGroup
