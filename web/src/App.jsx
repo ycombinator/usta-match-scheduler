@@ -44,23 +44,45 @@ function App() {
         setTeams(newTeams)
     }
 
+    const addEvent = function(e) {
+        // TODO: 
+    }
+
     // States:
     // - Team preferences set
     // - Blackout dates set
     // - Schedule generated
-    const appState = "set_team_preferences"
-    let component = <TeamPreferences teams={teams} changePreferredMatchDays={changePreferredMatchDays} />
-    let step = 1
-    let stepLabel = "Set team preferences"
+    // const appState = "set_team_preferences"
+    const appState = "set_blackout_dates"
+    let component, step, stepLabel
     const totalSteps = 3
     switch (appState) {
+        case "set_team_preferences":
+            component = <TeamPreferences teams={teams} changePreferredMatchDays={changePreferredMatchDays} />
+            step = 1
+            stepLabel = "Set team preferences"
+            break
         case "set_blackout_dates":
-            component = <BlackoutDates events={events} />
+            component = <CalendarMonthGroup
+                startYear={startYear} 
+                startMonth={startMonth} 
+                numMonths={1} 
+                setStartYearMonth={setStartYearMonth} 
+                events={events} 
+                addEvent={addEvent}
+            />
             step = 2
             stepLabel = "Set blackout dates"
             break
         case "edit_schedule":
-            component = <EditSchedule events={events} />
+            component = <CalendarMonthGroup
+                startYear={startYear} 
+                startMonth={startMonth} 
+                numMonths={1} 
+                setStartYearMonth={setStartYearMonth} 
+                events={events} 
+                addEvent={addEvent}
+            />
             step = 3
             stepLabel = "Review schedule"
             break
