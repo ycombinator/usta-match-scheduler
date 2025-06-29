@@ -14,11 +14,11 @@ function App() {
     const startMonth = startYearMonth.month
 
     const events = [
-        { start: new Date("2025-04-08T22:00:00Z"), end: new Date("2025-04-09T12:00:00Z"), title: "Test multiday"},
-        { start: new Date("2025-04-12T19:00:00Z"), end: new Date("2025-04-12T22:00:00Z"), title: "[W3.5] vs. Morgan Hill Tennis Club"},
-        { start: new Date("2025-04-13T16:00:00Z"), end: new Date("2025-04-13T19:00:00Z"), title: "[W3.5DT] vs. Bay Club Courtside"},
-        { start: new Date("2025-04-13T19:30:00Z"), end: new Date("2025-04-13T22:30:00Z"), title: "[M4.5] vs. Los Gatos"},
-        { start: new Date("2025-04-13T23:00:00Z"), end: new Date("2025-04-14T02:00:00Z"), title: "[M3.5] vs. Bramhall"},
+        { start: new Date("2025-04-08T16:00:00Z"), end: new Date("2025-04-08T20:00:00Z"), title: "Club social", type:"blackout"},
+        { start: new Date("2025-04-12T19:00:00Z"), end: new Date("2025-04-12T22:00:00Z"), title: "[W3.5] vs. Morgan Hill Tennis Club", type:"match"},
+        { start: new Date("2025-04-13T16:00:00Z"), end: new Date("2025-04-13T19:00:00Z"), title: "[W3.5DT] vs. Bay Club Courtside", type:"match"},
+        { start: new Date("2025-04-13T19:30:00Z"), end: new Date("2025-04-13T22:30:00Z"), title: "[M4.5] vs. Los Gatos", type:"match"},
+        { start: new Date("2025-04-13T23:00:00Z"), end: new Date("2025-04-14T02:00:00Z"), title: "[M3.5] vs. Bramhall", type:"match"},
     ]
 
     const matches = [
