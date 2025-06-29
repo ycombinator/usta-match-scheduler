@@ -20,6 +20,9 @@ export const CalendarDay = ({thisYear, thisMonth, year, month, day, events}) => 
         dayClass = "not-this-month"
     }
 
+    // TODO: add ability to add events
+    // - two slots on weekdays: morning, evening
+    // - three slots on weekends: morning, afternoon, evening
     return (
         <div className="calendar-day">
             <h4 className={dayClass}>{day}</h4>
