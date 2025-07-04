@@ -1,11 +1,17 @@
-FROM golang:latest
+# Build
+FROM golang:1.24-alpine AS build
 
-COPY go.mod /
-COPY go.sum /
+COPY go.mod go.sum /
 COPY internal/ /internal/
 COPY api/ /api/
 
 WORKDIR /api
+RUN go build -o api
+
+# Run
+FROM scratch
+WORKDIR /
+COPY --from=build /api/api .
 
 EXPOSE 8000
-CMD ["go", "run", "main.go"]
+ENTRYPOINT ["/api"]

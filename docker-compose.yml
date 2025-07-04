@@ -1,0 +1,26 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    develop:
+      watch:
+        - action: rebuild
+          path: ./api/
+        - action: rebuild
+          path: ./internal/
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    ports:
+      - "3000:3000"
+    environment:
+      - API_HOST_PORT=api:8000
+    depends_on:
+      - api
+    develop:
+      watch:
+        - action: rebuild
+          path: ./web/

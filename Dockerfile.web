@@ -1,8 +1,15 @@
-FROM node:latest
-
+# Build
+FROM node:latest AS build
 COPY web/ /
-
 WORKDIR /
+RUN npm install
+RUN node_modules/.bin/webpack --mode=production
+
+# Run
+FROM node:latest
+COPY --from=build /dist /dist
+COPY web/server.js /
+COPY web/node_modules /node_modules
 
 EXPOSE 3000
 CMD ["node", "server.js"]
