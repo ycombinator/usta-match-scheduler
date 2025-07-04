@@ -1,0 +1,8 @@
+FROM node:latest
+
+COPY web/ /
+
+WORKDIR /
+
+EXPOSE 3000
+CMD ["node", "server.js"]
