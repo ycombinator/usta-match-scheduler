@@ -1,0 +1,11 @@
+FROM golang:latest
+
+COPY go.mod /
+COPY go.sum /
+COPY internal/ /internal/
+COPY api/ /api/
+
+WORKDIR /api
+
+EXPOSE 8000
+CMD ["go", "run", "main.go"]
