@@ -2,7 +2,7 @@ import { isEventInMonth } from "../lib/date_utils"
 import { CalendarMonth } from "./CalendarMonth"
 import "./CalendarMonthGroup.css"
 
-export const CalendarMonthGroup = ({startYear, startMonth, setStartYearMonth, numMonths, events, addEventLabel}) => {
+    export const CalendarMonthGroup = ({startYear, startMonth, setStartYearMonth, numMonths, events, setEvent, addEventLabel}) => {
     const months = []
     let year = startYear
     let month = startMonth
@@ -13,7 +13,7 @@ export const CalendarMonthGroup = ({startYear, startMonth, setStartYearMonth, nu
                 <CalendarMonth 
                     year={year} month={month} 
                     setStartYearMonth={setStartYearMonth}
-                    events={monthEvents} addEventLabel={addEventLabel}
+                    events={monthEvents} setEvent={setEvent} addEventLabel={addEventLabel}
                 />
             </div>
         )

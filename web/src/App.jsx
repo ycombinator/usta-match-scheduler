@@ -9,17 +9,17 @@ const asrcOrganizationID = 225
 function App() {
     const now = new Date()
     const [startYearMonth, setStartYearMonth] = useState({year: now.getFullYear(), month: now.getMonth()})
-
     const startYear = startYearMonth.year
     const startMonth = startYearMonth.month
 
-    const events = [
-        { start: new Date("2025-04-08T16:00:00Z"), end: new Date("2025-04-08T20:00:00Z"), title: "Club social", type:"blackout", slot:"morning"},
-        { start: new Date("2025-04-12T19:00:00Z"), end: new Date("2025-04-12T22:00:00Z"), title: "[W3.5] vs. Morgan Hill Tennis Club", type:"match", slot:"afternoon"},
-        { start: new Date("2025-04-13T16:00:00Z"), end: new Date("2025-04-13T19:00:00Z"), title: "[W3.5DT] vs. Bay Club Courtside", type:"match", slot:"morning"},
-        { start: new Date("2025-04-13T19:30:00Z"), end: new Date("2025-04-13T22:30:00Z"), title: "[M4.5] vs. Los Gatos", type:"match", slot:"afternoon"},
-        { start: new Date("2025-04-13T23:00:00Z"), end: new Date("2025-04-14T02:00:00Z"), title: "[M3.5] vs. Bramhall", type:"match", slot:"evening"},
-    ]
+    const [events, setEvents] = useState([])
+    // const [events, setEvents] = useState([
+    //     { start: new Date("2025-07-08T16:00:00Z"), end: new Date("2025-07-08T20:00:00Z"), title: "Club social", type:"blackout", slot:"morning"},
+    //     { start: new Date("2025-07-12T19:00:00Z"), end: new Date("2025-07-12T22:00:00Z"), title: "[W3.5] vs. Morgan Hill Tennis Club", type:"match", slot:"afternoon"},
+    //     { start: new Date("2025-07-13T16:00:00Z"), end: new Date("2025-07-13T19:00:00Z"), title: "[W3.5DT] vs. Bay Club Courtside", type:"match", slot:"morning"},
+    //     { start: new Date("2025-07-13T19:30:00Z"), end: new Date("2025-07-13T22:30:00Z"), title: "[M4.5] vs. Los Gatos", type:"match", slot:"afternoon"},
+    //     { start: new Date("2025-07-13T23:00:00Z"), end: new Date("2025-07-14T02:00:00Z"), title: "[M3.5] vs. Bramhall", type:"match", slot:"evening"},
+    // ])
 
     const matches = [
         { date: new Date("2025-05-03T07:00:00Z"), home_team: { id: 105417 } },
@@ -44,8 +44,31 @@ function App() {
         setTeams(newTeams)
     }
 
-    const addEvent = function(e) {
-        // TODO: 
+    const setEvent = function(e) {
+        const newEvents = []
+        let found = false
+        for (let i = 0; i < events.length; i++) {
+            if (e.id != events[i].id) {
+                newEvents.push(events[i])
+                continue
+            }
+
+            found = true 
+            if (e.title == "") {
+                // Delete event by not adding it to newEvents
+                continue
+            }
+
+            // Update event
+            newEvents.push(e)
+        }
+
+        if (!found) {
+            // Add new event
+            newEvents.push(e)
+        }
+
+        setEvents(newEvents)
     }
 
     // States:
@@ -69,7 +92,7 @@ function App() {
                 numMonths={1} 
                 setStartYearMonth={setStartYearMonth} 
                 events={events} 
-                addEvent={addEvent}
+                setEvent={setEvent}
                 addEventLabel="blackout"
             />
             step = 2
@@ -82,7 +105,7 @@ function App() {
                 numMonths={1} 
                 setStartYearMonth={setStartYearMonth} 
                 events={events} 
-                addEvent={addEvent}
+                setEvent={setEvent}
             />
             step = 3
             stepLabel = "Review schedule"
