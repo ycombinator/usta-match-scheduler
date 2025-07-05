@@ -3,7 +3,7 @@ import { CalendarEvent } from "./CalendarEvent"
 import "./CalendarDay.css"
 import { useState } from "react"
 
-export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setEvent, addEventLabel}) => {
+export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setEvent, addEventLabel, allowDeletes}) => {
     const currentDay = new Date(year, month, day)
     const today = new Date()
     const isToday = isSameDay(today, currentDay)
@@ -49,7 +49,7 @@ export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setE
             const slotEvent = slotEvents[0]
             items.push(
                 <li className="calendar-day-event" key={i}>
-                    <CalendarEvent year={year} month={month} day={day} event={slotEvent} setEvent={setEvent}/>
+                    <CalendarEvent year={year} month={month} day={day} event={slotEvent} setEvent={setEvent} allowDelete={allowDeletes}/>
                 </li>
             )
         } else if (i == addEventIdx) {

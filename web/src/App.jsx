@@ -89,6 +89,7 @@ function App() {
                 events={events} 
                 setEvent={setEvent}
                 addEventLabel="blackout"
+                allowDeletes={true}
             />
             step = 2
             stepLabel = "Set blackout slots"
@@ -111,6 +112,8 @@ function App() {
                 setStartYearMonth={setStartYearMonth} 
                 events={events} 
                 setEvent={setEvent}
+                addEventLabel="match"
+                allowDeletes={false}
             />
             step = 3
             stepLabel = "Review schedule"

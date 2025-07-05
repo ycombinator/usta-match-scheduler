@@ -4,7 +4,7 @@ import "./CalendarEvent.css"
 import { faTrash } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-export const CalendarEvent = ({year, month, day, event, setEvent}) => {
+export const CalendarEvent = ({year, month, day, event, setEvent, allowDelete}) => {
     const start = doesEventStartInDay(year, month, day, event) 
         ? getPaddedTime(event.start)
         : "..."
@@ -22,8 +22,12 @@ export const CalendarEvent = ({year, month, day, event, setEvent}) => {
         setEvent({id: event.id, type: event.type, slot: event.slot, start: event.start, end: event.end, title: title}); ;
     }
 
-    const deleteEvent = () => {
-        setEvent({id: event.id, type: event.type, slot: event.slot, start: event.start, end: event.end, title: ""}); ;
+    let deleteButton, deleteEvent
+    if (allowDelete) {
+        deleteButton = <FontAwesomeIcon icon={faTrash} onClick={() => {deleteEvent(); return false;}}/>
+        deleteEvent = () => {
+            setEvent({id: event.id, type: event.type, slot: event.slot, start: event.start, end: event.end, title: ""}); ;
+        }
     }
 
     if (editEvent) {
@@ -42,7 +46,7 @@ export const CalendarEvent = ({year, month, day, event, setEvent}) => {
                 {getSlotLabel(event.slot)}: {event.title}
                 {/* {start}-{end}: {title} */}
             </span>
-            <FontAwesomeIcon icon={faTrash} onClick={() => {deleteEvent(); return false;}}/>
+            {deleteButton}
         </span>
     )
 }

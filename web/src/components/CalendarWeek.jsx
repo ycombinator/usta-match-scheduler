@@ -2,7 +2,7 @@ import { daysInMonth, isEventInDay, monthDaysInFirstWeek, getPreviousYearMonth, 
 import { CalendarDay } from "./CalendarDay"
 import "./CalendarWeek.css"
 
-export const CalendarWeek = ({year, month, week, events, setEvent, addEventLabel}) => {
+export const CalendarWeek = ({year, month, week, events, setEvent, addEventLabel, allowDeletes}) => {
     const thisYear = year
     const thisMonth = month
 
@@ -49,6 +49,7 @@ export const CalendarWeek = ({year, month, week, events, setEvent, addEventLabel
                     thisYear={thisYear} thisMonth={thisMonth} 
                     year={year} month={month} day={day} 
                     events={dayEvents} setEvent={setEvent} addEventLabel={addEventLabel}
+                    allowDeletes={allowDeletes}
                 />
             </div>
         )
