@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { doesEventEndInDay, doesEventStartInDay, getPaddedTime } from "../lib/date_utils"
 import "./CalendarEvent.css"
+import { faTrash } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 export const CalendarEvent = ({year, month, day, event, setEvent}) => {
     const start = doesEventStartInDay(year, month, day, event) 
@@ -20,20 +22,28 @@ export const CalendarEvent = ({year, month, day, event, setEvent}) => {
         setEvent({id: event.id, type: event.type, slot: event.slot, start: event.start, end: event.end, title: title}); ;
     }
 
+    const deleteEvent = () => {
+        setEvent({id: event.id, type: event.type, slot: event.slot, start: event.start, end: event.end, title: ""}); ;
+    }
+
     if (editEvent) {
         return (
-            <form onSubmit={() => {submitEditEvent(); return false;}}>
-                <input type="text" autoFocus={true} value={editEventText} onChange={e => setEditEventText(e.target.value.trim())}></input>
+            <form onBlur={() => {submitEditEvent(); return false;}} onSubmit={() => {submitEditEvent(); return false;}}>
+                <input type="text" autoFocus={true} value={editEventText} onChange={e => setEditEventText(e.target.value)}></input>
             </form>
         )
     }
 
+    // TODO: show trash icon for deleting
 
     return (
-        <p className={className} onClick={() => {setEditEvent(true); return false;}}>
-            {getSlotLabel(event.slot)}: {event.title}
-            {/* {start}-{end}: {title} */}
-        </p>
+        <span className={className}>
+            <span onClick={() => {setEditEvent(true); return false;}}>
+                {getSlotLabel(event.slot)}: {event.title}
+                {/* {start}-{end}: {title} */}
+            </span>
+            <FontAwesomeIcon icon={faTrash} onClick={() => {deleteEvent(); return false;}}/>
+        </span>
     )
 }
 

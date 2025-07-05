@@ -11,6 +11,8 @@
     background-color: red;
     color: whitesmoke;
 
+    display: flex;
+    justify-content: space-between;
 }
 
 .calendar-event:hover {
@@ -36,4 +38,8 @@
 .calendar-event.new a {
     color: cornflowerblue;
     text-decoration: none;
+}
+
+.calendar-event *:hover {
+    cursor: pointer;
 }

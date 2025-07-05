@@ -56,8 +56,8 @@ export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setE
             // An event is being added to this slot
             items.push(
                 <li className="calendar-day-event" key={i}>
-                    <form onSubmit={() => {submitAddEvent(slot); return false;}}>
-                        <input type="text" autoFocus={true} value={addEventText} onChange={e => setAddEventText(e.target.value.trim())}></input>
+                    <form onBlur={() => {submitAddEvent(slot); return false;}} onSubmit={() => {submitAddEvent(slot); return false;}}>
+                        <input type="text" autoFocus={true} value={addEventText} onChange={e => setAddEventText(e.target.value)}></input>
                     </form>
                 </li>
             )
