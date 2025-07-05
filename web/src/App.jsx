@@ -23,21 +23,11 @@ function App() {
     //     { start: new Date("2025-07-13T23:00:00Z"), end: new Date("2025-07-14T02:00:00Z"), title: "[M3.5] vs. Bramhall", type:"match", slot:"evening"},
     // ])
 
-    const matches = [
-        { date: new Date("2025-05-03T07:00:00Z"), home_team: { id: 105417 } },
-        { date: new Date("2025-05-15T07:00:00Z"), home_team: { id: 105417 } },
-        { date: new Date("2025-05-21T07:00:00Z"), home_team: { id: 105587 } },
-        { date: new Date("2025-05-22T07:00:00Z"), home_team: { id: 105772 } },
-        { date: new Date("2025-05-28T07:00:00Z"), home_team: { id: 105587 } },
-        { date: new Date("2025-06-08T07:00:00Z"), home_team: { id: 105772 } },
-        { date: new Date("2025-06-13T07:00:00Z"), home_team: { id: 105587 } },
-    ]
-
     const [teams, setTeams] = useState([]);
-    useEffect(() => {
-        fetchUpcomingTeams(asrcOrganizationID)
-        .then(teams => { teams.forEach(team => team.preferred_match_days = []); return teams })
-        .then(setTeams)
+    useEffect(async () => {
+        const teams = await fetchUpcomingTeams(asrcOrganizationID)
+        teams.forEach(team => team.preferred_match_days = [])
+        setTeams(teams)
     }, [])
 
     const changePreferredMatchDays = function(teamIdx, days) {
@@ -153,9 +143,31 @@ function App() {
 }
 
 async function fetchUpcomingTeams(organizationID) {
-    return fetch("/api/usta/organization/"+organizationID+"/teams?upcoming=true")
-    .then(r => r.json())
-    .then(j => j.teams)
+    const response = await fetch("/api/usta/organization/"+organizationID+"/teams?upcoming=true")
+    const json = await response.json()
+    return json.teams
+}
+
+async function mockEvents(events) {
+    const scheduleEvents = structuredClone(events)
+    scheduleEvents.push(
+        { start: new Date("2025-07-11T19:00:00Z"), end: new Date("2025-07-11T22:00:00Z"), title: "[W3.5] vs. Morgan Hill Tennis Club", type:"match", slot:"evening"},
+        { start: new Date("2025-07-13T16:00:00Z"), end: new Date("2025-07-13T19:00:00Z"), title: "[W3.5DT] vs. Bay Club Courtside", type:"match", slot:"morning"},
+        { start: new Date("2025-07-13T19:30:00Z"), end: new Date("2025-07-13T22:30:00Z"), title: "[M4.5] vs. Los Gatos", type:"match", slot:"afternoon"},
+        { start: new Date("2025-07-13T23:00:00Z"), end: new Date("2025-07-14T02:00:00Z"), title: "[M3.5] vs. Bramhall", type:"match", slot:"evening"},        
+        { start: new Date("2025-07-16T19:00:00Z"), end: new Date("2025-07-16T22:00:00Z"), title: "[W2.5+DT] vs. Brookside", type:"match", slot:"morning"},
+    )
+    return new Promise((resolve, reject) => resolve(scheduleEvents))
+}
+
+async function generateSchedule(teams, events) {
+    return mockEvents(events)
+    const response = await fetch("/api/schedule", {
+        method: "POST",
+        body: JSON.stringify({teams, events})
+    })
+    const json = await response.json()
+    return json.events
 }
 
 export default App
