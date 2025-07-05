@@ -3,6 +3,7 @@ import './App.css'
 import { TeamPreferences } from './components/TeamPreferences'
 import { CalendarMonthGroup } from './components/CalendarMonthGroup'
 import { Step } from './components/Step'
+import { Nav } from './components/Nav'
 
 const asrcOrganizationID = 225
 
@@ -75,15 +76,18 @@ function App() {
     // - Team preferences set
     // - Blackout slots set
     // - Schedule generated
-    // const appState = "set_team_preferences"
-    const appState = "set_blackout_slots"
+    const [ appState, setAppState ] = useState("set_team_preferences")
     let component, step, stepLabel
+    let navPrevious, navNext, navPreviousLabel, navNextLabel
     const totalSteps = 3
     switch (appState) {
         case "set_team_preferences":
             component = <TeamPreferences teams={teams} changePreferredMatchDays={changePreferredMatchDays} />
             step = 1
             stepLabel = "Set team preferences"
+
+            navNextLabel = "Set blackout slots"
+            navNext = () => setAppState("set_blackout_slots")
             break
         case "set_blackout_slots":
             component = <CalendarMonthGroup
@@ -97,6 +101,11 @@ function App() {
             />
             step = 2
             stepLabel = "Set blackout slots"
+
+            navPreviousLabel = "Set team preferences"
+            navPrevious = () => setAppState("set_team_preferences")
+            navNextLabel = "Generate schedule"
+            navNext = () => setAppState("edit_schedule")
             break
         case "edit_schedule":
             component = <CalendarMonthGroup
@@ -109,6 +118,9 @@ function App() {
             />
             step = 3
             stepLabel = "Review schedule"
+
+            navPreviousLabel = "Set blackout slots"
+            navPrevious = () => setAppState("set_blackout_slots")
             break
     }
 
@@ -116,7 +128,15 @@ function App() {
         <div className="App">
             <header>
                 <h1>USTA match scheduler</h1>
-                <h2><Step current={step} total={totalSteps} label={stepLabel} /></h2>
+                <h2>
+                    <Step current={step} total={totalSteps} label={stepLabel} />
+                    <Nav
+                        previous={navPrevious}
+                        previousLabel={navPreviousLabel}
+                        next={navNext}
+                        nextLabel={navNextLabel}
+                    />
+                </h2>
             </header>
             { component }
         </div>

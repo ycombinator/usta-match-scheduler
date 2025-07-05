@@ -44,9 +44,9 @@ export const CalendarMonth = ({year, month, setStartYearMonth, events, setEvent,
     return (
         <div className="calendar-month">
             <div className="header">
-                <a href="" onClick={goBack}><FontAwesomeIcon icon={faBackward} /></a>
+                <a href="#" onClick={goBack}><FontAwesomeIcon icon={faBackward} /></a>
                 <h3>{monthName} {year}</h3>
-                <a href="" onClick={goForward}><FontAwesomeIcon icon={faForward} /></a>
+                <a href="#" onClick={goForward}><FontAwesomeIcon icon={faForward} /></a>
             </div>
             <div className="calendar-week">
                 {weekdayNames}
