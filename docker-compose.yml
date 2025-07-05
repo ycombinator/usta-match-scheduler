@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.api
+    environment:
+      - USE_MOCK_DATA=true
     develop:
       watch:
         - action: rebuild
