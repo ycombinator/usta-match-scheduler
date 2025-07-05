@@ -14,6 +14,7 @@ function App() {
     const startMonth = startYearMonth.month
 
     const [events, setEvents] = useState([])
+    const [blackoutEvents, setBlackoutEvents] = useState([])
     // const [events, setEvents] = useState([
     //     { start: new Date("2025-07-08T16:00:00Z"), end: new Date("2025-07-08T20:00:00Z"), title: "Club social", type:"blackout", slot:"morning"},
     //     { start: new Date("2025-07-12T19:00:00Z"), end: new Date("2025-07-12T22:00:00Z"), title: "[W3.5] vs. Morgan Hill Tennis Club", type:"match", slot:"afternoon"},
@@ -105,8 +106,10 @@ function App() {
             navPreviousLabel = "Set team preferences"
             navPrevious = () => setAppState("set_team_preferences")
             navNextLabel = "Generate schedule"
-            navNext = () => {
-                // TODO: gather input data and call schedule generation API
+            navNext = async () => {
+                setBlackoutEvents(events)
+                const scheduleEvents = await generateSchedule(teams, events)
+                setEvents(scheduleEvents)
                 setAppState("edit_schedule")
             }
             break
@@ -123,7 +126,10 @@ function App() {
             stepLabel = "Review schedule"
 
             navPreviousLabel = "Set blackout slots"
-            navPrevious = () => setAppState("set_blackout_slots")
+            navPrevious = () => {
+                setEvents(blackoutEvents)
+                setAppState("set_blackout_slots")
+            }
             break
     }
 
