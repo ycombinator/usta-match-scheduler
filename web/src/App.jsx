@@ -105,7 +105,10 @@ function App() {
             navPreviousLabel = "Set team preferences"
             navPrevious = () => setAppState("set_team_preferences")
             navNextLabel = "Generate schedule"
-            navNext = () => setAppState("edit_schedule")
+            navNext = () => {
+                // TODO: gather input data and call schedule generation API
+                setAppState("edit_schedule")
+            }
             break
         case "edit_schedule":
             component = <CalendarMonthGroup
