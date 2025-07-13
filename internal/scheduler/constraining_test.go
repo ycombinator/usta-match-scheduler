@@ -431,14 +431,15 @@ func TestConstraining_Run(t *testing.T) {
 	tests := map[string]struct {
 		input    *models.Input
 		expected *models.Schedule
+		assertFn func(*testing.T, *models.Schedule)
 	}{
 		"no_teams": {
 			input: &models.Input{
 				Teams: nil,
 			},
-			expected: &models.Schedule{
-				ScheduledEvents:   []models.Event{},
-				UnscheduledEvents: []models.UnscheduledEvent{},
+			assertFn: func(t *testing.T, schedule *models.Schedule) {
+				require.Empty(t, schedule.ScheduledEvents)
+				require.Empty(t, schedule.UnscheduledEvents)
 			},
 		},
 		"one_team_one_week": {
@@ -458,16 +459,114 @@ func TestConstraining_Run(t *testing.T) {
 					},
 				},
 			},
-			expected: &models.Schedule{
-				ScheduledEvents: []models.Event{
+			assertFn: func(t *testing.T, schedule *models.Schedule) {
+				require.Equal(t, []models.Event{
 					{
 						Title: "M3.5 40+",
 						Type:  models.EventTypeMatch,
 						Date:  time.Date(2025, 7, 16, 0, 0, 0, 0, time.UTC),
 						Slot:  models.SlotEvening,
 					},
+				}, schedule.ScheduledEvents)
+				require.Empty(t, schedule.UnscheduledEvents)
+			},
+		},
+		"two_teams_same_week_different_day_preferences": {
+			input: &models.Input{
+				Teams: []models.SchedulingTeam{
+					{
+						Team: models.Team{
+							Name:          "M3.5 40+",
+							ScheduleGroup: models.TeamScheduleGroupEvening,
+						},
+						Weeks: []time.Time{
+							time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC),
+						},
+						DayPreferences: []time.Weekday{
+							time.Wednesday,
+						},
+					},
+					{
+						Team: models.Team{
+							Name:          "M4.0 40+",
+							ScheduleGroup: models.TeamScheduleGroupEvening,
+						},
+						Weeks: []time.Time{
+							time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC),
+						},
+						DayPreferences: []time.Weekday{
+							time.Tuesday,
+						},
+					},
 				},
-				UnscheduledEvents: []models.UnscheduledEvent{},
+			},
+			assertFn: func(t *testing.T, schedule *models.Schedule) {
+				require.Equal(t, []models.Event{
+					{
+						Title: "M3.5 40+",
+						Type:  models.EventTypeMatch,
+						Date:  time.Date(2025, 7, 16, 0, 0, 0, 0, time.UTC),
+						Slot:  models.SlotEvening,
+					},
+					{
+						Title: "M4.0 40+",
+						Type:  models.EventTypeMatch,
+						Date:  time.Date(2025, 7, 15, 0, 0, 0, 0, time.UTC),
+						Slot:  models.SlotEvening,
+					},
+				}, schedule.ScheduledEvents)
+				require.Empty(t, schedule.UnscheduledEvents)
+			},
+		},
+		"two_teams_same_week_same_day_preferences": {
+			input: &models.Input{
+				Teams: []models.SchedulingTeam{
+					{
+						Team: models.Team{
+							Name:          "M3.5 40+",
+							ScheduleGroup: models.TeamScheduleGroupEvening,
+						},
+						Weeks: []time.Time{
+							time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC),
+						},
+						DayPreferences: []time.Weekday{
+							time.Thursday,
+						},
+					},
+					{
+						Team: models.Team{
+							Name:          "M4.0 40+",
+							ScheduleGroup: models.TeamScheduleGroupEvening,
+						},
+						Weeks: []time.Time{
+							time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC),
+						},
+						DayPreferences: []time.Weekday{
+							time.Thursday,
+						},
+					},
+				},
+			},
+			assertFn: func(t *testing.T, schedule *models.Schedule) {
+				// Assert that both matches are scheduled
+				require.Len(t, schedule.ScheduledEvents, 2)
+				require.Empty(t, schedule.UnscheduledEvents)
+
+				// Assert that there is one event scheduled
+				// for the teams' preferred day
+				isPreferredDayScheduled := false
+				for _, event := range schedule.ScheduledEvents {
+					if event.Date.Equal(time.Date(2025, 7, 17, 0, 0, 0, 0, time.UTC)) &&
+						event.Slot == models.SlotEvening {
+						isPreferredDayScheduled = true
+					} else {
+						t.Logf(
+							"Match for team [%s] scheduled on [%s] [%s] slot",
+							event.Title, event.Date.Format("2006-01-02"), event.Slot,
+						)
+					}
+				}
+				require.True(t, isPreferredDayScheduled)
 			},
 		},
 	}
@@ -477,7 +576,7 @@ func TestConstraining_Run(t *testing.T) {
 			c := NewConstraining(test.input)
 			schedule, err := c.Run()
 			require.NoError(t, err)
-			require.Equal(t, test.expected, schedule)
+			test.assertFn(t, schedule)
 		})
 	}
 }

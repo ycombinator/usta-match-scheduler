@@ -1,6 +1,7 @@
 package scheduler
 
 import (
+	"math/rand"
 	"slices"
 	"time"
 
@@ -78,7 +79,10 @@ func makeUnscheduledEvents(input *models.Input) []models.UnscheduledEvent {
 			event.Constraints.Required = append(event.Constraints.Required, dayConstraint, slotConstraint)
 
 			// Add preference constraints
-			dayPreferenceConstraint := models.DayPreferenceConstraint{Probabilities: dayPreferenceProbabilities}
+			dayPreferenceConstraint := models.DayPreferenceConstraint{
+				Probabilities: dayPreferenceProbabilities,
+				PreferredDays: team.DayPreferences,
+			}
 			event.Constraints.Preferences = append(event.Constraints.Preferences, dayPreferenceConstraint)
 
 			events = append(events, event)
@@ -90,20 +94,15 @@ func makeUnscheduledEvents(input *models.Input) []models.UnscheduledEvent {
 
 func (c *Constraining) Run() (*models.Schedule, error) {
 	// Loop over candidate events, checking if each one fits any of
-	// the unscheduled events. If it does, schedule it.
+	// the unscheduled events. If it does, schedule it. Also, keep track
+	// of any unscheduled events that could not be scheduled.
 	scheduledEvents := make([]models.Event, 0)
-
-	unscheduledEvents := make([]models.UnscheduledEvent, len(c.unscheduledEvents))
-	copy(unscheduledEvents, c.unscheduledEvents)
-	if unscheduledEvents == nil {
-		unscheduledEvents = []models.UnscheduledEvent{}
-	}
+	unscheduledEvents := make([]models.UnscheduledEvent, 0)
 
 	candidateEvents := make([]models.Event, len(c.candidateEvents))
 	copy(candidateEvents, c.candidateEvents)
 
-	for unscheduledIdx, unscheduledEvent := range c.unscheduledEvents {
-		unscheduledIdxToRemove := -1
+	for _, unscheduledEvent := range c.unscheduledEvents {
 		candidateIdxToRemove := -1
 		for candidateIdx, candidateEvent := range candidateEvents {
 			if !unscheduledEvent.MatchRequired(candidateEvent) {
@@ -120,30 +119,33 @@ func (c *Constraining) Run() (*models.Schedule, error) {
 
 			// Candidate event is a good fit for this unscheduled event, so let's
 			// schedule it. Since candidate event has been scheduled, we can no longer
-			// use it to match against the remaining unscheduled events so we break out
-			// and start over with the next candidate event and an updated list of
-			// unscheduled events.
+			// use it to match against the remaining unscheduled events. So we break out
+			// and remove the scheduled candidate event from the list of candidate events.
 			candidateEvent.Title = unscheduledEvent.Event.Title
 			scheduledEvents = append(scheduledEvents, candidateEvent)
-			unscheduledIdxToRemove = unscheduledIdx
 			candidateIdxToRemove = candidateIdx
 			break
 		}
 
-		if unscheduledIdxToRemove > -1 {
-			unscheduledEvents = removeFromEvents[models.UnscheduledEvent](unscheduledEvents, unscheduledIdxToRemove)
-		}
-
 		if candidateIdxToRemove > -1 {
+			// Event was scheduled, so we remove the corresponding candidate event.
 			candidateEvents = removeFromEvents[models.Event](candidateEvents, candidateIdxToRemove)
+		} else {
+			// Event did not get scheduled, so we add it to the list of unscheduled events.
+			unscheduledEvents = append(unscheduledEvents, unscheduledEvent)
 		}
 	}
 
 	// At this point, we may still have some unscheduled events so let's go ahead and
 	// schedule them only taking their required constraints into account. Note that we only
-	// consider any remaining candidate events for scheduling.
+	// consider any remaining candidate events for scheduling. Also, we randomize these
+	// remaining candidate events so scheduling isn't front-heavy
+	candidateEvents = randomizeSlice(candidateEvents)
+
+	finalUnscheduledEvents := make([]models.UnscheduledEvent, 0)
 	for _, unscheduledEvent := range unscheduledEvents {
-		for _, candidateEvent := range candidateEvents {
+		candidateIdxToRemove := -1
+		for candidateIdx, candidateEvent := range candidateEvents {
 			if !unscheduledEvent.MatchRequired(candidateEvent) {
 				// Candidate event is not a fit for this unscheduled event; move
 				// on to next unscheduled event.
@@ -154,6 +156,16 @@ func (c *Constraining) Run() (*models.Schedule, error) {
 			// schedule it.
 			candidateEvent.Title = unscheduledEvent.Event.Title
 			scheduledEvents = append(scheduledEvents, candidateEvent)
+			candidateIdxToRemove = candidateIdx
+			break
+		}
+
+		if candidateIdxToRemove > -1 {
+			// Event was scheduled, so we remove the corresponding candidate event.
+			candidateEvents = removeFromEvents[models.Event](candidateEvents, candidateIdxToRemove)
+		} else {
+			// Event was not scheduled
+			finalUnscheduledEvents = append(finalUnscheduledEvents, unscheduledEvent)
 		}
 	}
 
@@ -161,7 +173,7 @@ func (c *Constraining) Run() (*models.Schedule, error) {
 	// of these at this point but better to return any than silently dropping them).
 	s := models.Schedule{
 		ScheduledEvents:   scheduledEvents,
-		UnscheduledEvents: unscheduledEvents,
+		UnscheduledEvents: finalUnscheduledEvents,
 	}
 	return &s, nil
 }
@@ -225,4 +237,31 @@ func computeDayPreferenceProbabilities(teams []models.SchedulingTeam) map[time.W
 	}
 
 	return probabilities
+}
+
+func randSliceOfIntegers(size int) []int {
+	seen := make(map[int]struct{}, size)
+
+	output := make([]int, 0)
+	for len(output) < size {
+		value := rand.Intn(size)
+		if _, exists := seen[value]; exists {
+			// Value is already in output slice; try again
+			continue
+		}
+
+		seen[value] = struct{}{}
+		output = append(output, value)
+	}
+
+	return output
+}
+
+func randomizeSlice[T any](slice []T) []T {
+	randomizedIndices := randSliceOfIntegers(len(slice))
+	output := make([]T, len(slice))
+	for idx, randomizedIdx := range randomizedIndices {
+		output[randomizedIdx] = slice[idx]
+	}
+	return output
 }

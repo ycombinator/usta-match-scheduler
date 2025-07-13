@@ -2,6 +2,7 @@ package models
 
 import (
 	"math/rand"
+	"slices"
 	"time"
 )
 
@@ -49,9 +50,20 @@ func (dc DayConstraint) CanSchedule(candidateEvent Event) bool {
 
 type DayPreferenceConstraint struct {
 	Probabilities map[time.Weekday]float64
+	PreferredDays []time.Weekday
 }
 
 func (dpc DayPreferenceConstraint) ShouldSchedule(candidateEvent Event) bool {
+	// If no preferred days are specified, return true
+	if len(dpc.PreferredDays) == 0 {
+		return true
+	}
+
+	// If the candidate event's weekday is not in the preferred days, return false
+	if !slices.Contains(dpc.PreferredDays, candidateEvent.Date.Weekday()) {
+		return false
+	}
+
 	probability := dpc.Probabilities[candidateEvent.Date.Weekday()]
 	return rand.Float64() <= probability
 }

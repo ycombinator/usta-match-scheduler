@@ -27,3 +27,16 @@ func (event Event) OverlapsWith(anotherEvent Event) bool {
 func (event Event) IsOnWeekend() bool {
 	return event.Date.Weekday() == time.Saturday || event.Date.Weekday() == time.Sunday
 }
+
+type ComparableEvent interface {
+	ID() string
+	IsEqualTo(another ComparableEvent) bool
+}
+
+func (event Event) ID() string {
+	return event.Date.Format("2006-01-02") + "-" + string(event.Slot)
+}
+
+func (event Event) IsEqualTo(another ComparableEvent) bool {
+	return event.ID() == another.ID()
+}
