@@ -97,5 +97,333 @@ func TestIsWeekend(t *testing.T) {
 			require.Equal(t, test.expected, actual)
 		})
 	}
+}
+
+func TestMakeCandidateEvents(t *testing.T) {
+	tests := map[string]struct {
+		input    *models.Input
+		expected []models.Event
+	}{
+		"no_blackout_events": {
+			input: &models.Input{
+				Teams: []models.SchedulingTeam{
+					{
+						Weeks: []time.Time{
+							time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC),
+						},
+					},
+				},
+				Events: []models.Event{},
+			},
+			expected: []models.Event{
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 15, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 15, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 16, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 16, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 17, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 17, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 18, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 18, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 19, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 19, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 19, 0, 0, 0, 0, time.UTC), Slot: models.SlotAfternoon},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 20, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 20, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 20, 0, 0, 0, 0, time.UTC), Slot: models.SlotAfternoon},
+			},
+		},
+		"all_blackout_events": {
+			input: &models.Input{
+				Teams: []models.SchedulingTeam{
+					{
+						Weeks: []time.Time{
+							time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC),
+						},
+					},
+				},
+				Events: []models.Event{
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 15, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 15, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 16, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 16, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 17, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 17, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 18, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 18, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 19, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 19, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 19, 0, 0, 0, 0, time.UTC), Slot: models.SlotAfternoon},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 20, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 20, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 20, 0, 0, 0, 0, time.UTC), Slot: models.SlotAfternoon},
+				},
+			},
+			expected: []models.Event{},
+		},
+		"some_blackout_events": {
+			input: &models.Input{
+				Teams: []models.SchedulingTeam{
+					{
+						Weeks: []time.Time{
+							time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC),
+						},
+					},
+				},
+				Events: []models.Event{
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 15, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 16, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 16, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 17, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 17, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 18, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 19, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 19, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 19, 0, 0, 0, 0, time.UTC), Slot: models.SlotAfternoon},
+					{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 20, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+				},
+			},
+			expected: []models.Event{
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 15, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 18, 0, 0, 0, 0, time.UTC), Slot: models.SlotMorning},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 20, 0, 0, 0, 0, time.UTC), Slot: models.SlotEvening},
+				{Type: models.EventTypeMatch, Date: time.Date(2025, 7, 20, 0, 0, 0, 0, time.UTC), Slot: models.SlotAfternoon},
+			},
+		},
+	}
+
+	for name, test := range tests {
+		t.Run(name, func(t *testing.T) {
+			actual := makeCandidateEvents(test.input)
+			require.Equal(t, test.expected, actual)
+		})
+	}
+}
+
+func TestMakeUnscheduledEvents(t *testing.T) {
+	tests := map[string]struct {
+		input       *models.Input
+		expected    []models.UnscheduledEvent
+		expectedErr string
+	}{
+		"one_team_one_week": {
+			input: &models.Input{
+				Teams: []models.SchedulingTeam{
+					{
+						Team: models.Team{
+							Name:          "M3.5 40+",
+							ScheduleGroup: models.TeamScheduleGroupDaytime,
+						},
+						Weeks: []time.Time{
+							time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC),
+						},
+					},
+				},
+			},
+			expected: []models.UnscheduledEvent{
+				{
+					Event: models.Event{
+						Title: "M3.5 40+",
+						Type:  models.EventTypeMatch,
+					},
+					Constraints: models.Constraints{
+						Required: []models.FilterConstraint{
+							models.DayConstraint{
+								NotBefore: time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC),
+								Before:    time.Date(2025, 7, 21, 0, 0, 0, 0, time.UTC),
+							},
+							models.SlotConstraint{TeamScheduleGroup: models.TeamScheduleGroupDaytime},
+						},
+					},
+				},
+			},
+		},
+		"one_team_two_weeks": {
+			input: &models.Input{
+				Teams: []models.SchedulingTeam{
+					{
+						Team: models.Team{
+							Name:          "M3.5 40+",
+							ScheduleGroup: models.TeamScheduleGroupDaytime,
+						},
+						Weeks: []time.Time{
+							time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC),
+							time.Date(2025, 7, 28, 0, 0, 0, 0, time.UTC),
+						},
+					},
+				},
+			},
+			expected: []models.UnscheduledEvent{
+				{
+					Event: models.Event{
+						Title: "M3.5 40+",
+						Type:  models.EventTypeMatch,
+					},
+					Constraints: models.Constraints{
+						Required: []models.FilterConstraint{
+							models.DayConstraint{
+								NotBefore: time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC),
+								Before:    time.Date(2025, 7, 21, 0, 0, 0, 0, time.UTC),
+							},
+							models.SlotConstraint{TeamScheduleGroup: models.TeamScheduleGroupDaytime},
+						},
+					},
+				},
+				{
+					Event: models.Event{
+						Title: "M3.5 40+",
+						Type:  models.EventTypeMatch,
+					},
+					Constraints: models.Constraints{
+						Required: []models.FilterConstraint{
+							models.DayConstraint{
+								NotBefore: time.Date(2025, 7, 28, 0, 0, 0, 0, time.UTC),
+								Before:    time.Date(2025, 8, 4, 0, 0, 0, 0, time.UTC),
+							},
+							models.SlotConstraint{TeamScheduleGroup: models.TeamScheduleGroupDaytime},
+						},
+					},
+				},
+			},
+		},
+		"two_teams_same_week": {
+			input: &models.Input{
+				Teams: []models.SchedulingTeam{
+					{
+						Team: models.Team{
+							Name:          "M3.5 40+ DT",
+							ScheduleGroup: models.TeamScheduleGroupDaytime,
+						},
+						Weeks: []time.Time{
+							time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC),
+						},
+					},
+					{
+						Team: models.Team{
+							Name:          "W3.5 40+",
+							ScheduleGroup: models.TeamScheduleGroupEvening,
+						},
+						Weeks: []time.Time{
+							time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC),
+						},
+					},
+				},
+			},
+			expected: []models.UnscheduledEvent{
+				{
+					Event: models.Event{
+						Title: "M3.5 40+ DT",
+						Type:  models.EventTypeMatch,
+					},
+					Constraints: models.Constraints{
+						Required: []models.FilterConstraint{
+							models.DayConstraint{
+								NotBefore: time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC),
+								Before:    time.Date(2025, 7, 21, 0, 0, 0, 0, time.UTC),
+							},
+							models.SlotConstraint{TeamScheduleGroup: models.TeamScheduleGroupDaytime},
+						},
+					},
+				},
+				{
+					Event: models.Event{
+						Title: "W3.5 40+",
+						Type:  models.EventTypeMatch,
+					},
+					Constraints: models.Constraints{
+						Required: []models.FilterConstraint{
+							models.DayConstraint{
+								NotBefore: time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC),
+								Before:    time.Date(2025, 7, 21, 0, 0, 0, 0, time.UTC),
+							},
+							models.SlotConstraint{TeamScheduleGroup: models.TeamScheduleGroupEvening},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	for name, test := range tests {
+		t.Run(name, func(t *testing.T) {
+			actual := makeUnscheduledEvents(test.input)
+			require.Equal(t, test.expected, actual)
+		})
+	}
+}
+
+func TestRemoveFromUnScheduled(t *testing.T) {
+	tests := map[string]struct {
+		unscheduledEvents []models.UnscheduledEvent
+		idxToRemove       int
+		expected          []models.UnscheduledEvent
+	}{
+		"nothing_to_remove": {
+			unscheduledEvents: []models.UnscheduledEvent{
+				{
+					Event: models.Event{
+						Title: "M3.5 40+ DT",
+						Type:  models.EventTypeMatch,
+						Slot:  models.SlotMorning,
+					},
+				},
+			},
+			idxToRemove: -1,
+			expected: []models.UnscheduledEvent{
+				{
+					Event: models.Event{
+						Title: "M3.5 40+ DT",
+						Type:  models.EventTypeMatch,
+						Slot:  models.SlotMorning,
+					},
+				},
+			},
+		},
+		"no_unscheduled_events": {
+			unscheduledEvents: []models.UnscheduledEvent{},
+			idxToRemove:       3,
+			expected:          []models.UnscheduledEvent{},
+		},
+		"remove_second": {
+			unscheduledEvents: []models.UnscheduledEvent{
+				{
+					Event: models.Event{
+						Title: "M3.5 40+ DT",
+						Type:  models.EventTypeMatch,
+						Slot:  models.SlotMorning,
+					},
+				},
+				{
+					Event: models.Event{
+						Title: "W3.5 40+",
+						Type:  models.EventTypeMatch,
+						Slot:  models.SlotEvening,
+					},
+				},
+			},
+			idxToRemove: 1,
+			expected: []models.UnscheduledEvent{
+				{
+					Event: models.Event{
+						Title: "M3.5 40+ DT",
+						Type:  models.EventTypeMatch,
+						Slot:  models.SlotMorning,
+					},
+				},
+			},
+		},
+	}
+
+	for name, test := range tests {
+		t.Run(name, func(t *testing.T) {
+			actual := removeFromUnScheduled(test.unscheduledEvents, test.idxToRemove)
+			require.Equal(t, test.expected, actual)
+		})
+	}
 
 }

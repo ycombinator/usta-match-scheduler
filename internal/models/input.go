@@ -34,12 +34,18 @@ type startTimes struct {
 
 func (i *Input) FirstDayOfMatches() *time.Time {
 	startDates := sortStartDates(i.Teams)
+	if len(startDates) == 0 {
+		return nil
+	}
 	startDate := startDates[0]
 	return &startDate
 }
 
 func (i *Input) LastDayOfMatches() *time.Time {
 	startDates := sortStartDates(i.Teams)
+	if len(startDates) == 0 {
+		return nil
+	}
 	finalStartDate := startDates[len(startDates)-1]
 	finalStartDate = finalStartDate.Add(6 * 24 * time.Hour)
 

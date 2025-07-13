@@ -55,7 +55,7 @@ func (ue UnscheduledEvent) Match(candidateEvent Event) float64 {
 		}
 	}
 
-	var finalScore float64
+	finalScore := 1.0
 	for _, sc := range ue.Constraints.Preferences {
 		score := sc.Score(candidateEvent)
 

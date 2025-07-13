@@ -1,7 +1,6 @@
 package scheduler
 
 import (
-	"fmt"
 	"slices"
 	"time"
 
@@ -13,24 +12,17 @@ type Constraining struct {
 	candidateEvents   []models.Event
 }
 
-func NewConstraining(input *models.Input) (*Constraining, error) {
-	candidateEvents, err := makeCandidateEvents(input)
-	if err != nil {
-		return nil, fmt.Errorf("failed to generate list of candidate events: %w", err)
-	}
-
-	unscheduledEvents, err := makeUnscheduledEvents(input)
-	if err != nil {
-		return nil, fmt.Errorf("failed to generated list of unscheduled events: %w", err)
-	}
+func NewConstraining(input *models.Input) *Constraining {
+	candidateEvents := makeCandidateEvents(input)
+	unscheduledEvents := makeUnscheduledEvents(input)
 
 	return &Constraining{
 		unscheduledEvents: unscheduledEvents,
 		candidateEvents:   candidateEvents,
-	}, nil
+	}
 }
 
-func makeCandidateEvents(input *models.Input) ([]models.Event, error) {
+func makeCandidateEvents(input *models.Input) []models.Event {
 	firstDayOfMatches := input.FirstDayOfMatches()
 	lastDayOfMatches := input.LastDayOfMatches()
 
@@ -58,10 +50,10 @@ func makeCandidateEvents(input *models.Input) ([]models.Event, error) {
 			}
 		}
 	}
-	return candidateEvents, nil
+	return candidateEvents
 }
 
-func makeUnscheduledEvents(input *models.Input) ([]models.UnscheduledEvent, error) {
+func makeUnscheduledEvents(input *models.Input) []models.UnscheduledEvent {
 	// Make list of match events with constraints in each
 	events := make([]models.UnscheduledEvent, 0)
 	for _, team := range input.Teams {
@@ -85,7 +77,7 @@ func makeUnscheduledEvents(input *models.Input) ([]models.UnscheduledEvent, erro
 		}
 	}
 
-	return events, nil
+	return events
 }
 
 func (c *Constraining) Run() (*models.Schedule, error) {
@@ -93,26 +85,18 @@ func (c *Constraining) Run() (*models.Schedule, error) {
 	// the unscheduled events. If it does, schedule it.
 	scheduledEvents := make([]models.Event, 0)
 	unscheduledEvents := c.unscheduledEvents
+	idxToRemove := -1
 	for _, candidateEvent := range c.candidateEvents {
-
-		removeScheduled(unscheduledEvents, scheduledEvents)
-		for _, unscheduledEvent := range c.unscheduledEvents {
-			// Make sure ALL required constraints are met
-			areAllRequiredConstraintsMet := true
-			for _, requiredConstraint := range unscheduledEvent.Constraints.Required {
-				if !requiredConstraint.CanSchedule(candidateEvent) {
-					areAllRequiredConstraintsMet = false
-					break
-				}
-			}
-
-			if !areAllRequiredConstraintsMet {
+		unscheduledEvents = removeFromUnScheduled(unscheduledEvents, idxToRemove)
+		for idx, unscheduledEvent := range unscheduledEvents {
+			score := unscheduledEvent.Match(candidateEvent)
+			if score == 0 {
 				// Candidate event is not a fit for this unscheduled event; move
 				// on to next unscheduled event.
 				continue
 			}
 
-			// TODO: check preference constraints
+			// TODO: do something with the score! LOL!!
 
 			// Candidate event is a good fit for this unscheduled event, so let's
 			// schedule it. Since candidate event has been scheduled, we can no longer
@@ -120,6 +104,7 @@ func (c *Constraining) Run() (*models.Schedule, error) {
 			// and start over with the next candidate event and an updated list of
 			// unscheduled events.
 			scheduledEvents = append(scheduledEvents, candidateEvent)
+			idxToRemove = idx
 			break
 		}
 	}
@@ -155,15 +140,14 @@ func isEventBlackedOut(candidateEvent models.Event, blackoutEvents []models.Even
 	return false
 }
 
-// removeScheduled removes any scheduled events from the unscheduled events list, modifying
-// it in place.
-func removeScheduled(unscheduledEvents []models.UnscheduledEvent, scheduledEvents []models.Event) {
-	for _, scheduledEvent := range scheduledEvents {
-		for idx, unscheduledEvent := range unscheduledEvents {
-			if unscheduledEvent.Event == scheduledEvent {
-				unscheduledEvents = slices.Delete(unscheduledEvents, idx, idx+1)
-				break
-			}
-		}
+// removeFromUnScheduled removes the event with the given index from the
+// unscheduled events list and returns the updated unscheduled events list
+func removeFromUnScheduled(unscheduledEvents []models.UnscheduledEvent, idxToRemove int) []models.UnscheduledEvent {
+	if idxToRemove < 0 {
+		return unscheduledEvents
 	}
+	if len(unscheduledEvents) == 0 {
+		return unscheduledEvents
+	}
+	return slices.Delete(unscheduledEvents, idxToRemove, idxToRemove+1)
 }
