@@ -357,7 +357,7 @@ func TestMakeUnscheduledEvents(t *testing.T) {
 	}
 }
 
-func TestRemoveFromUnScheduled(t *testing.T) {
+func TestRemoveFromEvents(t *testing.T) {
 	tests := map[string]struct {
 		unscheduledEvents []models.UnscheduledEvent
 		idxToRemove       int
@@ -421,9 +421,63 @@ func TestRemoveFromUnScheduled(t *testing.T) {
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			actual := removeFromUnScheduled(test.unscheduledEvents, test.idxToRemove)
+			actual := removeFromEvents[models.UnscheduledEvent](test.unscheduledEvents, test.idxToRemove)
 			require.Equal(t, test.expected, actual)
 		})
 	}
+}
 
+func TestConstraining_Run(t *testing.T) {
+	tests := map[string]struct {
+		input    *models.Input
+		expected *models.Schedule
+	}{
+		"no_teams": {
+			input: &models.Input{
+				Teams: nil,
+			},
+			expected: &models.Schedule{
+				ScheduledEvents:   []models.Event{},
+				UnscheduledEvents: []models.UnscheduledEvent{},
+			},
+		},
+		"one_team_one_week": {
+			input: &models.Input{
+				Teams: []models.SchedulingTeam{
+					{
+						Team: models.Team{
+							Name:          "M3.5 40+",
+							ScheduleGroup: models.TeamScheduleGroupEvening,
+						},
+						Weeks: []time.Time{
+							time.Date(2025, 7, 14, 0, 0, 0, 0, time.UTC),
+						},
+						DayPreferences: []time.Weekday{
+							time.Wednesday,
+						},
+					},
+				},
+			},
+			expected: &models.Schedule{
+				ScheduledEvents: []models.Event{
+					{
+						Title: "M3.5 40+",
+						Type:  models.EventTypeMatch,
+						Date:  time.Date(2025, 7, 16, 0, 0, 0, 0, time.UTC),
+						Slot:  models.SlotEvening,
+					},
+				},
+				UnscheduledEvents: []models.UnscheduledEvent{},
+			},
+		},
+	}
+
+	for name, test := range tests {
+		t.Run(name, func(t *testing.T) {
+			c := NewConstraining(test.input)
+			schedule, err := c.Run()
+			require.NoError(t, err)
+			require.Equal(t, test.expected, schedule)
+		})
+	}
 }

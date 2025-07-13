@@ -1,6 +1,9 @@
 package models
 
-import "time"
+import (
+	"math/rand"
+	"time"
+)
 
 type UnscheduledEvent struct {
 	Event
@@ -8,16 +11,16 @@ type UnscheduledEvent struct {
 }
 
 type Constraints struct {
-	Required    []FilterConstraint  `json:"required"`
-	Preferences []ScoringConstraint `json:"preferences"`
+	Required    []FilterConstraint        `json:"required"`
+	Preferences []ProbabilisticConstraint `json:"preferences"`
 }
 
 type FilterConstraint interface {
 	CanSchedule(candidateEvent Event) bool
 }
 
-type ScoringConstraint interface {
-	Score(candidateEvent Event) float64
+type ProbabilisticConstraint interface {
+	ShouldSchedule(candidateEvent Event) bool
 }
 
 type SlotConstraint struct{ TeamScheduleGroup TeamScheduleGroup }
@@ -44,24 +47,33 @@ func (dc DayConstraint) CanSchedule(candidateEvent Event) bool {
 	return !candidateEvent.Date.Before(dc.NotBefore) && candidateEvent.Date.Before(dc.Before)
 }
 
-// TODO: what about broader considerations, e.g. all UnscheduledEvents or all
-// candidate UnscheduledEvents?
-func (ue UnscheduledEvent) Match(candidateEvent Event) float64 {
-	// Return a score of zero if candidate event fails to meet
+type DayPreferenceConstraint struct {
+	Probabilities map[time.Weekday]float64
+}
+
+func (dpc DayPreferenceConstraint) ShouldSchedule(candidateEvent Event) bool {
+	probability := dpc.Probabilities[candidateEvent.Date.Weekday()]
+	return rand.Float64() <= probability
+}
+
+func (ue UnscheduledEvent) MatchRequired(candidateEvent Event) bool {
+	// Return false if candidate event fails to meet
 	// *any* of the unscheduled event's required constraints.
 	for _, fc := range ue.Constraints.Required {
 		if !fc.CanSchedule(candidateEvent) {
-			return 0.0
+			return false
 		}
 	}
+	return true
+}
 
-	finalScore := 1.0
-	for _, sc := range ue.Constraints.Preferences {
-		score := sc.Score(candidateEvent)
-
-		// TODO: think about how to combine scores from scoring constraints
-		finalScore = score
+func (ue UnscheduledEvent) MatchPreferences(candidateEvent Event) bool {
+	// Return true if candidate event meets *any* of the unscheduled
+	// event's preference constraints.
+	for _, pc := range ue.Constraints.Preferences {
+		if pc.ShouldSchedule(candidateEvent) {
+			return true
+		}
 	}
-
-	return finalScore
+	return false
 }

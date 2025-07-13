@@ -3,8 +3,8 @@ package models
 import "time"
 
 type Schedule struct {
-	ScheduledEvents   []Event
-	UnscheduledEvents []UnscheduledEvent
+	ScheduledEvents   []Event            `json:"scheduled_events"`
+	UnscheduledEvents []UnscheduledEvent `json:"unscheduled_events"`
 }
 
 //type Schedule struct {
