@@ -14,6 +14,27 @@ const (
 	TeamScheduleGroupEvening TeamScheduleGroup = "Evening"
 )
 
+func (tsg TeamScheduleGroup) AllowedSlots(isWeekend bool) []DaySlot {
+	switch tsg {
+	case TeamScheduleGroupDaytime:
+		// Source: https://www.usta.com/content/dam/usta/sections/northern-california/norcal/pdfs/leagues/resources/2025-combined-ulr-norcal-llar-11-14-2024.pdf#page=26
+		if isWeekend {
+			return []DaySlot{}
+		} else {
+			return []DaySlot{SlotMorning}
+		}
+	case TeamScheduleGroupEvening:
+		// Source: https://www.usta.com/content/dam/usta/sections/northern-california/norcal/pdfs/leagues/resources/2025-combined-ulr-norcal-llar-11-14-2024.pdf#page=24
+		if isWeekend {
+			return []DaySlot{SlotMorning, SlotAfternoon, SlotEvening}
+		} else {
+			return []DaySlot{SlotEvening}
+		}
+	default:
+		return []DaySlot{}
+	}
+}
+
 type TeamType string
 
 const (
@@ -50,8 +71,17 @@ type TeamMatch struct {
 
 type SchedulingTeam struct {
 	Team
-	DayPreferences []string `yaml:"day_preferences"`
-	Weeks          []string `yaml:"weeks"`
+	DayPreferences []time.Weekday `yaml:"day_preferences"`
+	Weeks          []time.Time    `yaml:"weeks"`
+}
+
+func (st *SchedulingTeam) HasPreferenceFor(day time.Weekday) bool {
+	for _, preference := range st.DayPreferences {
+		if preference == day {
+			return true
+		}
+	}
+	return false
 }
 
 func (t *Team) SetRawName(rawName string) error {

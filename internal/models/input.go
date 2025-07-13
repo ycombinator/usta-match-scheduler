@@ -1,17 +1,21 @@
 package models
 
 import (
-	"slices"
+	"sort"
 	"time"
 )
 
+type DaySlot string
+
+const (
+	SlotMorning   DaySlot = "morning"
+	SlotAfternoon DaySlot = "afternoon"
+	SlotEvening   DaySlot = "evening"
+)
+
 type Input struct {
-	Teams           map[string]SchedulingTeam `yaml:"teams"`
-	SchedulingTypes struct {
-		Daytime schedulingType
-		Evening schedulingType
-	} `yaml:"scheduling_types"`
-	BlackoutDates []string `yaml:"blackout_dates"`
+	Teams  []SchedulingTeam `json:"teams"`
+	Events []Event          `json:"events"`
 }
 
 type schedulingType struct {
@@ -28,33 +32,23 @@ type startTimes struct {
 	Sunday    string `yaml:"sunday"`
 }
 
-func (i *Input) FirstDayOfMatches() (*time.Time, error) {
-	var startDates []string
-	for _, team := range i.Teams {
-		if len(team.Weeks) == 0 {
-			continue
-		}
-
-		startDates = append(startDates, team.Weeks...)
-	}
-
-	if len(startDates) == 0 {
-		return nil, nil
-	}
-
-	slices.Sort(startDates)
-
-	startDate, err := time.Parse("20060102", startDates[0])
-	if err != nil {
-		return nil, err
-	}
-
-	return &startDate, nil
+func (i *Input) FirstDayOfMatches() *time.Time {
+	startDates := sortStartDates(i.Teams)
+	startDate := startDates[0]
+	return &startDate
 }
 
-func (i *Input) LastDayOfMatches() (*time.Time, error) {
-	var startDates []string
-	for _, team := range i.Teams {
+func (i *Input) LastDayOfMatches() *time.Time {
+	startDates := sortStartDates(i.Teams)
+	finalStartDate := startDates[len(startDates)-1]
+	finalStartDate = finalStartDate.Add(6 * 24 * time.Hour)
+
+	return &finalStartDate
+}
+
+func sortStartDates(teams []SchedulingTeam) []time.Time {
+	var startDates []time.Time
+	for _, team := range teams {
 		if len(team.Weeks) == 0 {
 			continue
 		}
@@ -63,17 +57,12 @@ func (i *Input) LastDayOfMatches() (*time.Time, error) {
 	}
 
 	if len(startDates) == 0 {
-		return nil, nil
+		return nil
 	}
 
-	slices.Sort(startDates)
-	slices.Reverse(startDates)
+	sort.Slice(startDates, func(i, j int) bool {
+		return startDates[i].Before(startDates[j])
+	})
 
-	finalStartDate, err := time.Parse("20060102", startDates[0])
-	if err != nil {
-		return nil, err
-	}
-	finalStartDate = finalStartDate.Add(6 * 24 * time.Hour)
-
-	return &finalStartDate, nil
+	return startDates
 }

@@ -2,52 +2,51 @@ package scheduler
 
 import (
 	"fmt"
-	"slices"
 	"strings"
 	"time"
 
 	"github.com/ycombinator/usta-match-scheduler/internal/models"
 )
 
-func mapTeamsByWeek(teams []models.Team) map[string][]models.Team {
-	teamsByWeek := map[string][]models.Team{}
-	for _, team := range teams {
-		weeks := team.Weeks
-		if len(weeks) == 0 {
-			continue
-		}
+//func mapTeamsByWeek(teams []models.SchedulingTeam) map[string][]models.SchedulingTeam {
+//	teamsByWeek := map[string][]models.SchedulingTeam{}
+//	for _, team := range teams {
+//		weeks := team.Weeks
+//		if len(weeks) == 0 {
+//			continue
+//		}
+//
+//		slices.Sort(weeks)
+//		for _, week := range weeks {
+//			// Initialize if needed
+//			if _, exists := teamsByWeek[week]; !exists {
+//				teamsByWeek[week] = []models.SchedulingTeam{}
+//			}
+//
+//			teamsByWeek[week] = append(teamsByWeek[week], team)
+//		}
+//	}
+//
+//	return teamsByWeek
+//}
 
-		slices.Sort(weeks)
-		for _, week := range weeks {
-			// Initialize if needed
-			if _, exists := teamsByWeek[week]; !exists {
-				teamsByWeek[week] = []models.Team{}
-			}
-
-			teamsByWeek[week] = append(teamsByWeek[week], team)
-		}
-	}
-
-	return teamsByWeek
-}
-
-func teamsThatPreferDay(teams []models.Team, day time.Weekday) ([]models.Team, error) {
-	teamsThatPreferDay := make([]models.Team, 0)
-	for _, team := range teams {
-		for _, preferredDay := range team.DayPreferences {
-			weekday, err := weekdayFromStr(preferredDay)
-			if err != nil {
-				return nil, fmt.Errorf("cannot parse preferred day [%s] for team [%s]: %w", preferredDay, team.Name, err)
-			}
-
-			if weekday == day {
-				teamsThatPreferDay = append(teamsThatPreferDay, team)
-			}
-		}
-	}
-
-	return teamsThatPreferDay, nil
-}
+//func teamsThatPreferDay(teams []models.Team, day time.Weekday) ([]models.Team, error) {
+//	teamsThatPreferDay := make([]models.Team, 0)
+//	for _, team := range teams {
+//		for _, preferredDay := range team.DayPreferences {
+//			weekday, err := weekdayFromStr(preferredDay)
+//			if err != nil {
+//				return nil, fmt.Errorf("cannot parse preferred day [%s] for team [%s]: %w", preferredDay, team.Name, err)
+//			}
+//
+//			if weekday == day {
+//				teamsThatPreferDay = append(teamsThatPreferDay, team)
+//			}
+//		}
+//	}
+//
+//	return teamsThatPreferDay, nil
+//}
 
 func weekdayFromStr(day string) (time.Weekday, error) {
 	day = strings.ToLower(strings.TrimSpace(day))
@@ -90,10 +89,10 @@ func weekKey(dt time.Time) string {
 	return mondayDt.Format("20060102")
 }
 
-func filterTeamsBySchedulingType(teams map[string]models.Team, schedulingType string) []models.Team {
-	filtered := make([]models.Team, 0)
+func filterTeamsBySchedulingType(teams []models.SchedulingTeam, schedulingType models.TeamScheduleGroup) []models.SchedulingTeam {
+	filtered := make([]models.SchedulingTeam, 0)
 	for _, team := range teams {
-		if team.SchedulingType == schedulingType {
+		if team.ScheduleGroup == schedulingType {
 			filtered = append(filtered, team)
 		}
 	}

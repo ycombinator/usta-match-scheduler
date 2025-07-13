@@ -2,41 +2,28 @@ package models
 
 import "time"
 
-type Event struct {
-	title string
+type EventType string
 
-	startTime time.Time
-	endTime   time.Time
+const (
+	EventTypeMatch    EventType = "match"
+	EventTypeBlackout           = "blackout"
+)
+
+type Event struct {
+	Title string    `json:"title"`
+	Type  EventType `json:"type"`
+	Slot  DaySlot   `json:"slot"`
+
+	Date time.Time
+	//StartTime time.Time
+	//EndTime   time.Time
 }
 
 func (event Event) OverlapsWith(anotherEvent Event) bool {
-	if event.Includes(anotherEvent.startTime) {
-		return true
-	}
-
-	if event.Includes(anotherEvent.endTime) {
-		return true
-	}
-
-	if anotherEvent.Includes(event.startTime) {
-		return true
-	}
-
-	if anotherEvent.Includes(event.endTime) {
-		return true
-	}
-
-	return false
+	return event.Date == anotherEvent.Date &&
+		event.Slot == anotherEvent.Slot
 }
 
-func (event Event) Includes(t time.Time) bool {
-	if t.Before(event.startTime) {
-		return false
-	}
-
-	if t.After(event.endTime) {
-		return false
-	}
-
-	return true
+func (event Event) IsOnWeekend() bool {
+	return event.Date.Weekday() == time.Saturday || event.Date.Weekday() == time.Sunday
 }
