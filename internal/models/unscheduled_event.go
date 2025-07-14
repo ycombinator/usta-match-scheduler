@@ -21,7 +21,7 @@ type FilterConstraint interface {
 }
 
 type ProbabilisticConstraint interface {
-	ShouldSchedule(candidateEvent Event) bool
+	ShouldSchedule(candidateEvent Event, useProbability bool) bool
 }
 
 type SlotConstraint struct{ TeamScheduleGroup TeamScheduleGroup }
@@ -53,7 +53,7 @@ type DayPreferenceConstraint struct {
 	PreferredDays []time.Weekday
 }
 
-func (dpc DayPreferenceConstraint) ShouldSchedule(candidateEvent Event) bool {
+func (dpc DayPreferenceConstraint) ShouldSchedule(candidateEvent Event, useProbability bool) bool {
 	// If no preferred days are specified, return true
 	if len(dpc.PreferredDays) == 0 {
 		return true
@@ -64,8 +64,12 @@ func (dpc DayPreferenceConstraint) ShouldSchedule(candidateEvent Event) bool {
 		return false
 	}
 
-	probability := dpc.Probabilities[candidateEvent.Date.Weekday()]
-	return rand.Float64() <= probability
+	if useProbability {
+		probability := dpc.Probabilities[candidateEvent.Date.Weekday()]
+		return rand.Float64() <= probability
+	}
+
+	return true
 }
 
 func (ue UnscheduledEvent) MatchRequired(candidateEvent Event) bool {
@@ -79,11 +83,11 @@ func (ue UnscheduledEvent) MatchRequired(candidateEvent Event) bool {
 	return true
 }
 
-func (ue UnscheduledEvent) MatchPreferences(candidateEvent Event) bool {
+func (ue UnscheduledEvent) MatchPreferences(candidateEvent Event, useProbability bool) bool {
 	// Return true if candidate event meets *any* of the unscheduled
 	// event's preference constraints.
 	for _, pc := range ue.Constraints.Preferences {
-		if pc.ShouldSchedule(candidateEvent) {
+		if pc.ShouldSchedule(candidateEvent, useProbability) {
 			return true
 		}
 	}

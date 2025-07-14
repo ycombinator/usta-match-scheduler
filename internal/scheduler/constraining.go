@@ -92,12 +92,23 @@ func makeUnscheduledEvents(input *models.Input) []models.UnscheduledEvent {
 	return events
 }
 
+// Run generates a schedule in three passes:
+//   - In the first pass, it tries to schedule each unscheduled event with a candidate event
+//     that matches its required constraints and preferences, with the latter being based on
+//     probabilities..
+//   - In the second pass, it tries to schedule any remaining unscheduled events with the
+//     remaining candidate events, again matching required constraints and preferences, but this
+//     time, for the latter, it does not use probabilities, just the first candidate event that
+//     matches.
+//   - The first and second passes ensure that every preference is satisfied at least once. The
+//     third pass finally schedules any remaining unscheduled events with the remaining candidate
+//     events, matching only required constraints.
 func (c *Constraining) Run() (*models.Schedule, error) {
-	// Loop over candidate events, checking if each one fits any of
+	// First pass: Loop over candidate events, checking if each one fits any of
 	// the unscheduled events. If it does, schedule it. Also, keep track
 	// of any unscheduled events that could not be scheduled.
 	scheduledEvents := make([]models.Event, 0)
-	unscheduledEvents := make([]models.UnscheduledEvent, 0)
+	pass1UnscheduledEvents := make([]models.UnscheduledEvent, 0)
 
 	candidateEvents := make([]models.Event, len(c.candidateEvents))
 	copy(candidateEvents, c.candidateEvents)
@@ -111,7 +122,7 @@ func (c *Constraining) Run() (*models.Schedule, error) {
 				continue
 			}
 
-			if !unscheduledEvent.MatchPreferences(candidateEvent) {
+			if !unscheduledEvent.MatchPreferences(candidateEvent, true) {
 				// Candidate event is not fit for this unscheduled event; move
 				// on to next candidate event.
 				continue
@@ -132,18 +143,54 @@ func (c *Constraining) Run() (*models.Schedule, error) {
 			candidateEvents = removeFromEvents[models.Event](candidateEvents, candidateIdxToRemove)
 		} else {
 			// Event did not get scheduled, so we add it to the list of unscheduled events.
-			unscheduledEvents = append(unscheduledEvents, unscheduledEvent)
+			pass1UnscheduledEvents = append(pass1UnscheduledEvents, unscheduledEvent)
 		}
 	}
 
-	// At this point, we may still have some unscheduled events so let's go ahead and
-	// schedule them only taking their required constraints into account. Note that we only
-	// consider any remaining candidate events for scheduling. Also, we randomize these
-	// remaining candidate events so scheduling isn't front-heavy
+	// Second pass: At this point, we may still have some unscheduled events so let's go
+	// ahead and schedule them taking their required constraints into account and letting the
+	// first candidate event that matches the unscheduled event's preference "win".
+	// Note that we only consider any remaining candidate events for scheduling. Also, we
+	// randomize these remaining candidate events so scheduling isn't front-heavy.
 	candidateEvents = randomizeSlice(candidateEvents)
 
-	finalUnscheduledEvents := make([]models.UnscheduledEvent, 0)
-	for _, unscheduledEvent := range unscheduledEvents {
+	pass2UnscheduledEvents := make([]models.UnscheduledEvent, 0)
+	for _, unscheduledEvent := range pass1UnscheduledEvents {
+		candidateIdxToRemove := -1
+		for candidateIdx, candidateEvent := range candidateEvents {
+			if !unscheduledEvent.MatchRequired(candidateEvent) {
+				// Candidate event is not a fit for this unscheduled event; move
+				// on to next unscheduled event.
+				continue
+			}
+
+			if !unscheduledEvent.MatchPreferences(candidateEvent, false) {
+				// Candidate event is not fit for this unscheduled event; move
+				// on to next candidate event.
+				continue
+			}
+
+			// Candidate event is a good fit for this unscheduled event, so let's
+			// schedule it.
+			candidateEvent.Title = unscheduledEvent.Event.Title
+			scheduledEvents = append(scheduledEvents, candidateEvent)
+			candidateIdxToRemove = candidateIdx
+			break
+		}
+
+		if candidateIdxToRemove > -1 {
+			// Event was scheduled, so we remove the corresponding candidate event.
+			candidateEvents = removeFromEvents[models.Event](candidateEvents, candidateIdxToRemove)
+		} else {
+			// Event was not scheduled
+			pass2UnscheduledEvents = append(pass2UnscheduledEvents, unscheduledEvent)
+		}
+	}
+
+	// Third pass: At this point, we may still have some unscheduled events so let's go
+	// ahead and schedule them taking only their required constraints into account.
+	pass3UnscheduledEvents := make([]models.UnscheduledEvent, 0)
+	for _, unscheduledEvent := range pass2UnscheduledEvents {
 		candidateIdxToRemove := -1
 		for candidateIdx, candidateEvent := range candidateEvents {
 			if !unscheduledEvent.MatchRequired(candidateEvent) {
@@ -165,7 +212,7 @@ func (c *Constraining) Run() (*models.Schedule, error) {
 			candidateEvents = removeFromEvents[models.Event](candidateEvents, candidateIdxToRemove)
 		} else {
 			// Event was not scheduled
-			finalUnscheduledEvents = append(finalUnscheduledEvents, unscheduledEvent)
+			pass3UnscheduledEvents = append(pass3UnscheduledEvents, unscheduledEvent)
 		}
 	}
 
@@ -173,7 +220,7 @@ func (c *Constraining) Run() (*models.Schedule, error) {
 	// of these at this point but better to return any than silently dropping them).
 	s := models.Schedule{
 		ScheduledEvents:   scheduledEvents,
-		UnscheduledEvents: finalUnscheduledEvents,
+		UnscheduledEvents: pass3UnscheduledEvents,
 	}
 	return &s, nil
 }
