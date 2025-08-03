@@ -81,7 +81,7 @@ function App() {
     // - Blackout slots set
     // - Schedule generated
     const [ appState, setAppState ] = useState("set_team_preferences")
-    let component, step, stepLabel
+    let component, step, stepLabel, header
     let navPrevious, navNext, navPreviousLabel, navNextLabel
     const totalSteps = 3
     switch (appState) {
