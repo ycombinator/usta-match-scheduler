@@ -17,8 +17,14 @@ function App() {
     const [blackoutEvents, setBlackoutEvents] = useState([])
     useEffect(async () => {
         const blackoutEvents = await fetchInitBlackoutEvents(asrcOrganizationID)
+        blackoutEvents.forEach(event => {
+            console.log("Before: ", event.date)
+            event.date = new Date(event.date)
+            console.log("After: ", event.date)
+        })
         setBlackoutEvents(blackoutEvents)
-    })
+        setEvents(blackoutEvents)
+    }, [])
     // const [events, setEvents] = useState([
     //     { start: new Date("2025-07-08T16:00:00Z"), end: new Date("2025-07-08T20:00:00Z"), title: "Club social", type:"blackout", slot:"morning"},
     //     { start: new Date("2025-07-12T19:00:00Z"), end: new Date("2025-07-12T22:00:00Z"), title: "[W3.5] vs. Morgan Hill Tennis Club", type:"match", slot:"afternoon"},
@@ -68,7 +74,7 @@ function App() {
         setEvents(newEvents)
     }
 
-    console.log({events})
+    console.log({blackoutEvents, events})
 
     // States:
     // - Team preferences set
