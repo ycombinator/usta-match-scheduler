@@ -26,13 +26,13 @@ function App() {
     const [teams, setTeams] = useState([]);
     useEffect(async () => {
         const teams = await fetchUpcomingTeams(asrcOrganizationID)
-        teams.forEach(team => team.preferred_match_days = [])
+        teams.forEach(team => team.day_preferences = [])
         setTeams(teams)
     }, [])
 
     const changePreferredMatchDays = function(teamIdx, days) {
         const newTeams = structuredClone(teams)
-        newTeams[teamIdx].preferred_match_days = days
+        newTeams[teamIdx].day_preferences = days
         setTeams(newTeams)
     }
 
@@ -56,12 +56,15 @@ function App() {
         }
 
         if (!found) {
+            console.log("adding new event: ", e)
             // Add new event
             newEvents.push(e)
         }
 
         setEvents(newEvents)
     }
+
+    console.log({events})
 
     // States:
     // - Team preferences set
@@ -81,6 +84,7 @@ function App() {
             navNext = () => setAppState("set_blackout_slots")
             break
         case "set_blackout_slots":
+            header = <h3>Add club events, USTA Sectionals events, etc.</h3>
             component = <CalendarMonthGroup
                 startYear={startYear} 
                 startMonth={startMonth} 
@@ -89,7 +93,9 @@ function App() {
                 events={events} 
                 setEvent={setEvent}
                 addEventLabel="blackout"
+                allowAdds={true}
                 allowDeletes={true}
+                header={header}
             />
             step = 2
             stepLabel = "Set blackout slots"
@@ -99,8 +105,8 @@ function App() {
             navNextLabel = "Generate schedule"
             navNext = async () => {
                 setBlackoutEvents(events)
-                const scheduleEvents = await generateSchedule(teams, events)
-                setEvents(scheduleEvents)
+                const schedule = await generateSchedule(teams, events)
+                setEvents(schedule.scheduled_events)
                 setAppState("edit_schedule")
             }
             break
@@ -113,6 +119,7 @@ function App() {
                 events={events} 
                 setEvent={setEvent}
                 addEventLabel="match"
+                allowAdds={false}
                 allowDeletes={false}
             />
             step = 3
@@ -148,29 +155,32 @@ function App() {
 async function fetchUpcomingTeams(organizationID) {
     const response = await fetch("/api/usta/organization/"+organizationID+"/teams?upcoming=true")
     const json = await response.json()
-    return json.teams
+    return json.te
+    ams
+    // return [json.teams[0], json.teams[1], json.teams[2]]
 }
 
 async function mockEvents(events) {
     const scheduleEvents = structuredClone(events)
     scheduleEvents.push(
-        { start: new Date("2025-07-11T19:00:00Z"), end: new Date("2025-07-11T22:00:00Z"), title: "[W3.5] vs. Morgan Hill Tennis Club", type:"match", slot:"evening"},
-        { start: new Date("2025-07-13T16:00:00Z"), end: new Date("2025-07-13T19:00:00Z"), title: "[W3.5DT] vs. Bay Club Courtside", type:"match", slot:"morning"},
-        { start: new Date("2025-07-13T19:30:00Z"), end: new Date("2025-07-13T22:30:00Z"), title: "[M4.5] vs. Los Gatos", type:"match", slot:"afternoon"},
-        { start: new Date("2025-07-13T23:00:00Z"), end: new Date("2025-07-14T02:00:00Z"), title: "[M3.5] vs. Bramhall", type:"match", slot:"evening"},        
-        { start: new Date("2025-07-16T19:00:00Z"), end: new Date("2025-07-16T22:00:00Z"), title: "[W2.5+DT] vs. Brookside", type:"match", slot:"morning"},
+        { start: new Date("2025-07-11T19:00:00Z"), end: new Date("2025-07-11T22:00:00Z"), title: "[CW3.5] vs. Morgan Hill Tennis Club", type:"match", slot:"evening"},
+        { start: new Date("2025-07-13T16:00:00Z"), end: new Date("2025-07-13T19:00:00Z"), title: "[CW3.5DT] vs. Bay Club Courtside", type:"match", slot:"morning"},
+        { start: new Date("2025-07-13T19:30:00Z"), end: new Date("2025-07-13T22:30:00Z"), title: "[CM4.5] vs. Los Gatos", type:"match", slot:"afternoon"},
+        { start: new Date("2025-07-13T23:00:00Z"), end: new Date("2025-07-14T02:00:00Z"), title: "[CM3.5] vs. Bramhall", type:"match", slot:"evening"},        
+        { start: new Date("2025-07-16T19:00:00Z"), end: new Date("2025-07-16T22:00:00Z"), title: "[CW2.5+DT] vs. Brookside", type:"match", slot:"morning"},
     )
     return new Promise((resolve, reject) => resolve(scheduleEvents))
 }
 
 async function generateSchedule(teams, events) {
-    return mockEvents(events)
+    // return mockEvents(events)
     const response = await fetch("/api/schedule", {
         method: "POST",
         body: JSON.stringify({teams, events})
     })
     const json = await response.json()
-    return json.events
+    console.log({json})
+    return json
 }
 
 export default App

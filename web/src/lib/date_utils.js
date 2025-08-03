@@ -25,30 +25,37 @@ export function weeksInMonth(year, month) {
 }
 
 export function isEventInMonth(year, month, event) {
-    const startYear = event.start.getFullYear()
-    const startMonth = event.start.getMonth()
+    const eventDate = new Date(event.date)
+    const eventYear = eventDate.getFullYear()
+    const eventMonth = eventDate.getMonth()
 
-    const endYear = event.end.getFullYear()
-    const endMonth = event.end.getMonth()
+    return (year == eventYear && month == eventMonth)
+}
 
-    return (year == startYear && month == startMonth)
-        || (year == endYear && month == endMonth)
+export function previousMonth(month) {
+    return month > 0 ? month - 1 : 11
+}
+
+export function nextMonth(month) {
+    return month < 11 ? month + 1 : 0
 }
 
 export function isEventInDay(year, month, day, event) {
-    return doesEventStartInDay(year, month, day, event)
-        || doesEventEndInDay(year, month, day, event)
+    const eventDate = new Date(event.date)
+    return (isEventInMonth(year, month, event) && day == eventDate.getDate())
 }
 
 export function doesEventStartInDay (year, month, day, event) {
-    const startYear = event.start.getFullYear()
-    const startMonth = event.start.getMonth()
-    const startDay = event.start.getDate()
+    return true
+    const startYear = event.date.getFullYear()
+    const startMonth = event.date.getMonth()
+    const startDay = event.date.getDate()
 
     return (year == startYear && month == startMonth && day == startDay)
 }
 
 export function doesEventEndInDay (year, month, day, event) {
+    return true
     const endYear = event.end.getFullYear()
     const endMonth = event.end.getMonth()
     const endDay = event.end.getDate()
@@ -87,14 +94,15 @@ export function isWeekendDay(date) {
 }
 
 export function getPaddedTime(date) {
-    let hours = date.getHours()
+    const dt = new Date(date)
+    let hours = dt.getHours()
     if (hours > 12) {
         hours = hours % 12
     }
     const hoursStr = hours.toString()
-    const minutesStr = date.getMinutes().toString().padEnd(2,"0")
+    const minutesStr = dt.getMinutes().toString().padEnd(2,"0")
 
-    if (date.getMinutes() == 0) {
+    if (dt.getMinutes() == 0) {
         return hoursStr
     }
 

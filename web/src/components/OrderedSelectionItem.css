@@ -14,7 +14,7 @@
     cursor: pointer;
 }
 
-.ordered-selection-item {
+.ordered-selection-item, .ordered-selection-item-unselectable {
     color: white;
     background-color: lightgray;
     border: none;

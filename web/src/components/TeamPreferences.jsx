@@ -11,14 +11,27 @@ export const TeamPreferences = ({teams, changePreferredMatchDays}) => {
             allDays.push(dayOfWeekMap[i])
         }
 
-        const setSelectedMatchDays = days => changePreferredMatchDays(teamIdx, days)
+        const unselectableDays = (team.schedule_group == "Daytime") ? ["Saturday", "Sunday"] : []
+
+        const setSelectedMatchDays = days => {
+            console.log({days})
+            changePreferredMatchDays(teamIdx, days)
+        }
         const teamType = team.type == "Adult"?  "" : team.type
+        const daytime = team.schedule_group == "Daytime" ? "Daytime" : ""
 
         return (
             <tr key={team.id}>
-                <td>{teamType} {team.gender} {team.min_age}+ {team.level} <span class="team-name">{team.name}</span></td>
+                <td>{teamType} {team.gender} {team.min_age}+ {team.level} {daytime} <span class="team-name">{team.name}</span></td>
                 <td>{team.captain}</td>
-                <td className="days"><OrderedSelectionGroup allItems={allDays} selectedItems={team.preferred_match_days} setSelectedItems={setSelectedMatchDays} /></td>
+                <td className="days">
+                    <OrderedSelectionGroup
+                        allItems={allDays}
+                        unselectableItems={unselectableDays}
+                        selectedItems={team.day_preferences} 
+                        setSelectedItems={setSelectedMatchDays}
+                    />
+                </td>
             </tr>
         )
     })

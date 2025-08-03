@@ -1,20 +1,27 @@
-import { isEventInMonth } from "../lib/date_utils"
+import { isEventInMonth, nextMonth, previousMonth } from "../lib/date_utils"
 import { CalendarMonth } from "./CalendarMonth"
 import "./CalendarMonthGroup.css"
 
-export const CalendarMonthGroup = ({startYear, startMonth, setStartYearMonth, numMonths, events, setEvent, addEventLabel, allowDeletes}) => {
+export const CalendarMonthGroup = ({startYear, startMonth, setStartYearMonth, numMonths, events, setEvent, addEventLabel, allowAdds, allowDeletes, header}) => {
+    console.log("calendar month group: ", events)
     const months = []
     let year = startYear
     let month = startMonth
     for (let i = 0; i < numMonths; i++) {
-        const monthEvents = events.filter(event => isEventInMonth(year, month, event))
+        // Include events from previous month, current month, and next month so display
+        // works correctly
+        const monthEvents = events.filter(event => 
+            isEventInMonth(year, previousMonth(month), event) ||
+            isEventInMonth(year, month, event) ||
+            isEventInMonth(year, nextMonth(month), event)
+        )
         months.push(
             <div key={i} className="calendar-month-container">
                 <CalendarMonth 
                     year={year} month={month} 
                     setStartYearMonth={setStartYearMonth}
                     events={monthEvents} setEvent={setEvent} addEventLabel={addEventLabel}
-                    allowDeletes={allowDeletes}
+                    allowAdds={allowAdds} allowDeletes={allowDeletes}
                 />
             </div>
         )
@@ -28,8 +35,11 @@ export const CalendarMonthGroup = ({startYear, startMonth, setStartYearMonth, nu
     }
 
     return (
-        <div className="calendar-month-group">
-            { months }
+        <div>
+        { header }
+            <div className="calendar-month-group">
+                { months }
+            </div>
         </div>
     )
 }
