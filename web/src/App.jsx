@@ -15,6 +15,10 @@ function App() {
 
     const [events, setEvents] = useState([])
     const [blackoutEvents, setBlackoutEvents] = useState([])
+    useEffect(async () => {
+        const blackoutEvents = await fetchInitBlackoutEvents(asrcOrganizationID)
+        setBlackoutEvents(blackoutEvents)
+    })
     // const [events, setEvents] = useState([
     //     { start: new Date("2025-07-08T16:00:00Z"), end: new Date("2025-07-08T20:00:00Z"), title: "Club social", type:"blackout", slot:"morning"},
     //     { start: new Date("2025-07-12T19:00:00Z"), end: new Date("2025-07-12T22:00:00Z"), title: "[W3.5] vs. Morgan Hill Tennis Club", type:"match", slot:"afternoon"},
@@ -158,6 +162,12 @@ async function fetchUpcomingTeams(organizationID) {
     return json.te
     ams
     // return [json.teams[0], json.teams[1], json.teams[2]]
+}
+
+async function fetchInitBlackoutEvents(organizationID) {
+    const response = await fetch(`https://raw.githubusercontent.com/ycombinator/usta-match-scheduler/refs/heads/main/data/blackout-events-${organizationID}.json`)
+    const json = await response.json()
+    return json.events
 }
 
 async function mockEvents(events) {
