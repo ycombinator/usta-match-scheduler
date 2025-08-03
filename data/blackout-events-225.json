@@ -1,43 +1,43 @@
 {
     "events": [
         {
-            "date": "2025-08-09T09:30:00Z-0700",
+            "date": "2025-08-09T09:30:00-0700",
             "slot": "morning",
             "title": "[40+ W2.5+ DT] Sectionals",
             "type": "blackout"
         },
         {
-            "date": "2025-08-09T13:00:00Z-0700",
+            "date": "2025-08-09T13:00:00-0700",
             "slot": "afternoon",
             "title": "[40+ W2.5+ DT] Sectionals",
             "type": "blackout"
         },
         {
-            "date": "2025-08-10T08:00:00Z-0700",
+            "date": "2025-08-10T08:00:00-0700",
             "slot": "morning",
             "title": "[40+ W2.5+ DT] Sectionals",
             "type": "blackout"
         },
         {
-            "date": "2025-08-10T11:00:00Z-0700",
+            "date": "2025-08-10T11:00:00-0700",
             "slot": "afternoon",
             "title": "[40+ W2.5+ DT] Sectionals",
             "type": "blackout"
         },
         {
-            "date": "2025-08-15T09:30:00Z-0700",
+            "date": "2025-08-15T09:30:00-0700",
             "slot": "morning",
             "title": "[18+ W3.5] Sectionals",
             "type": "blackout"
         },
         {
-            "date": "2025-08-1T13:00:00Z-0700",
+            "date": "2025-08-1T13:00:00-0700",
             "slot": "afternoon",
             "title": "[18+ W3.5] Sectionals",
             "type": "blackout"
         },
         {
-            "date": "2025-08-15T15:00:00Z-0700",
+            "date": "2025-08-15T15:00:00-0700",
             "slot": "afternoon",
             "title": "[18+ W3.5] Sectionals",
             "type": "blackout"
