@@ -66,9 +66,7 @@ export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setE
             const className = `calendar-event new`
             items.push(
                 <li className="calendar-day-event" key={i}>
-                    <p className={className}>
-                        <a href="#" onClick={() => {setAddEventIdx(i); return false;}}>add {slot} {addEventLabel}</a>
-                    </p>
+                    <p className={className} onClick={() => {setAddEventIdx(i); return false;}}>add {slot} {addEventLabel}</p>
                 </li>
             )
         }

@@ -35,7 +35,7 @@
     border-color: lightcyan;
 }
 
-.calendar-event.new a {
+.calendar-event.new {
     color: cornflowerblue;
     text-decoration: none;
 }
