@@ -9,7 +9,7 @@ WORKDIR /api
 RUN go build -o api
 
 # Run
-FROM scratch
+FROM alpine:latest
 WORKDIR /
 COPY --from=build /api/api .
 

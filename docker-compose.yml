@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile.api
     environment:
-      - USE_MOCK_DATA=true
+      - USE_MOCK_DATA=${USE_MOCK_DATA}
     develop:
       watch:
         - action: rebuild

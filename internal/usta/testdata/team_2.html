@@ -1,0 +1,957 @@
+
+<!DOCTYPE HTML>
+
+	<html>
+	<head>
+	<title>USTA NorCal - Team Information | ALMADEN SR 40MX7.0A</title>
+	<!--
+<script type="text/javascript">
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+        (function () {
+            var gads = document.createElement("script");
+            gads.async = true;
+            gads.type = "text/javascript";
+            var useSSL = "https:" == document.location.protocol;
+            gads.src = (useSSL ? "https:" : "http:") + "//www.googletagservices.com/tag/js/gpt.js";
+            var node = document.getElementsByTagName("script")[0];
+            node.parentNode.insertBefore(gads, node);
+        })();
+</script>
+
+<script type="text/javascript" src="http://partner.googleadservices.com/gampad/google_service.js">
+</script>
+<script type="text/javascript">
+    GS_googleAddAdSenseService("ca-pub-5005084500425299");
+    GS_googleEnableAllServices();
+</script>
+<script type="text/javascript">
+    GA_googleAddSlot("ca-pub-5005084500425299", 'league_banner_teaminfo');
+</script>
+<script type="text/javascript">
+    GA_googleFetchAds();
+</script>
+-->
+    <script src="register/assets/js/jquery.js"></script>
+	<link href="jquery/development-bundle/themes/smoothness/jquery.ui.all.css" rel="stylesheet" />
+
+	<script src="jquery/development-bundle/ui/minified/jquery.ui.core.min.js"></script>
+	<script src="jquery/development-bundle/ui/minified/jquery.ui.position.min.js"></script>
+	<script src="jquery/development-bundle/ui/minified/jquery.ui.widget.min.js"></script>
+
+	<script src="jquery/development-bundle/ui/minified/jquery.ui.dialog.min.js"></script>
+
+    <script src="/register/assets/js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <link href="bootstrap/css/teamfix-bootstrap.min.css" rel="stylesheet" media="screen"/>
+    <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="Global_Style.css" rel="stylesheet" type="text/css" />
+
+
+   
+
+
+
+		<script type="text/javascript">
+		    function displayalert(msg) {
+		        alert(msg);
+		        return false;
+		    }
+
+
+
+
+		    $(document).ready(function () {
+            
+              
+
+		        $("#mnu_flight_standings").click(function(e){
+		            if (this.classList.length > 1) {
+		                if (this.classList[1] == 'notscheduled') {
+		                    e.preventDefault();
+
+		                    $("#dialog-message").html("Standings will be available once schedules have been posted.")
+		                    $("#dialog-message").dialog("open");
+		                }
+		            }
+		        })
+		    })
+            
+
+
+		    function PopupWin(sURL) {
+				var roster=window.open(sURL,'roster','toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes');
+				roster.focus();
+			}
+
+		
+			function openWindow(url) {
+				popupWin = window.open(url, 'name');
+				popupWin.focus();
+		}
+
+		</script>
+	
+        <link href="Global_Style.css" rel="stylesheet" type="text/css" />
+        <style>
+            .scheduled-block {display:none;}
+            .ui-widget-overlay {
+                background-color: #000;
+                opacity: 0.5;
+            }
+            .tableHeader {
+                background-color: #C1C1FF;
+                border:0px;
+            }
+        </style>
+	</head>
+
+	<body bgcolor="white" topmargin="0">
+
+	<!-- begin header -->
+<link href="/css/usta_style-header.css" rel="stylesheet" type="text/css" />
+
+<div class="ustaHeaderWrapper" style="width:100%;">
+    <div class="ustaHeader">
+        <div class="ustaLogo">
+	        <div><nope href="http://www.norcal.usta.com/" class="remove-all-styles"><img alt="USTA Northern California" src="/images/logos/ustanorcal-white-log-horizontal-transparent.png"></nope></div>
+        </div>
+    </div>
+	<div style="background-image: url('https://leagues.ustanorcal.com/images/headers/nav_bg.gif');" class="ustaPanelNav navbar" >
+		<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <div class="nav-collapse collapse">
+	     <ul class="navBar sf-menu sf-js-enabled">
+	     	<li id="_26fad00720f_rptHorizontalNav_ctl03_liParent">
+	                <a href="https://www.usta.com/en/home/play/adult-tennis/programs/northerncalifornia/adult-league-calendar.html" id="_26fad00720f_rptHorizontalNav_ctl03_aLink" class="mainLink sf-with-ul topnav_links">Calendar</a>
+	             </li>
+	             <li id="_26fad00720f_rptHorizontalNav_ctl03_liParent">
+	                <a href="https://www.usta.com/en/home/play.html" id="_26fad00720f_rptHorizontalNav_ctl03_aLink" class="mainLink sf-with-ul topnav_links">Play</a>
+	             </li>
+
+	             <li id="Li1">
+	                <a href="https://www.usta.com/en/home/improve.html" id="topnav_collegetennis" class="mainLink sf-with-ul topnav_links">Improve </a>
+	             </li>
+	        
+	             <li id="_26fad00720f_rptHorizontalNav_ctl04_liParent">
+	                <a href="https://www.usta.com/en/home/stay-current.html" id="_26fad00720f_rptHorizontalNav_ctl04_aLink" class="mainLink sf-with-ul topnav_links">Stay Current</a>
+	             </li>
+	        
+	             <li id="_26fad00720f_rptHorizontalNav_ctl05_liParent">
+	                <a href="https://www.usta.com/en/home/coach.html" id="topnav_coaches_organizers" class="mainLink sf-with-ul topnav_links">Coach</a>
+	             </li>
+	        
+	             <li id="_26fad00720f_rptHorizontalNav_ctl06_liParent">
+	                <a href="https://www.usta.com/en/home/organize.html" id="_26fad00720f_rptHorizontalNav_ctl06_aLink" class="mainLink sf-with-ul topnav_links">Organize</a>
+	             </li>
+	        
+	             <li id="_26fad00720f_rptHorizontalNav_ctl08_liParent">
+	                <a href="https://www.usta.com/en/home/pro.html" id="_26fad00720f_rptHorizontalNav_ctl08_aLink" class="mainLink sf-with-ul topnav_links">Pro Tennis</a>
+	             </li>
+	        
+	             <li id="_26fad00720f_rptHorizontalNav_ctl09_liParent">
+	                <a href="https://www.usta.com/membership" id="_26fad00720f_rptHorizontalNav_ctl09_aLink" class="mainLink sf-with-ul topnav_links">Join USTA</a>
+	             </li>
+	        
+	             <li id="_26fad00720f_rptHorizontalNav_ctl10_liParent">
+	                <a href="
+https://www.usta.com/en/home/about-usta/who-we-are/northerncalifornia/usta-norcal-staff.html" id="_26fad00720f_rptHorizontalNav_ctl10_aLink" class="mainLink sf-with-ul topnav_links">About Us</a>
+	             </li>
+
+			    
+	             <li id="nav_login">
+			        
+                        <a href="/login" id="ustanorcal_login" class="mainLink sf-with-ul topnav_links">NorCal Login</a>
+                    
+	             </li>
+	             <li id="lnk_search">
+	                <a href="/search.asp" class="mainLink sf-with-ul topnav_links">Search</a>
+	             </li>
+	        </ul> 
+	        </div>    
+	</div>
+</div>
+<div class="clear"></div>
+
+<!-- end header -->
+
+    <div id="dialog-message" title="Message Alert"></div>
+
+	<table width="100%">
+		<tr>
+			<td align="center">
+			                 <div class="banner-widget-container"></div>
+    <script src="https://leagues.ustanorcal.com/php_services/banner_widget.js"></script>				
+			</td>
+		</tr>
+	</table>
+	<br>
+	<table align="center" border="0" width="100%" bgcolor="#C1C1FF" cellspacing="1" cellpadding="1">
+	<tr>
+		<td width="15%">
+			<table border="0" width="100%" cellspacing="1">
+			<tr>
+				<td align="center" bgcolor="#E1F0F0"><a href=mailto:kathy.wheeler@gmail.com?subject=ALMADEN+SR+40MX7.0A(teamscreen)>Area Coordinator<br>Kathleen Wheeler</a><br></td>
+			</tr>
+			</table>
+		</td>
+
+		<td align="center" valign="middle"><b>2025 Mixed 40 & Over 7.0 2</b><br>ALMADEN SR 40MX7.0A
+        </font></td>
+
+		<td nowrap width="15%" align="center" bgcolor="#E1F0F0">
+		
+			<a href="/login/">NorCal Login</a>
+		
+
+		</td>
+	</tr>
+	</table>
+<!--<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+-->
+
+<style>
+/*
+body {
+	font-family:arial, helvetica, clean, sans-serif;
+    font-size:11px;
+	text-align: center;
+	background: #fff;
+}
+
+.menu-tabs{
+	background-image:url(blue-title-bkgrnd.gif);
+	background-repeat:repeat-x;
+	padding:3px 0;
+	PADDING-RIGHT: 4px;
+	PADDING-left: 4px;
+	text-align:center;
+	border-right:1px solid #AFC0C8;
+	border-bottom:1px solid #AFC0C8;
+    height:1.3em;
+    font-size:11px;
+}
+*/
+.disabled-menu-tabs
+{
+	background-color: Gray;
+	background-repeat:repeat-x;
+	color: White;
+	font-weight: bold;
+	/*padding:3px 0;*/
+	PADDING-RIGHT: 4px;
+	PADDING-left: 4px;
+	text-align:center;
+	border-right:1px solid #AFC0C8;
+	border-bottom:1px solid #AFC0C8;
+    /*height:1.3em;*/
+    /*font-size:11px;*/
+}
+
+a.menutabs, a.menutabs:link, a.menutabs:visited {
+	color: #FFFFFF;
+	font-weight: bold;
+	text-decoration:none;
+}
+
+a.menutabs:hover, a.menutabs:active {
+	color: #FFFFFF;
+	BACKGROUND-COLOR: #004d8b;
+}
+.menu1 {
+    PADDING-RIGHT: 0px;
+    FONT-FAMILY: Tahoma;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 11px;
+    COLOR: #E8ECF5;
+    MARGIN-Left: 5px;
+    PADDING-BOTTOM: 0px;
+    TEXT-DECORATION: none;
+}
+
+.menu1 A {
+    PADDING-RIGHT: 0px;
+    FONT-FAMILY: Tahoma;
+    FONT-WEIGHT: normal;
+   	DISPLAY: block;
+    FONT-SIZE: 11px;
+    COLOR: #fff;
+    PADDING-BOTTOM: 0px;
+    TEXT-DECORATION: none;
+}
+
+.menu1 .title1 {
+	PADDING-RIGHT: 0px;
+	DISPLAY: block;
+	PADDING-LEFT: 5px;
+	PADDING-BOTTOM: 2px;
+	MARGIN: 0px;
+	WIDTH: 130px;
+	COLOR: #fff;
+	PADDING-TOP: 2px;
+	BORDER-BOTTOM: #004d8b 1px solid;
+	BACKGROUND-COLOR: #004d8b;
+	TEXT-DECORATION: none;
+}
+
+.menu1 A.title1:hover {
+	COLOR: #ffffff;
+	BACKGROUND: #7d7d7d;
+}
+
+.menu1 A.title1:selected, A.title1:visited {
+	PADDING-RIGHT: 0px;
+	DISPLAY: block;
+	PADDING-LEFT: 5px;
+	PADDING-BOTTOM: 2px;
+	MARGIN: 0px;
+	WIDTH: 126px;
+	PADDING-TOP: 2px;
+	BACKGROUND-COLOR: #004d8b;
+	COLOR: #fff;
+	BORDER-BOTTOM: #004d8b 1px solid;
+	TEXT-DECORATION: none;
+}
+
+.menu1 A:hover {
+    COLOR: #FF0000;
+    FONT-SIZE: 11px;
+}
+</style>
+
+<script type="text/javascript" language="JavaScript">
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+// -->
+
+function P7_autoLayers() { //v1.2 by PVII
+ var g,b,k,f,args=P7_autoLayers.arguments;
+ var a = parseInt(args[0]);if(isNaN(a))a=0;
+ if(!document.p7setc) {p7c=new Array();document.p7setc=true;
+  for (var u=0;u<10;u++) {p7c[u] = new Array();}}
+ for(k=0; k<p7c[a].length; k++) {
+  if((g=MM_findObj(p7c[a][k]))!=null) {
+   b=(document.layers)?g:g.style;b.visibility="hidden";}}
+ for(k=1; k<args.length; k++) {
+  if((g=MM_findObj(args[k])) != null) {
+   b=(document.layers)?g:g.style;b.visibility="visible";f=false;
+   for(j=0;j<p7c[a].length;j++) {
+    if(args[k]==p7c[a][j]) {f=true;}}
+  if(!f) {p7c[a][p7c[a].length++]=args[k];}}}
+}
+
+function MM_findObj(n, d) { //v4.0
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && document.getElementById) x=document.getElementById(n); return x;
+}
+
+function P7_Snap() { //v2.62 by PVII
+  var x,y,ox,bx,oy,p,tx,a,b,k,d,da,e,el,args=P7_Snap.arguments;a=parseInt(a);
+  for (k=0; k<(args.length-3); k+=4)
+   if ((g=MM_findObj(args[k]))!=null) {
+    el=eval(MM_findObj(args[k+1]));
+    a=parseInt(args[k+2]);b=parseInt(args[k+3]);
+    x=0;y=0;ox=0;oy=0;p="";tx=1;da="document.all['"+args[k]+"']";
+    if(document.getElementById) {
+     d="document.getElementsByName('"+args[k]+"')[0]";
+     if(!eval(d)) {d="document.getElementById('"+args[k]+"')";if(!eval(d)) {d=da;}}
+    }else if(document.all) {d=da;}
+    if (document.all || document.getElementById) {
+     while (tx==1) {p+=".offsetParent";
+      if(eval(d+p)) {x+=parseInt(eval(d+p+".offsetLeft"));y+=parseInt(eval(d+p+".offsetTop"));
+      }else{tx=0;}}
+     ox=parseInt(g.offsetLeft); oy=parseInt(g.offsetTop);
+	 var tw=x+ox+y+oy;
+     if(tw==0 || (navigator.appVersion.indexOf("MSIE 4")>-1 && navigator.appVersion.indexOf("Mac")>-1)) {
+      ox=0;oy=0;if(g.style.left){x=parseInt(g.style.left);y=parseInt(g.style.top);
+      }else{var w1=parseInt(el.style.width);bx=(a<0)?-5-w1:-10;
+      a=(Math.abs(a)<1000)?0:a;b=(Math.abs(b)<1000)?0:b;
+      x=document.body.scrollLeft + event.clientX + bx;
+      y=document.body.scrollTop + event.clientY;}}
+   }else if (document.layers) {x=g.x;y=g.y;var q0=document.layers,dd="";
+    for(var s=0;s<q0.length;s++) {dd='document.'+q0[s].name;
+     if(eval(dd+'.document.'+args[k])) {x+=eval(dd+'.left');y+=eval(dd+'.top');break;}}}
+   if(el) {e=(document.layers)?el:el.style;
+   var xx=parseInt(x+ox+a),yy=parseInt(y+oy+b);
+   if(navigator.appName=="Netscape" && parseInt(navigator.appVersion)>4){xx+="px";yy+="px";}
+   if(navigator.appVersion.indexOf("MSIE 5")>-1 && navigator.appVersion.indexOf("Mac")>-1){
+    xx+=parseInt(document.body.leftMargin);yy+=parseInt(document.body.topMargin);
+    xx+="px";yy+="px";}e.left=xx;e.top=yy;}}
+}
+//-->
+</script>
+</head>
+
+<!--<body style="margin-top:0">-->
+
+    <div align="right" style="margin-right:50px;">
+        <table border="0" cellpadding="0" cellspacing="0" width="400">
+            <tbody>
+                <tr height="28">
+                    <td align="left" valign="top" width="100%">
+
+                        <div id="header_drop6" style="position: absolute; left: 253px; top: 142px; width: 103px; z-index: 2; visibility: hidden;"></div>
+<!--League Directory -->
+                        <div id="header_drop1" style="position: absolute; left: 253px; top: 142px; width: 103px; z-index: 2; visibility: hidden;"></div>
+
+                        <div id="header_drop2" style="position: absolute; left: 253px; top: 142px; width: 103px; z-index: 2; visibility: hidden;">
+                            <table style="border: 1px solid rgb(92, 117, 180); background-color: rgb(21, 57, 148);" cellpadding="0" cellspacing="0" width="123">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                        <div class="menu1">
+                                            
+                                                <a class="title1" href="standings.asp?a=usta-nc-nc-lp&l=19987:2893&r=L" id="mnu_flight_standings">Standings</a>
+                                            
+                                        </div>
+                                        </td>
+                                    </tr>
+									<tr>
+										<td>
+                                        <div class="menu1">
+                                          <a class="title1" href="listteams.asp?leagueid=2893" id="A13">Team list</a>
+                                        </div>
+                                        </td>
+									</tr>
+									<tr>
+										<td>
+                                        <div class="menu1">
+                                          <a class="title1" href="listdivisions.asp?seasonid=345" id="A1">Leagues Listing</a>
+                                        </div>
+                                        </td>
+									</tr>
+
+									<tr>
+										<td>
+                                        <div class="menu1">
+                                          <a class="title1" href="https://www.usta.com/en/home/play/play-as-a-member/northerncalifornia/CaptainsNewsletter.html" target="_blank" id="A1">Newsletters</a>
+
+                                        </div>
+                                        </td>
+									</tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="header_drop3" style="position: absolute; left: 253px; top: 142px; width: 103px; z-index: 2; visibility: hidden;">
+                          <table style="border: 1px solid rgb(92, 117, 180); background-color: rgb(21, 57, 148); width: 138px;" cellpadding="0" cellspacing="0">
+                              <tbody>
+                                  <tr>
+                                    <td>
+                                      <div class="menu1">
+                                        
+						                            <a class="title1" href="http://leagues.ustanorcal.com/Includes/docs/2020-Captain-Check-List.pdf" target="_blank">Captain's Checklist</a>
+                                                
+                                                <a class="title1" href="https://www.usta.com/en/home/play/play-as-a-member/northerncalifornia/LeagueResources.html" id="A29" target="_blank">Grievances</a>
+                                        
+                                       
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+
+                        <div id="header_drop4" style="position: absolute; left: 253px; top: 142px; width: 103px; z-index: 2; visibility: hidden;">
+                            <table style="border: 1px solid rgb(92, 117, 180); background-color: rgb(21, 57, 148); width: 138px;" cellpadding="0" cellspacing="0">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                          <div class="menu1">
+                                            
+                                                <a class="title1" href="#" onclick="displayalert('You must be logged in to view match availability.')">Player Availability</a>
+                                    		
+                                            <a class="title1" href="http://assets.usta.com/assets/635/15/2013_LLARs_FINAL_DRAFT_-_OFFICIAL_COPY1.PDF" target="_blank" id="A18">Local League Regulations</a>
+                                            <a class="title1" href="http://assets.usta.com/assets/1/15/2013_Friend_at_Court.pdf" target="_blank">Friend at Court</a>
+                                            <a class="title1" href="http://assets.usta.com/assets/635/15/Playing_a_League_Match.pdf" target="_blank">Guidelines for Match Play</a>
+        
+                                        </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+					
+
+                        <div id="top_mencloser" style="position: absolute; left: 307px; top: 142px; width: 200px; height: 300px; z-index: 1; visibility: hidden;">
+                            <a href="#" onmouseover="P7_autoLayers(0)"><img src="images/pixel.gif" width="300" height="300" border="0"/></a>
+                        </div>
+
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td align="left" valign="top"><img src="topnavrule.gif" name="" alt="" border="0" height="24" width="1"/></td>
+                                    
+                                      <td style="white-space: nowrap" class="menu-tabs"><a class="menutabs" href="Javascript:PopupWin('league_reg/PlayerRegistration.asp?teamid=106654')" onmouseover="P7_Snap('Top_button6','header_drop6',0,22,'Top_button6','top_mencloser',-50,24);P7_autoLayers(0,'header_drop6','top_mencloser')"><span id="Top_button6">Player Registration</span></a></td>
+                                    
+
+                                    <td align="left" valign="top"><img src="topnavrule.gif" name="" alt="" border="0" height="24" width="1"/></td>
+                                    <td style="white-space: nowrap" class="menu-tabs">
+                                        
+                                            <a class="menutabs" href="#" onclick="javascript:alert('You must be logged in to view Player Availability.'); return false;"><span id="Span1">Player Availability</span></a>
+                                        
+                                    </td>
+
+                                    <td align="left" valign="top"><img src="topnavrule.gif" name="" alt="" border="0" height="24" width="1"/></td>
+                                    <td style="white-space: nowrap" class="menu-tabs"><a class="menutabs" href="https://www.usta.com/en/home/play/adult-tennis/programs/northerncalifornia/norcaladultleaguerules.html" target="_blank" onmouseover="P7_Snap('Top_button1','header_drop1',0,22,'Top_button1','top_mencloser',-50,24);P7_autoLayers(0,'header_drop1','top_mencloser')"><span id="Top_button1">Rules</span></a></td>
+                                    <td align="left" valign="top"><img src="topnavrule.gif" name="" alt="" border="0" height="24" width="1"/></td>
+                                    <td style="white-space: nowrap" class="menu-tabs"><a class="menutabs" href="https://www.usta.com/en/home/play/play-as-a-member/northerncalifornia/LeagueResources.html" target="_blank" onmouseover="P7_Snap('Top_button1','header_drop1',0,22,'Top_button1','top_mencloser',-50,24);P7_autoLayers(0,'header_drop1','top_mencloser')"><span id="Top_button1">League Resources</span></a></td>
+
+                                    <td align="left" valign="top"><img src="topnavrule.gif" name="" alt="" border="0" height="24" width="1"/></td>
+                                    <td style="white-space: nowrap" class="menu-tabs"><a class="menutabs" href="#" onmouseover="P7_Snap('Top_button2','header_drop2',0,22,'Top_button2','top_mencloser',-50,24);P7_autoLayers(0,'header_drop2','top_mencloser')"><span id="Top_button2">Team Information</span></a></td>
+
+
+                                    <td align="left" valign="top"><img src="topnavrule.gif" name="" alt="" border="0" height="24" width="1"/></td>
+                                    <td style="white-space: nowrap" class="menu-tabs"><a class="menutabs" href="#" onmouseover="P7_Snap('Top_button3','header_drop3',0,22,'Top_button3','top_mencloser',-50,24);P7_autoLayers(0,'header_drop3','top_mencloser')"><span id="Top_button3">Captain Tools</span></a></td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td align="left" width="1"></td>
+                </tr>
+            </tbody>
+        </table>
+        <!--END TOP MENU-->
+    </div>
+<!--
+	</body>
+</html>
+-->
+<br>
+    <div style="margin:20px;">
+        <table id="public_notes" align="center" border="0" width="100%" bgcolor="#FFE680" >
+            <tr><td><b>Public Notes from NorCal:</b></td></tr>
+            <tr><td><p style="font-family: Arial, Helvetica, sans-serif; line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="font-family: arial, helvetica, sans-serif; background-color: transparent; font-weight: bold; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; vertical-align: baseline; white-space-collapse: preserve;">**Remember that all players must be rostered onto your team BEFORE playing a match, including the captains**</span></p>
+<p style="font-family: Arial, Helvetica, sans-serif; line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="font-family: arial, helvetica, sans-serif;">&nbsp;</span></p>
+<p style="font-family: Arial, Helvetica, sans-serif; font-size: small; color: #222222; line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt; padding: 0pt 0pt 5pt;" dir="ltr"><strong><span style="font-family: arial, helvetica, sans-serif; font-size: small;"><span style="color: red; font-size: medium;"><span style="text-decoration-line: underline;">DEADLINE FOR NOTIFYING YOUR OPPONENTS</span></span><span style="color: red;"><span style="text-decoration-line: underline;"><br /></span></span><span style="color: #ff0000;">If you have a home match during the first two weeks: 6/9-6/15 or 6/16-6/22, you must notify your opponent of the match date/time by Friday, May 30, at 9:00 pm PDT.</span></span></strong></p>
+<p style="font-family: Arial, Helvetica, sans-serif;"><strong><span style="color: #ff0000; font-family: arial, helvetica, sans-serif; font-size: small;"><span style="font-variant-ligatures: no-contextual; white-space-collapse: preserve;">For all remaining home matches, you must notify your opponent of the match date/time by Friday, June 6th at 9:00 pm PDT.</span></span></strong></p>
+<p style="font-family: Arial, Helvetica, sans-serif;"><span style="background-color: transparent; font-weight: bold; font-variant-numeric: normal; font-variant-east-asian: normal; vertical-align: baseline; white-space-collapse: preserve;"><br /><span style="font-family: Arial, Helvetica, sans-serif;"><span style="white-space-collapse: preserve;"><strong>Team Registration: April 21 &ndash; May 19 Local League Season: June 9 &ndash; August 17</strong></span></span></span></p>
+<p style="font-family: Arial, Helvetica, sans-serif; line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="background-color: transparent; font-family: arial, helvetica, sans-serif; font-variant-numeric: normal; font-variant-east-asian: normal; vertical-align: baseline; white-space-collapse: preserve;"><br /></span></p>
+<p style="font-family: Arial, Helvetica, sans-serif; line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="font-family: arial, helvetica, sans-serif;"><span style="background-color: transparent; font-weight: bold; font-variant-numeric: normal; font-variant-east-asian: normal; vertical-align: baseline; white-space-collapse: preserve;"><span style="text-decoration: underline;">POSTSEASON INFORMATION</span><a href="https://docs.google.com/document/d/e/2PACX-1vRIKGm9YiIPVSqJA-xuEoeczAEE1wU_4fhAuobcm9vXeuBrYCmTKqcqlwmsUR2OH0AlvB7NHowrqWCr/pub">:</a></span></span></p>
+<p style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="font-family: arial, helvetica, sans-serif;"><span style="background-color: transparent; font-weight: bold; font-variant-numeric: normal; font-variant-east-asian: normal; vertical-align: baseline; white-space-collapse: preserve;">Playoff Week #1: </span><span style="white-space-collapse: preserve;">August 21-24 </span><span style="background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; vertical-align: baseline; white-space-collapse: preserve;">(Deadline to post: August 18, by 9 PM)</span></span></p>
+<p style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="font-family: arial, helvetica, sans-serif;"><span style="background-color: transparent; font-weight: bold; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; vertical-align: baseline; white-space-collapse: preserve;">Playoff Week #2: </span><span style="white-space-collapse: preserve;">September 4-7</span><span style="background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; vertical-align: baseline; white-space-collapse: preserve;"> (Deadline to post: September 1, by 9 PM)</span></span></p>
+<p style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="font-family: arial, helvetica, sans-serif;"><span style="background-color: transparent; font-weight: bold; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; vertical-align: baseline; white-space-collapse: preserve;">Playoff Week #3:</span><span style="background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; vertical-align: baseline;">&nbsp;<span style="white-space-collapse: preserve;">September 11-14 (Deadline to post: September 8, by 9 PM)</span></span></span></p>
+<p style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="font-family: arial, helvetica, sans-serif;"><span style="background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; vertical-align: baseline;"><span style="white-space-collapse: preserve;"><br /></span></span></span></p>
+<p style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="font-family: arial, helvetica, sans-serif;"><span style="white-space-collapse: preserve;"><strong>Sectional Championships</strong>: September 26-28 | TBD</span></span></p>
+<p style="font-family: Arial, Helvetica, sans-serif; line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="font-family: Arial; background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; vertical-align: baseline; white-space-collapse: preserve; font-size: small;"><strong><br /></strong></span></p>
+<p style="font-family: Arial, Helvetica, sans-serif; line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="font-family: Arial; background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; vertical-align: baseline; white-space-collapse: preserve; font-size: small;"><strong>Wildcards</strong>:</span></p>
+<p style="font-family: Arial, Helvetica, sans-serif; line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="font-family: Arial; font-size: small;"><span style="white-space-collapse: preserve;">6.0: Diablo South (DS) </span></span><span style="font-family: Arial; font-size: small; white-space-collapse: preserve;">Lower Peninsula (LP) </span></p>
+<p style="font-family: Arial, Helvetica, sans-serif; line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="white-space-collapse: preserve; font-family: Arial; font-size: small;">7.0: South Bay (SB) </span></p>
+<p style="font-family: Arial, Helvetica, sans-serif; line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="font-family: Arial; font-size: small;"><span style="white-space-collapse: preserve;">8.0: Marin (MA) South Bay (SB)</span></span><span style="font-family: Arial, Helvetica, sans-serif;">&nbsp;</span></p>
+<p style="font-family: Arial, Helvetica, sans-serif; line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="font-family: Arial, Helvetica, sans-serif;">9.0: Diablo North (DN)</span></p>
+<p style="font-family: Arial, Helvetica, sans-serif; line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="font-family: Arial, Helvetica, sans-serif;"><br /></span></p>
+<p style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" dir="ltr"><span style="font-family: arial, helvetica, sans-serif;"><span style="white-space-collapse: preserve;"><strong>National Championships</strong>: November 7-9 | <a href="https://www.usta.com/content/dam/usta/2025-pdfs/league-national-championship-schedule-2025.pdf">schedule</a></span></span></p></td></tr>
+        </table>
+    </div>
+
+
+<table align="center" border="0" width="98%" cellspacing="1" cellpadding="1" bgcolor="#C1C1FF">
+    <tr bgcolor="#EFEFEF">
+        <td valign="top">
+
+<style>
+    .trophy div {
+        height:46px;
+        vertical-align:text-top;
+        float:left;
+    }
+
+    .ribbon_header {
+        font-weight:bold;
+        padding:4px;
+    }
+    .ribbon_gold {
+        background-image: url(images/Ribbon-gold.jpg);
+        background-repeat: no-repeat;
+        background-position: left;
+        margin-left:5px;
+    }
+
+    .ribbon_silver {
+        background-image: url(images/Ribbon-silver.jpg);
+        background-repeat: no-repeat;
+        background-position: left;
+        margin-left:5px;
+    }
+
+    .ribbon_blue {
+        background-image: url(images/ribbon-blue.png);
+        background-repeat: no-repeat;
+        background-position: left;
+        margin-left:5px;
+        background-size: 17px;
+
+    }
+
+    .label_total {
+        DISPLAY: block;
+        PADDING-TOP: 0px;
+        PADDING-LEFT: 0px;
+        PADDING-BOTTOM: 0px;
+/*        margin: center;*/
+        WIDTH: 24px;
+        COLOR: black;
+        FONT-SIZE: 10px;
+        text-align: center;
+        FONT-FAMILY: tahoma, Verdana, sans-serif;
+        HEIGHT: 60px;
+        TEXT-DECORATION: none;
+        font-weight:bold;
+    }
+
+</style>
+
+
+<div class="trophy">
+    <div>Captain: <a href="playermatches.asp?id=183969"><b>Caouette, Cory</b></a>
+        <br />Email: 
+        <a href=Javascript:PopupWin('email.asp?id=183969')>Send E-mail</a>
+    </div>
+
+
+
+        <div class="ribbon_gold" title="Has captained a team to a championship event 2 time(s)!">
+            <span class="ribbon_header">2</span>
+            <span class="label_total">&nbsp;</span>
+        </div>
+    
+</div>
+
+<div style="clear: both;"></div>
+
+    
+        <div class="trophy">
+	        <div>Co-Captain: <a href="playermatches.asp?id=252421">Davenport, Melynda</a>
+            <br>Email: 
+	            <a href=Javascript:PopupWin('email.asp?id=252421')>Send E-mail</a>
+            </div>
+            
+                <div class="ribbon_gold" title="Has captained a team to a championship event 1 time(s)!">
+                    <span class="ribbon_header">1</span>
+                    <span class="label_total">&nbsp;</span>
+                </div>
+            
+                <div class="ribbon_silver" title="Has co-captained a team to a championship event 4 time(s)!">
+                    <span class="ribbon_header">4</span>
+                    <span class="label_total">&nbsp;</span>
+                </div>
+
+            
+        </div>
+        <div style="clear: both;"></div>
+    
+</td>
+<td valign=top>
+    
+        Area: <b>Peninsula - Lower</b><br />
+    Home facility: <a href=organization.asp?id=225>ALMADEN SWIM AND RACQUET CLUB</a><br><br>Web address: NA</td><td bgcolor=#EFEFEF align=left valign=top>Currently playing <b>Local league</b></td></tr>
+
+<tr><td colspan="3">
+
+<table>
+<tr>
+<td><a href="leagues/captain_oty.asp"><img src="/images/ribbon-blue.png"/></a></td>
+    <td>
+    Please <a href="leagues/captain_oty.asp">nominate</a> your Captain  or Co-Captain  for the Blue Ribbon Captain Award in honor of possessing a high level of sportsmanship, leadership and integrity.  All nominations will be considered  toward the final Captain of the year award. 
+    The USTA Northern California Adult League Staff and Adult League Committee seek to honor captains who model high integrity and sportsmanship on and off the court, and are positive ambassadors for USTA league play. <a href="leagues/captain_oty.asp">Click here to nominate!</a>
+    <br>
+
+
+    </td>
+
+    
+</tr>
+<tr>
+<td><a href="https://leagues.ustanorcal.com/leagues/player_oty.asp"><img src="/images/ribbon-red.png"/></a></td>
+    <td>
+    Please <a href="https://leagues.ustanorcal.com/leagues/player_oty.asp">nominate</a> a player for the Blue Ribbon Recognition in honor of possessing a high level of sportsmanship on the court. Good sportsmanship makes tennis more fun for everyone. When recognizing a player who has displayed good sportsmanship you are helping to encourage this behavior. This type of behavior is a reflection of your team and helps set the tone for our leagues.<a href="https://leagues.ustanorcal.com/leagues/player_oty.asp">Click here to nominate!</a>
+    <br>
+    
+
+    </td>
+
+    
+</tr>
+</table>
+</td>
+</tr>
+</table><br><table align=center border=0 width=98% cellspacing=1 cellpadding=0 bgcolor=#C1C1FF><tr><td width=15% align=center valign=bottom><font color=#000000>Round</font></td><td width=15% align=center valign=bottom><font color=#000000>Matches Scheduled</font></td><td width=20% align=center valign=bottom><font color=#000000>Matches Played</font></td><td width=15% align=center valign=bottom><font color=#000000>Wins</font></td><td width=15% align=center valign=bottom><font color=#000000>Losses</font></td><td width=15% align=center valign=bottom><font color=#000000>Individual<br>Matches Won</font></td></tr><tr bgcolor=white><td width=15% align=center valign=middle><a href=standings.asp?a=usta-nc-nc-lp&L=19987:2893&r=L> Local</a></td><td width=15% align=center valign=middle>10</td><td width=15% align=center valign=middle>4</td><td width=15% align=center valign=middle>3</td><td width=15% align=center valign=middle>1</td><td width=15% align=center valign=middle>7</td></tr></table><b>&nbsp;</b>
+	<table align="center" width="98%" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+	<td width="70%" align="left"><b>Team Schedule</b>&nbsp;&nbsp;
+	
+			<a href="LeagueMatches_ical.asp?teamid=106654"><img src="images/ocalendar.gif" border="0" align="absmiddle" alt="Download schedule to Outlook, iCal (Mac Calendar), or other calendars" WIDTH="16" HEIGHT="16"> Download schedule to Outlook, Mac Calendar, or other calendars</a>
+	</td><td align=right><table border=0 cellpadding=0 cellspacing=0><tr><td width=20 bgcolor=#FF8080>Red</td><td align=left>&nbsp;&nbsp;If a problem exists.</td></tr></table></td></tr></table><table align=center border=0 width=98% cellpadding=1 cellspacing=0 bgcolor=#000066><tr><td>
+	<table border="0" width="100%" cellpadding="2" cellspacing="1" bgcolor="#C1C1FF">
+	<tr valign="bottom" bgcolor="#C1C1FF">
+	<td align="center">Status</td>
+	<td align="center">Match</td>
+	<td align="center">Match date</></td>
+	<td align="center">Day</td>
+	<td align="left">Match time
+        
+	</td>
+	<td align="left">Opposing Team</td>
+	<td align="center">Home/<br>Away</td>
+	<td align="center">Outcome</td>
+	
+	<td align="center" nowrap>Blank<br>Score Card</td>
+
+</tr><tr>
+		<tr><td bgcolor="#000066" height="1" colspan="10"></td></tr>
+<tr bgcolor=white><td valign=middle align=center bgcolor=white><font color=black><a name=status>Confirmed<sup>*</sup></a></font></td><td align=left nowrap bgcolor=white>&nbsp;1&nbsp;(6/9-6/15)</td><td align=left nowrap bgcolor=white>&nbsp;<a href=scorecard.asp?id=986855&l=19987:2893>06/10/25</a></td><td align=center bgcolor=white>Tue</td><td>All 3 at &nbsp;6:15 PM Courts for warm up open @ 6:00 PM
+                <div class="alert alert-info scheduled-block">
+                    Last schedule update: 5/28/2025 3:13:46 PM
+                    <br>User:Thomas Oda
+                </div>
+            
+            &nbsp;
+            </td>
+
+<td align=left bgcolor=white><a href=Teaminfo.asp?id=106744>LOS GATOS SR 40MX7.0A 2</a></td><td align=center bgcolor=white>Away</td><td align=center bgcolor=white>Won 2-1</td><td align=center>-</td>
+			</tr>
+
+			<tr bgcolor=#D2D2FF><td valign=middle align=center bgcolor=#D2D2FF><font color=black><a name=status>Confirmed</a></font></td><td align=left nowrap bgcolor=#D2D2FF>&nbsp;2&nbsp;(6/16-6/22)</td><td align=left nowrap bgcolor=#D2D2FF>&nbsp;<a href=scorecard.asp?id=986983&l=19987:2893>06/16/25</a></td><td align=center bgcolor=#D2D2FF>Mon</td><td>
+                <div class="alert alert-info scheduled-block">
+                    Last schedule update: 6/5/2025 2:03:21 PM
+                    <br>User:Cory Caouette
+                </div>
+            
+            &nbsp;
+            </td>
+
+<td align=left bgcolor=#D2D2FF><a href=Teaminfo.asp?id=106666>WALLENBERG PK 40MX7.0A [Wally Smashers] 2</a></td><td align=center bgcolor=#D2D2FF>Home</td><td align=center bgcolor=#D2D2FF>Lost 1-2</td><td align=center>-</td>
+			</tr>
+
+			<tr bgcolor=white><td valign=middle align=center bgcolor=white><font color=black><a name=status>Confirmed<sup>*</sup></a></font></td><td align=left nowrap bgcolor=white>&nbsp;3&nbsp;(6/23-6/29)</td><td align=left nowrap bgcolor=white>&nbsp;<a href=scorecard.asp?id=987124&l=19987:2893>06/23/25</a></td><td align=center bgcolor=white>Tue</td><td>
+                <div class="alert alert-info scheduled-block">
+                    Last schedule update: 5/30/2025 4:56:21 PM
+                    <br>User:Andrea Coleman
+                </div>
+            
+            &nbsp;
+            </td>
+
+<td align=left bgcolor=white><a href=Teaminfo.asp?id=106669>BAY CLUB COURTSIDE 40MX7.0B 2</a></td><td align=center bgcolor=white>Away</td><td align=center bgcolor=white>Won 2-1</td><td align=center>-</td>
+			</tr>
+
+			<tr bgcolor=#D2D2FF><td valign=middle align=center bgcolor=#D2D2FF><font color=black><a name=status>Confirmed</a></font></td><td align=left nowrap bgcolor=#D2D2FF>&nbsp;4&nbsp;(6/30-7/6)</td><td align=left nowrap bgcolor=#D2D2FF>&nbsp;<a href=scorecard.asp?id=987274&l=19987:2893>06/30/25</a></td><td align=center bgcolor=#D2D2FF>Wed</td><td>
+                <div class="alert alert-info scheduled-block">
+                    Last schedule update: 6/5/2025 2:03:21 PM
+                    <br>User:Cory Caouette
+                </div>
+            
+            &nbsp;
+            </td>
+
+<td align=left bgcolor=#D2D2FF><a href=Teaminfo.asp?id=106668>BAY CLUB COURTSIDE 40MX7.0A 2</a></td><td align=center bgcolor=#D2D2FF>Home</td><td align=center bgcolor=#D2D2FF>Won 2-1</td><td align=center>-</td>
+			</tr>
+
+			<tr bgcolor=white><td valign=middle align=center bgcolor=white><font color=black><a name=status>Scheduled</a></font></td><td align=left nowrap bgcolor=white>&nbsp;5&nbsp;(7/7-7/13)</td><td align=left nowrap bgcolor=white>&nbsp;07/07/25</td><td align=center bgcolor=white>Sat</td><td>
+                <div class="alert alert-info scheduled-block">
+                    Last schedule update: 6/5/2025 2:03:21 PM
+                    <br>User:Cory Caouette
+                </div>
+            
+            &nbsp;
+            </td>
+
+<td align=left bgcolor=white><a href=Teaminfo.asp?id=106752>LOS PASEOS PK 40MX7.0A 2</a></td><td align=center bgcolor=white>Home</td><td align=center bgcolor=white>-</td><td align=center><a href=scorecardBlank.asp?id=987420&l=19987:2893&teamid=106654>Print</a></td>
+			</tr>
+
+			<tr bgcolor=#D2D2FF><td valign=middle align=center bgcolor=#D2D2FF><font color=black><a name=status>Scheduled</a></font></td><td align=left nowrap bgcolor=#D2D2FF>&nbsp;6&nbsp;(7/14-7/20)</td><td align=left nowrap bgcolor=#D2D2FF>&nbsp;07/14/25</td><td align=center bgcolor=#D2D2FF>Thu</td><td>
+                <div class="alert alert-info scheduled-block">
+                    Last schedule update: 6/5/2025 2:03:21 PM
+                    <br>User:Cory Caouette
+                </div>
+            
+            &nbsp;
+            </td>
+
+<td align=left bgcolor=#D2D2FF><a href=Teaminfo.asp?id=106744>LOS GATOS SR 40MX7.0A 2</a></td><td align=center bgcolor=#D2D2FF>Home</td><td align=center bgcolor=#D2D2FF>-</td><td align=center><a href=scorecardBlank.asp?id=987570&l=19987:2893&teamid=106654>Print</a></td>
+			</tr>
+
+			<tr bgcolor=white><td valign=middle align=center bgcolor=white><font color=black><a name=status>Scheduled</a></font></td><td align=left nowrap bgcolor=white>&nbsp;7&nbsp;(7/21-7/27)</td><td align=left nowrap bgcolor=white>&nbsp;07/27/25</td><td align=center bgcolor=white>Sun</td><td>All 3 at &nbsp;4:00 PM | Match played at Almaden Swim and Racquet club (6604 Northridge Dr, San Jose)
+                <div class="alert alert-info scheduled-block">
+                    Last schedule update: 6/5/2025 11:14:31 PM
+                    <br>User:Laxman Subramanian
+                </div>
+            
+            &nbsp;
+            </td>
+
+<td align=left bgcolor=white><a href=Teaminfo.asp?id=106666>WALLENBERG PK 40MX7.0A [Wally Smashers] 2</a></td><td align=center bgcolor=white>Away</td><td align=center bgcolor=white>-</td><td align=center><a href=scorecardBlank.asp?id=987704&l=19987:2893&teamid=106654>Print</a></td>
+			</tr>
+
+			<tr bgcolor=#D2D2FF><td valign=middle align=center bgcolor=#D2D2FF><font color=black><a name=status>Scheduled</a></font></td><td align=left nowrap bgcolor=#D2D2FF>&nbsp;8&nbsp;(7/28-8/3)</td><td align=left nowrap bgcolor=#D2D2FF>&nbsp;07/28/25</td><td align=center bgcolor=#D2D2FF>Wed</td><td>
+                <div class="alert alert-info scheduled-block">
+                    Last schedule update: 6/5/2025 2:03:21 PM
+                    <br>User:Cory Caouette
+                </div>
+            
+            &nbsp;
+            </td>
+
+<td align=left bgcolor=#D2D2FF><a href=Teaminfo.asp?id=106669>BAY CLUB COURTSIDE 40MX7.0B 2</a></td><td align=center bgcolor=#D2D2FF>Home</td><td align=center bgcolor=#D2D2FF>-</td><td align=center><a href=scorecardBlank.asp?id=987848&l=19987:2893&teamid=106654>Print</a></td>
+			</tr>
+
+			<tr bgcolor=white><td valign=middle align=center bgcolor=white><font color=black><a name=status>Scheduled</a></font></td><td align=left nowrap bgcolor=white>&nbsp;9&nbsp;(8/4-8/10)</td><td align=left nowrap bgcolor=white>&nbsp;08/05/25</td><td align=center bgcolor=white>Tue</td><td>All 3 at &nbsp;6:00 PM
+                <div class="alert alert-info scheduled-block">
+                    Last schedule update: 5/30/2025 4:26:45 PM
+                    <br>User:Hang O'Neill
+                </div>
+            
+            &nbsp;
+            </td>
+
+<td align=left bgcolor=white><a href=Teaminfo.asp?id=106668>BAY CLUB COURTSIDE 40MX7.0A 2</a></td><td align=center bgcolor=white>Away</td><td align=center bgcolor=white>-</td><td align=center><a href=scorecardBlank.asp?id=987976&l=19987:2893&teamid=106654>Print</a></td>
+			</tr>
+
+			<tr bgcolor=#D2D2FF><td valign=middle align=center bgcolor=#D2D2FF><font color=black><a name=status>Scheduled</a></font></td><td align=left nowrap bgcolor=#D2D2FF>&nbsp;10&nbsp;(8/11-8/17)</td><td align=left nowrap bgcolor=#D2D2FF>&nbsp;08/16/25</td><td align=center bgcolor=#D2D2FF>Sat</td><td>2/1 at &nbsp;5:00 PM and 6:00 PM .D1,2 @ 5Pm, D3 @6Pm. BYO chair, Courts available for warm up 15min. prior to the game time but not guaranteed.  
+                <div class="alert alert-info scheduled-block">
+                    Last schedule update: 5/30/2025 4:58:34 PM
+                    <br>User:Chris Chi Truong
+                </div>
+            
+            &nbsp;
+            </td>
+
+<td align=left bgcolor=#D2D2FF><a href=Teaminfo.asp?id=106752>LOS PASEOS PK 40MX7.0A 2</a></td><td align=center bgcolor=#D2D2FF>Away</td><td align=center bgcolor=#D2D2FF>-</td><td align=center><a href=scorecardBlank.asp?id=988109&l=19987:2893&teamid=106654>Print</a></td>
+			</tr>
+
+			</td></tr></table></td></tr></table><table align=center width=98% border=0><td align=left>Legend: <b><sup>o</sup></b> - Opponent entered the score card.</td></tr></table><br><table align=center border=0 width=98% cellspacing=0 cellpadding=0><tr><td><b>Team Roster</b></td></tr></table><table align=center border=0 width=98% cellspacing=1 cellpadding=0 bgcolor=#000066><tr><td valign=top>
+	    <table border=0 width=100% cellspacing=1 cellpadding=1>
+            <tr class="tableHeader">
+                <td colspan="7"></td>
+                <td colspan="2" align="center">Eligibility</td>
+                <td colspan="11"></td>
+            </tr>
+            <tr>
+<td valign=bottom bgcolor=#C1C1FF nowrap>Player<a name=roster></a></td><td valign=bottom align=left bgcolor=#C1C1FF>City</td><td valign=bottom align=center bgcolor=#C1C1FF>Gender</td><td valign=bottom align=center bgcolor=#C1C1FF>Rating</td><td valign=bottom align=center bgcolor=#C1C1FF>NP/SW</td><td valign=bottom align=center bgcolor=#C1C1FF>Expiration</td><td valign=bottom align=center bgcolor=#C1C1FF>Win/ Loss</td><td valign=bottom align=center bgcolor=#C1C1FF>Matches</td><td valign=bottom align=center bgcolor=#C1C1FF>Defaults</td><td valign=bottom align=center bgcolor=#C1C1FF>Win %</td><td valign=bottom align=center bgcolor=#C1C1FF>Singles</td><td valign=bottom align=center bgcolor=#C1C1FF>Doubles</td><td valign=bottom align=center bgcolor=#C1C1FF>P</td><td valign=bottom align=center bgcolor=#C1C1FF>D</td><td valign=bottom align=center bgcolor=#C1C1FF>S</td><td valign=bottom align=center bgcolor=#C1C1FF>Rostered</td>
+	</tr>
+
+            <tr>
+		        <td bgcolor=white align=left nowrap><a href=playermatches.asp?id=192486>Caouette, Catherine   </a></td><td bgcolor=white align=left nowrap>San Jose</td><td bgcolor=white align=center>F</td><td align=center bgcolor=white>3.5C</td><td align=center bgcolor=white></td><td align=center bgcolor=white>4/30/2026</td><td bgcolor=white align=center>2 / 0</td><td bgcolor=white align=center>2^</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>100.00%</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>2</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>04/27/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=#D2D2FF align=left nowrap><a href=playermatches.asp?id=183969>Caouette, Cory   </a></td><td bgcolor=#D2D2FF align=left nowrap>San Jose</td><td bgcolor=#D2D2FF align=center>M</td><td align=center bgcolor=#D2D2FF>3.5C</td><td align=center bgcolor=#D2D2FF></td><td align=center bgcolor=#D2D2FF>8/31/2026</td><td bgcolor=#D2D2FF align=center>1 / 1</td><td bgcolor=#D2D2FF align=center>2^</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>50.00%</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>2</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>05/06/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=white align=left nowrap><a href=playermatches.asp?id=290896>Castillo, Jason   </a></td><td bgcolor=white align=left nowrap>San Jose</td><td bgcolor=white align=center>M</td><td align=center bgcolor=white>3.5C</td><td align=center bgcolor=white></td><td align=center bgcolor=white>12/31/2025</td><td bgcolor=white align=center>2 / 0</td><td bgcolor=white align=center>2^</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>100.00%</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>2</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>04/29/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=#D2D2FF align=left nowrap><a href=playermatches.asp?id=170849>Christian-Neff, Laurie   </a></td><td bgcolor=#D2D2FF align=left nowrap>San Jose</td><td bgcolor=#D2D2FF align=center>F</td><td align=center bgcolor=#D2D2FF>3.5C</td><td align=center bgcolor=#D2D2FF></td><td align=center bgcolor=#D2D2FF>8/31/2025</td><td bgcolor=#D2D2FF align=center>0 / 0</td><td bgcolor=#D2D2FF align=center>0</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>04/27/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=white align=left nowrap><a href=playermatches.asp?id=252421>Davenport, Melynda   </a></td><td bgcolor=white align=left nowrap>San Jose</td><td bgcolor=white align=center>F</td><td align=center bgcolor=white>3.5C</td><td align=center bgcolor=white></td><td align=center bgcolor=white>4/30/2026</td><td bgcolor=white align=center>2 / 0</td><td bgcolor=white align=center>2^</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>100.00%</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>2</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>04/27/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=#D2D2FF align=left nowrap><a href=playermatches.asp?id=277984>Huang, Terry   </a></td><td bgcolor=#D2D2FF align=left nowrap>San Jose</td><td bgcolor=#D2D2FF align=center>F</td><td align=center bgcolor=#D2D2FF>3.5C</td><td align=center bgcolor=#D2D2FF></td><td align=center bgcolor=#D2D2FF>4/30/2026</td><td bgcolor=#D2D2FF align=center>0 / 2</td><td bgcolor=#D2D2FF align=center>2^</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>0.00%</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>2</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>04/28/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=white align=left nowrap><a href=playermatches.asp?id=277419>Jacks, Kevin   </a></td><td bgcolor=white align=left nowrap>San Jose</td><td bgcolor=white align=center>M</td><td align=center bgcolor=white>3.5C</td><td align=center bgcolor=white></td><td align=center bgcolor=white>3/31/2026</td><td bgcolor=white align=center>1 / 0</td><td bgcolor=white align=center>1</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>100.00%</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>1</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>04/29/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=#D2D2FF align=left nowrap><a href=playermatches.asp?id=232655>Kashyap, Shaunak   </a></td><td bgcolor=#D2D2FF align=left nowrap>San Jose</td><td bgcolor=#D2D2FF align=center>M</td><td align=center bgcolor=#D2D2FF>3.5C</td><td align=center bgcolor=#D2D2FF></td><td align=center bgcolor=#D2D2FF>6/30/2026</td><td bgcolor=#D2D2FF align=center>1 / 0</td><td bgcolor=#D2D2FF align=center>1</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>100.00%</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>1</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>05/04/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=white align=left nowrap><a href=playermatches.asp?id=177242>Kent, Heather   </a></td><td bgcolor=white align=left nowrap>San Jose</td><td bgcolor=white align=center>F</td><td align=center bgcolor=white>3.5C</td><td align=center bgcolor=white></td><td align=center bgcolor=white>2/28/2026</td><td bgcolor=white align=center>1 / 0</td><td bgcolor=white align=center>1</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>100.00%</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>1</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>04/28/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=#D2D2FF align=left nowrap><a href=playermatches.asp?id=215685>Kim, Paul   </a></td><td bgcolor=#D2D2FF align=left nowrap>San Jose</td><td bgcolor=#D2D2FF align=center>M</td><td align=center bgcolor=#D2D2FF>3.5C</td><td align=center bgcolor=#D2D2FF></td><td align=center bgcolor=#D2D2FF>5/31/2026</td><td bgcolor=#D2D2FF align=center>0 / 1</td><td bgcolor=#D2D2FF align=center>1</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>0.00%</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>1</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>04/28/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=white align=left nowrap><a href=playermatches.asp?id=215811>Kuoy, Amanda   </a></td><td bgcolor=white align=left nowrap>San Jose</td><td bgcolor=white align=center>F</td><td align=center bgcolor=white>3.5C</td><td align=center bgcolor=white></td><td align=center bgcolor=white>2/28/2026</td><td bgcolor=white align=center>0 / 1</td><td bgcolor=white align=center>1</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>0.00%</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>1</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>05/06/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=#D2D2FF align=left nowrap><a href=playermatches.asp?id=301703>Lin, Elton   </a></td><td bgcolor=#D2D2FF align=left nowrap>San Jose</td><td bgcolor=#D2D2FF align=center>M</td><td align=center bgcolor=#D2D2FF>3.5C</td><td align=center bgcolor=#D2D2FF></td><td align=center bgcolor=#D2D2FF>1/31/2026</td><td bgcolor=#D2D2FF align=center>2 / 1</td><td bgcolor=#D2D2FF align=center>3^</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>66.67%</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>3</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>05/06/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=white align=left nowrap><a href=playermatches.asp?id=239490>McKinney, Rick   </a></td><td bgcolor=white align=left nowrap>San Jose</td><td bgcolor=white align=center>M</td><td align=center bgcolor=white>3.5C</td><td align=center bgcolor=white></td><td align=center bgcolor=white>12/31/2025</td><td bgcolor=white align=center>0 / 1</td><td bgcolor=white align=center>1</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>0.00%</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>1</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>05/03/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=#D2D2FF align=left nowrap><a href=playermatches.asp?id=247097>Paolini, Francesca   </a></td><td bgcolor=#D2D2FF align=left nowrap>San Jose</td><td bgcolor=#D2D2FF align=center>F</td><td align=center bgcolor=#D2D2FF>3.5C</td><td align=center bgcolor=#D2D2FF></td><td align=center bgcolor=#D2D2FF>9/30/2026</td><td bgcolor=#D2D2FF align=center>0 / 0</td><td bgcolor=#D2D2FF align=center>0</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>04/29/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=white align=left nowrap><a href=playermatches.asp?id=200108>Peter, Louise   </a></td><td bgcolor=white align=left nowrap>San Jose</td><td bgcolor=white align=center>F</td><td align=center bgcolor=white>3.5C</td><td align=center bgcolor=white></td><td align=center bgcolor=white>6/30/2026</td><td bgcolor=white align=center>1 / 1</td><td bgcolor=white align=center>2^</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>50.00%</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>2</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>05/08/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=#D2D2FF align=left nowrap><a href=playermatches.asp?id=249774>SAXON, KRISTEN   </a></td><td bgcolor=#D2D2FF align=left nowrap>San Jose</td><td bgcolor=#D2D2FF align=center>F</td><td align=center bgcolor=#D2D2FF>3.5C</td><td align=center bgcolor=#D2D2FF></td><td align=center bgcolor=#D2D2FF>7/31/2026</td><td bgcolor=#D2D2FF align=center>1 / 1</td><td bgcolor=#D2D2FF align=center>2^</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>50.00%</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>2</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>05/02/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=white align=left nowrap><a href=playermatches.asp?id=222426>Smith, Chris   </a></td><td bgcolor=white align=left nowrap>San Jose</td><td bgcolor=white align=center>M</td><td align=center bgcolor=white>3.5C</td><td align=center bgcolor=white></td><td align=center bgcolor=white>6/30/2026</td><td bgcolor=white align=center>0 / 0</td><td bgcolor=white align=center>0</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>-</td><td bgcolor=white align=center>07/09/25</td>
+		        </tr>
+            
+            <tr>
+		        <td bgcolor=#D2D2FF align=left nowrap><a href=playermatches.asp?id=165753>Vliet, Kevin   </a></td><td bgcolor=#D2D2FF align=left nowrap>San Jose</td><td bgcolor=#D2D2FF align=center>M</td><td align=center bgcolor=#D2D2FF>3.5C</td><td align=center bgcolor=#D2D2FF></td><td align=center bgcolor=#D2D2FF>6/30/2026</td><td bgcolor=#D2D2FF align=center>0 / 1</td><td bgcolor=#D2D2FF align=center>1</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>0.00%</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>1</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>-</td><td bgcolor=#D2D2FF align=center>04/30/25</td>
+		        </tr>
+            
+</table></td></tr></table>
+
+
+    <br />
+    <table align="center" border="0" width="98%" cellspacing="1" cellpadding="2" bgcolor="#000066">
+	    <tr bgcolor="#FFFFFF">
+		    <td align="left">
+			    <b>LEGEND:</b>
+                <ul>
+                     <li>NP/SW:  Indicates National Player or Sectional Winner :  Refer to the <a href="https://www.usta.com/content/dam/usta/sections/northern-california/norcal/pdfs/2023%20Combined%20ULR%20NorCal%20LLAR%203-30-2023.pdf">Move Up-Split Up rule for clarification.</a> *Player has satisfied the Move-Up part of the rule.</li>
+                    <li>Win/loss: Wins do not include default wins. Any numbers in ( ) indicate actual scores prior to eligibility adjustments.</li>
+                    <li>Eligibility: Match requirements to be eligible for Playoffs, Districts and Sectionals.  Refer to Local League Rules for national eligibility. ^Player has satisfied eligibility requirements for postseason play.</li>
+                    <li>Post season: number of matches played in Playoffs (P), Districts (D), Sectionals (S). </li>
+                    <li>Note: Eligibility requirements for post season play vary for different leagues. <a href="https://www.usta.com/en/home/play/adult-tennis/programs/northerncalifornia/norcaladultleaguerules.html">Refer to Local League Rules</a></li>
+                    
+                </ul>
+
+			    <table width=100% border=0>
+			      
+			    </table>
+		    </td>
+  	    </tr>
+    </table>
+
+<div>&nbsp;</div>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T21K2CNBXS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T21K2CNBXS');
+</script>
+
+
+		</body>
+	</html>
