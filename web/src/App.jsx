@@ -159,8 +159,7 @@ function App() {
 async function fetchUpcomingTeams(organizationID) {
     const response = await fetch("/api/usta/organization/"+organizationID+"/teams?upcoming=true")
     const json = await response.json()
-    return json.te
-    ams
+    return json.teams
     // return [json.teams[0], json.teams[1], json.teams[2]]
 }
 
