@@ -1,7 +1,11 @@
 package usta
 
 import (
+	"bytes"
+	_ "embed"
 	"fmt"
+	"io"
+	"math/rand"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -18,6 +22,12 @@ const teamURL = "https://leagues.ustanorcal.com/teaminfo.asp?id=%d"
 var (
 	tz, _ = time.LoadLocation("America/Los_Angeles")
 )
+
+//go:embed testdata/team_1.html
+var team1Html []byte
+
+//go:embed testdata/team_2.html
+var team2Html []byte
 
 // TODO: memoize when we actual get team information over the network
 func GetTeam(id int) (models.Team, error) {
@@ -66,16 +76,32 @@ func GetTeamMatches(t models.Team, opts ...TeamMatchesFilterOpt) ([]models.TeamM
 		opt(&f)
 	}
 
-	fmt.Printf("Getting matches for team [%d]...\n", t.ID)
 	u := fmt.Sprintf(teamURL, t.ID)
 
-	resp, err := http.Get(u)
-	if err != nil {
-		return nil, fmt.Errorf("unable to get team page from URL [%s]: %w", u, err)
-	}
-	defer resp.Body.Close()
+	var body io.ReadCloser
+	if useMockData() {
+		//body = io.NopCloser(bytes.NewReader(team1Html))
+		var htmlSource []byte
+		switch rand.Intn(2) {
+		case 0:
+			htmlSource = team1Html
+		case 1:
+			htmlSource = team2Html
+		}
+		body = io.NopCloser(bytes.NewReader(htmlSource))
+	} else {
+		fmt.Printf("Getting matches for team [%d]...\n", t.ID)
 
-	doc, err := goquery.NewDocumentFromReader(resp.Body)
+		resp, err := http.Get(u)
+		if err != nil {
+			return nil, fmt.Errorf("unable to get team page from URL [%s]: %w", u, err)
+		}
+		defer resp.Body.Close()
+
+		body = resp.Body
+	}
+
+	doc, err := goquery.NewDocumentFromReader(body)
 	if err != nil {
 		return nil, fmt.Errorf("unable to read team page from URL [%s]: %w", u, err)
 	}

@@ -14,7 +14,7 @@ type Event struct {
 	Type  EventType `json:"type"`
 	Slot  DaySlot   `json:"slot"`
 
-	Date time.Time
+	Date time.Time `json:"date"`
 	//StartTime time.Time
 	//EndTime   time.Time
 }

@@ -71,8 +71,8 @@ type TeamMatch struct {
 
 type SchedulingTeam struct {
 	Team
-	DayPreferences []time.Weekday `yaml:"day_preferences"`
-	Weeks          []time.Time    `yaml:"weeks"`
+	DayPreferences []time.Weekday `yaml:"day_preferences" json:"day_preferences"`
+	Weeks          []time.Time    `yaml:"weeks" json:"weeks"`
 }
 
 func (st *SchedulingTeam) HasPreferenceFor(day time.Weekday) bool {
@@ -140,4 +140,25 @@ func (t *Team) SetRawName(rawName string) error {
 	t.Name = name
 
 	return nil
+}
+
+// DisplayName returns the team's name fit for display
+func (t *Team) DisplayName() string {
+	var name string
+	switch t.Type {
+	case TeamTypeAdult:
+		name = fmt.Sprintf("%d+ %s %s", t.MinAge, t.Gender, t.Level)
+	case TeamTypeCombo:
+		name = fmt.Sprintf("%s %s %s", t.Type, t.Gender, t.Level)
+	case TeamTypeMixed:
+		name = fmt.Sprintf("%d+ %s %s", t.MinAge, t.Type, t.Level)
+	}
+
+	if t.ScheduleGroup == TeamScheduleGroupDaytime {
+		name = fmt.Sprintf("%s %s", name, t.ScheduleGroup)
+	}
+
+	name = fmt.Sprintf("%s (%s)", name, t.Captain)
+
+	return name
 }

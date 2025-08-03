@@ -125,7 +125,7 @@ func removeTeam(teams []models.Team, team models.Team) []models.Team {
 
 func isBlackoutDate(candidate time.Time, blackoutDates []string) bool {
 	candidateStr := candidate.Format("20060102")
-	fmt.Println(candidateStr, blackoutDates)
+	//fmt.Println(candidateStr, blackoutDates)
 	for _, blackoutDate := range blackoutDates {
 		if blackoutDate == candidateStr {
 			return true

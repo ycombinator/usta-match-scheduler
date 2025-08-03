@@ -45,7 +45,7 @@ func GetOrganizationTeams(id int, opts ...TeamsFilterOpt) ([]models.Team, error)
 	if useMockData() {
 		body = io.NopCloser(bytes.NewReader(organization225Html))
 		if f.isSeasonUpcoming != nil && *f.isSeasonUpcoming {
-			now = time.Date(2025, 6, 1, 0, 0, 0, 0, time.Local) // Mock date for upcoming season
+			now = time.Date(2025, 7, 1, 0, 0, 0, 0, time.Local) // Mock date for upcoming season
 		}
 	} else {
 		fmt.Printf("Getting teams for organization [%d] from url [%s]...\n", id, u)
@@ -117,6 +117,7 @@ func GetOrganizationTeams(id int, opts ...TeamsFilterOpt) ([]models.Team, error)
 		captain := cSel.FirstChild.Data
 		captainParts := strings.SplitN(captain, ",", 2)
 		captain = captainParts[1] + " " + captainParts[0]
+		captain = strings.TrimSpace(captain)
 
 		team := models.Team{
 			ID:            teamID,

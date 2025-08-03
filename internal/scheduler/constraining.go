@@ -64,10 +64,11 @@ func makeUnscheduledEvents(input *models.Input) []models.UnscheduledEvent {
 	// Make list of match events with constraints in each
 	events := make([]models.UnscheduledEvent, 0)
 	for _, team := range input.Teams {
+		//fmt.Printf("team: [%s], scheduling group: [%s], day preferences: %v\n", team.DisplayName(), team.ScheduleGroup, team.DayPreferences)
 		for _, week := range team.Weeks {
 			event := models.UnscheduledEvent{
 				Event: models.Event{
-					Title: team.Name,
+					Title: team.DisplayName(),
 					Type:  models.EventTypeMatch,
 				},
 				Constraints: models.Constraints{},
@@ -79,6 +80,7 @@ func makeUnscheduledEvents(input *models.Input) []models.UnscheduledEvent {
 			event.Constraints.Required = append(event.Constraints.Required, dayConstraint, slotConstraint)
 
 			// Add preference constraints
+			//fmt.Printf("%s: %v\n", team.DisplayName(), team.DayPreferences)
 			dayPreferenceConstraint := models.DayPreferenceConstraint{
 				Probabilities: dayPreferenceProbabilities,
 				PreferredDays: team.DayPreferences,
@@ -127,6 +129,8 @@ func (c *Constraining) Run() (*models.Schedule, error) {
 				// on to next candidate event.
 				continue
 			}
+
+			//fmt.Printf("  ----> scheduled!")
 
 			// Candidate event is a good fit for this unscheduled event, so let's
 			// schedule it. Since candidate event has been scheduled, we can no longer
@@ -304,11 +308,11 @@ func randSliceOfIntegers(size int) []int {
 	return output
 }
 
-func randomizeSlice[T any](slice []T) []T {
-	randomizedIndices := randSliceOfIntegers(len(slice))
-	output := make([]T, len(slice))
-	for idx, randomizedIdx := range randomizedIndices {
-		output[randomizedIdx] = slice[idx]
-	}
-	return output
-}
+//func randomizeSlice[T any](slice []T) []T {
+//	randomizedIndices := randSliceOfIntegers(len(slice))
+//	output := make([]T, len(slice))
+//	for idx, randomizedIdx := range randomizedIndices {
+//		output[randomizedIdx] = slice[idx]
+//	}
+//	return output
+//}

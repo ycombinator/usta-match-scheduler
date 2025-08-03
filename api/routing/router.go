@@ -10,6 +10,7 @@ func NewRouter() *http.ServeMux {
 	// USTA "proxy" API routes
 	router.HandleFunc("GET /usta/organization/{id}/teams", GetUSTAOrganizationTeams)
 	router.HandleFunc("GET /usta/organization/{id}/matches", GetUSTAOrganizationMatches)
+	router.HandleFunc("POST /schedule", ScheduleMatches)
 
 	// App API routes
 

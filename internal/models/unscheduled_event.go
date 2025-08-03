@@ -8,7 +8,8 @@ import (
 
 type UnscheduledEvent struct {
 	Event
-	Constraints Constraints `json:"constraints"`
+	DayPreferences []time.Weekday
+	Constraints    Constraints `json:"constraints"`
 }
 
 type Constraints struct {
@@ -30,6 +31,7 @@ func (sc SlotConstraint) CanSchedule(candidateEvent Event) bool {
 	// Get allowed slots for candidate event
 	allowedSlots := sc.TeamScheduleGroup.AllowedSlots(candidateEvent.IsOnWeekend())
 
+	//fmt.Printf("  [SlotConstraint] allowedSlots: %v, TeamScheduleGroup: [%s]\n", allowedSlots, sc.TeamScheduleGroup)
 	// Check if any of the allowed slots matches the candidate event's slot
 	for _, allowedSlot := range allowedSlots {
 		if candidateEvent.Slot == allowedSlot {
@@ -45,6 +47,7 @@ type DayConstraint struct {
 }
 
 func (dc DayConstraint) CanSchedule(candidateEvent Event) bool {
+	//fmt.Printf("  [DayConstraint] NotBefore: [%s], Before: [%s]\n", dc.NotBefore, dc.Before)
 	return !candidateEvent.Date.Before(dc.NotBefore) && candidateEvent.Date.Before(dc.Before)
 }
 
@@ -73,23 +76,29 @@ func (dpc DayPreferenceConstraint) ShouldSchedule(candidateEvent Event, useProba
 }
 
 func (ue UnscheduledEvent) MatchRequired(candidateEvent Event) bool {
+	//fmt.Printf("MatchRequired: candidateEvent: %#v\n", candidateEvent)
 	// Return false if candidate event fails to meet
 	// *any* of the unscheduled event's required constraints.
 	for _, fc := range ue.Constraints.Required {
 		if !fc.CanSchedule(candidateEvent) {
+			//fmt.Println("  --> did not schedule")
 			return false
 		}
 	}
+	//fmt.Println("  --> can schedule")
 	return true
 }
 
 func (ue UnscheduledEvent) MatchPreferences(candidateEvent Event, useProbability bool) bool {
+	//fmt.Printf("MatchPreferences: candidateEvent: %#v, useProbability: [%v]\n", candidateEvent, useProbability)
 	// Return true if candidate event meets *any* of the unscheduled
 	// event's preference constraints.
 	for _, pc := range ue.Constraints.Preferences {
 		if pc.ShouldSchedule(candidateEvent, useProbability) {
+			//fmt.Println("  --> should schedule")
 			return true
 		}
 	}
+	//fmt.Println("  --> should NOT schedule")
 	return false
 }

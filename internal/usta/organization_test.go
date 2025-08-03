@@ -38,3 +38,11 @@ func TestGetOrganizationTeams(t *testing.T) {
 	}
 	require.Equal(t, expectedFirstTeam, teams[0])
 }
+
+func TestHTTPGet(t *testing.T) {
+	u := getOrganizationUrl(225)
+	resp, err := http.Get(u)
+	require.NoError(t, err)
+	defer resp.Body.Close()
+	require.Equal(t, http.StatusOK, resp.StatusCode)
+}
