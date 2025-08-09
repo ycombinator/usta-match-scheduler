@@ -1,27 +1,27 @@
 {
     "events": [
         {
-            "date": "2025-01-01",
+            "date": "2025-01-01T00:00:00-0800",
             "title": "New Year's Day"
         },
         {
-            "date": "2025-01-20",
+            "date": "2025-01-20T00:00:00-0800",
             "title": "Martin Luther King, Jr. Day"
         },
         {
-            "date": "2025-02-17",
+            "date": "2025-02-17T00:00:00-0800",
             "title": "Presidents' Day"
         },
         {
-            "date": "2025-05-26",
+            "date": "2025-05-26T00:00:00-0700",
             "title": "Memorial Day"
         },
         {
-            "date": "2025-06-19",
+            "date": "2025-06-19T00:00:00-0700",
             "title": "Juneteenth"
         },
         {
-            "date": "2025-07-04",
+            "date": "2025-07-04T00:00:00-0700",
             "title": "Independence Day"
         },
         {
@@ -29,71 +29,71 @@
             "title": "[18+ Daytime] Sectionals"
         },
         {
-            "date": "2025-08-10",
+            "date": "2025-08-10T00:00:00-0700",
             "title": "[18+ Daytime] Sectionals"
         },
         {
-            "date": "2025-08-15",
+            "date": "2025-08-15T00:00:00-0700",
             "title": "[18+ Evening] Sectionals"
         },
         {
-            "date": "2025-08-16",
+            "date": "2025-08-16T00:00:00-0700",
             "title": "[18+ Evening] Sectionals"
         },
         {
-            "date": "2025-09-01",
+            "date": "2025-09-01T00:00:00-0700",
             "title": "Labor Day"
         },
         {
-            "date": "2025-09-26",
+            "date": "2025-09-26T00:00:00-0700",
             "title": "[40+ Mixed] Sectionals"
         },
         {
-            "date": "2025-09-27",
+            "date": "2025-09-27T00:00:00-0700",
             "title": "[40+ Mixed] Sectionals"
         },
         {
-            "date": "2025-09-28",
+            "date": "2025-09-28T00:00:00-0700",
             "title": "[40+ Mixed] Sectionals"
         },
         {
-            "date": "2025-10-13",
+            "date": "2025-10-13T00:00:00-0700",
             "title": "Columbus Day"
         },
         {
-            "date": "2025-11-11",
+            "date": "2025-11-11T00:00:00-0800",
             "title": "Veterans Day"
         },
         {
-            "date": "2025-11-27",
+            "date": "2025-11-27T00:00:00-0800",
             "title": "Thanksgiving Day"
         },
         {
-            "date": "2025-12-05",
+            "date": "2025-12-05T00:00:00-0800",
             "title": "[55+ Mixed] Sectionals"
         },
         {
-            "date": "2025-12-06",
+            "date": "2025-12-06T00:00:00-0800",
             "title": "[55+ Mixed] Sectionals"
         },
         {
-            "date": "2025-12-07",
+            "date": "2025-12-07T00:00:00-0800",
             "title": "[55+ Mixed] Sectionals"
         },
         {
-            "date": "2025-12-25",
+            "date": "2025-12-25T00:00:00-0800",
             "title": "Christmas Day"
         },
         {
-            "date": "2026-01-23",
+            "date": "2026-01-23T00:00:00-0800",
             "title": "[Combo] Sectionals"
         },
         {
-            "date": "2026-01-24",
+            "date": "2026-01-24T00:00:00-0800",
             "title": "[Combo] Sectionals"
         },
         {
-            "date": "2026-01-25",
+            "date": "2026-01-25T00:00:00-0800",
             "title": "[Combo] Sectionals"
         }
     ]
