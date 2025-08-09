@@ -4,6 +4,8 @@ import { getMonthName, getPreviousYearMonth, getNextYearMonth, weeksInMonth } fr
 import { CalendarWeek } from "./CalendarWeek"
 import "./CalendarMonth.css"
 import "./CalendarWeek.css"
+import { DndContext } from '@dnd-kit/core'
+import { useState } from 'react'
 
 export const CalendarMonth = ({year, month, setStartYearMonth, events, setEvent, addEventLabel, allowAdds, allowEdits, allowDeletes, knownEvents}) => {
     // console.log("calendar month: ", events)
@@ -44,17 +46,28 @@ export const CalendarMonth = ({year, month, setStartYearMonth, events, setEvent,
         setStartYearMonth(nextYear, nextMonth)
     }
 
+    const [isDropped, setIsDropped] = useState(false);
+
     return (
-        <div className="calendar-month">
-            <div className="header">
-                <a href="#" onClick={goBack}><FontAwesomeIcon icon={faBackward} /></a>
-                <h3>{monthName} {year}</h3>
-                <a href="#" onClick={goForward}><FontAwesomeIcon icon={faForward} /></a>
+        <DndContext onDragEnd={handleDragEnd}>
+            <div className="calendar-month">
+                <div className="header">
+                    <a href="#" onClick={goBack}><FontAwesomeIcon icon={faBackward} /></a>
+                    <h3>{monthName} {year}</h3>
+                    <a href="#" onClick={goForward}><FontAwesomeIcon icon={faForward} /></a>
+                </div>
+                <div className="calendar-week">
+                    {weekdayNames}
+                </div>
+                { calendarWeeks }
             </div>
-            <div className="calendar-week">
-                {weekdayNames}
-            </div>
-            { calendarWeeks }
-        </div>
+        </DndContext>
     )
 }
+
+function handleDragEnd(event) {
+    console.log(event)
+    if (event.over && event.over.id === 'droppable') {
+      setIsDropped(true);
+    }
+}    
