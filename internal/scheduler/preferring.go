@@ -1,9 +1,9 @@
 package scheduler
 
 import (
-	"fmt"
 	"time"
 
+	"github.com/ycombinator/usta-match-scheduler/internal/logging"
 	"github.com/ycombinator/usta-match-scheduler/internal/models"
 )
 
@@ -19,26 +19,30 @@ func NewPreferring(input *models.Input) *Preferring {
 }
 
 func (p *Preferring) Run() (*models.Schedule, error) {
+	logger := logging.NewLogger()
+	logger.Info("Starting Preferring Scheduler run...")
+
 	// Track scheduled and unscheduled matches. Ideally, there should not be
 	// any unscheduled matches at the end of this run.
 	scheduledEvents := make([]models.Event, len(p.input.Events))
 	copy(scheduledEvents, p.input.Events)
-	fmt.Printf("input events: %v\n", p.input.Events)
-	fmt.Printf("scheduled events: %v\n", scheduledEvents)
 	unscheduledEvents := make([]models.UnscheduledEvent, 0)
+
+	logScheduledEvents(logger, scheduledEvents)
+	logUnscheduledEvents(logger, unscheduledEvents)
 
 	// Go week by week
 	firstDayOfMatches := p.input.FirstDayOfMatches()
 	lastDayOfMatches := p.input.LastDayOfMatches()
-	fmt.Printf("first day of matches: [%s], last day of matches [%s]\n", firstDayOfMatches, lastDayOfMatches)
+	//fmt.Printf("first day of matches: [%s], last day of matches [%s]\n", firstDayOfMatches, lastDayOfMatches)
 	for currentDay := *firstDayOfMatches; currentDay.Before(lastDayOfMatches.AddDate(0, 0, 1)); currentDay = currentDay.AddDate(0, 0, 7) {
 		// Break out matches to be scheduled this week into
 		// daytime and evening matches
 		daytimeMatches := getMatchesForWeekAndScheduleGroup(p.input.Teams, currentDay, models.TeamScheduleGroupDaytime)
 		eveningMatches := getMatchesForWeekAndScheduleGroup(p.input.Teams, currentDay, models.TeamScheduleGroupEvening)
 
-		fmt.Printf("daytime matches for week [%s]: %v\n", currentDay, daytimeMatches)
-		fmt.Printf("evening matches for week [%s]: %v\n", currentDay, eveningMatches)
+		//fmt.Printf("daytime matches for week [%s]: %v\n", currentDay, daytimeMatches)
+		//fmt.Printf("evening matches for week [%s]: %v\n", currentDay, eveningMatches)
 
 		scheduledDaytimeMatches, unscheduledDaytimeMatches := scheduleMatches(daytimeMatches, models.TeamScheduleGroupDaytime, currentDay, scheduledEvents)
 		scheduledEvents = append(scheduledEvents, scheduledDaytimeMatches...)
@@ -48,6 +52,10 @@ func (p *Preferring) Run() (*models.Schedule, error) {
 		scheduledEvents = append(scheduledEvents, scheduledEveningMatches...)
 		unscheduledEvents = append(unscheduledEvents, unscheduledEveningMatches...)
 	}
+
+	logger.Info("Finished scheduling home matches")
+	logScheduledEvents(logger, scheduledEvents)
+	logUnscheduledEvents(logger, unscheduledEvents)
 
 	s := models.Schedule{
 		ScheduledEvents:   scheduledEvents,
@@ -372,4 +380,23 @@ func randomizeSlice[T any](slice []T) []T {
 		output[randomizedIdx] = slice[idx]
 	}
 	return output
+}
+
+func logScheduledEvents(logger logging.Logger, scheduledEvents []models.Event) {
+	numBlackoutEvents := 0
+	numMatchEvents := 0
+	for _, event := range scheduledEvents {
+		switch event.Type {
+		case models.EventTypeBlackout:
+			numBlackoutEvents++
+		case models.EventTypeMatch:
+			numMatchEvents++
+		}
+	}
+
+	logger.Info("Scheduled events summary", "total_count", len(scheduledEvents), "blackout_events_count", numBlackoutEvents, "match_events_count", numMatchEvents)
+}
+
+func logUnscheduledEvents(logger logging.Logger, unscheduledEvents []models.UnscheduledEvent) {
+	logger.Info("Unscheduled events summary", "total_count", len(unscheduledEvents))
 }

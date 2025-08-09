@@ -31,7 +31,7 @@ var team2Html []byte
 
 // TODO: memoize when we actual get team information over the network
 func GetTeam(id int) (models.Team, error) {
-	fmt.Printf("Getting team [%d]...\n", id)
+	//fmt.Printf("Getting team [%d]...\n", id)
 	return models.Team{
 		ID: id,
 	}, nil
@@ -90,7 +90,7 @@ func GetTeamMatches(t models.Team, opts ...TeamMatchesFilterOpt) ([]models.TeamM
 		}
 		body = io.NopCloser(bytes.NewReader(htmlSource))
 	} else {
-		fmt.Printf("Getting matches for team [%d]...\n", t.ID)
+		//fmt.Printf("Getting matches for team [%d]...\n", t.ID)
 
 		resp, err := http.Get(u)
 		if err != nil {

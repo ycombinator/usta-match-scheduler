@@ -2,18 +2,17 @@ package routing
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"time"
 
-	"github.com/ycombinator/usta-match-scheduler/internal/usta"
-
-	"github.com/ycombinator/usta-match-scheduler/internal/scheduler"
-
+	"github.com/ycombinator/usta-match-scheduler/internal/logging"
 	"github.com/ycombinator/usta-match-scheduler/internal/models"
+	"github.com/ycombinator/usta-match-scheduler/internal/scheduler"
+	"github.com/ycombinator/usta-match-scheduler/internal/usta"
 )
 
 func ScheduleMatches(w http.ResponseWriter, r *http.Request) {
+	logger := logging.NewLogger()
 	var input models.Input
 
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
@@ -21,10 +20,11 @@ func ScheduleMatches(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	logger.Info("Getting team matches", "teams_count", len(input.Teams))
 	teamMatchesHomeFilter := usta.WithFilterMatchLocation(models.MatchLocationHome)
 	for idx, team := range input.Teams {
 		matches, err := usta.GetTeamMatches(team.Team, teamMatchesHomeFilter)
-		fmt.Printf("team: [%s], matches: %v\n", team.DisplayName(), matches)
+		logger.Debug("Getting matches for team", "team_name", team.DisplayName(), "home_matches_count", len(matches))
 		if err != nil {
 			handleError(w, err, http.StatusInternalServerError)
 			return
@@ -35,7 +35,7 @@ func ScheduleMatches(w http.ResponseWriter, r *http.Request) {
 			weeks = append(weeks, match.Date)
 		}
 
-		fmt.Printf("%s %v\n", team.DisplayName(), weeks)
+		logger.Debug("Team matches retrieved", "team_name", team.DisplayName(), "home_weeks", weeks)
 		input.Teams[idx].Weeks = weeks
 	}
 
