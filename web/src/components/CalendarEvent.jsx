@@ -64,8 +64,7 @@ function getSlotLabel(slot) {
 // {
 //   "type": "match", // or "blackout"
 //   "slot": "evening", // or "morning" or "afternoon"
-//   "start": "2025-04-13T17:00:00Z",
-//   "end": "2025-04-13T19:00:00Z",
+//   "date": "2025-04-13T17:00:00Z",
 //   "id": "a3e59ac3",
 //   "title": "[M3.5] vs. Bramhall",
 // }
