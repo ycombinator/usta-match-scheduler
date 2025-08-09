@@ -35,13 +35,13 @@ export const CalendarMonth = ({year, month, setStartYearMonth, events, setEvent,
     function goBack(e) {
         e.preventDefault()
         const { prevYear, prevMonth } = getPreviousYearMonth(year, month)
-        setStartYearMonth({ year: prevYear, month: prevMonth })
+        setStartYearMonth(prevYear, prevMonth)
     }
 
     function goForward(e) {
         e.preventDefault()
         const { nextYear, nextMonth } = getNextYearMonth(year, month)
-        setStartYearMonth({ year: nextYear, month: nextMonth })
+        setStartYearMonth(nextYear, nextMonth)
     }
 
     return (
