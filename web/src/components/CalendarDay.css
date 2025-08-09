@@ -10,28 +10,55 @@
     overflow: scroll;
 }
 
-.calendar-day h4 {
-    margin-bottom: 0.4rem;
+.calendar-day > .header {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.calendar-day > .header h4 {
     padding: 0.4rem;
     max-width: fit-content;
 }
 
-.calendar-day h4.not-this-month {
+.calendar-day > .header h4.not-this-month {
     color: lightgray;
 }
 
-.calendar-day h4.weekend {
+.calendar-day > .header h4.weekend {
     color: red;
 }
 
-.calendar-day h4.today {
+.calendar-day > .header h4.today {
     color: white;
     background-color: cornflowerblue;
     border-color: cornflowerblue;
     border-radius: 1rem;
 }
 
+.calendar-day > .header .known-events {
+    display: flex;
+    gap: 0.1rem;
+
+    overflow: scroll;
+}
+
+.calendar-day > .header .known-event {
+    font-family: Helvetica, sans-serif;
+    font-size: 0.7rem;
+
+    background-color: red;
+    color: whitesmoke;
+
+    white-space: nowrap;
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+
+    padding: 0.2rem;
+}
+
 .calendar-day-event {
     list-style: none;
     margin-bottom: 0.2rem;
 }
+

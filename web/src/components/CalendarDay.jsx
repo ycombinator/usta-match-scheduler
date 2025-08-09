@@ -3,7 +3,7 @@ import { CalendarEvent } from "./CalendarEvent"
 import "./CalendarDay.css"
 import { useState } from "react"
 
-export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setEvent, addEventLabel, allowAdds, allowDeletes}) => {
+export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setEvent, addEventLabel, allowAdds, allowDeletes, knownEvents}) => {
     console.log("calendar day: ", events)
     const currentDay = new Date(year, month, day)
     const today = new Date()
@@ -71,9 +71,17 @@ export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setE
             )
         }
     })
+
+    knownEvents = knownEvents.map(event => (
+        <span className="known-event">{event.title}</span>
+    ))
+
     return (
         <div className="calendar-day">
-            <h4 className={dayClass}>{day}</h4>
+            <div className="header">
+                <h4 className={dayClass}>{day}</h4>
+                <span className="known-events">{knownEvents}</span>
+            </div>
             <ol>{items}</ol>
         </div>
     )

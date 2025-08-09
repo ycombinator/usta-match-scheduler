@@ -2,7 +2,7 @@ import { daysInMonth, isEventInDay, monthDaysInFirstWeek, getPreviousYearMonth, 
 import { CalendarDay } from "./CalendarDay"
 import "./CalendarWeek.css"
 
-export const CalendarWeek = ({year, month, week, events, setEvent, addEventLabel, allowAdds, allowDeletes}) => {
+export const CalendarWeek = ({year, month, week, events, setEvent, addEventLabel, allowAdds, allowDeletes, knownEvents}) => {
     console.log("calendar week: ", events)
     const thisYear = year
     const thisMonth = month
@@ -42,7 +42,8 @@ export const CalendarWeek = ({year, month, week, events, setEvent, addEventLabel
             }
         }
 
-        const dayEvents = events.filter(event => isEventInDay(year, month, day, event))
+        const dayEvents = events.filter(dayEventFilter(year, month, day))
+        const dayKnownEvents = knownEvents.filter(dayEventFilter(year, month, day))
         const key = year+"_"+month+"_"+day
         days.push(
             <div key={key}>
@@ -51,6 +52,7 @@ export const CalendarWeek = ({year, month, week, events, setEvent, addEventLabel
                     year={year} month={month} day={day} 
                     events={dayEvents} setEvent={setEvent} addEventLabel={addEventLabel}
                     allowAdds={allowAdds} allowDeletes={allowDeletes}
+                    knownEvents={dayKnownEvents}
                 />
             </div>
         )
@@ -62,4 +64,10 @@ export const CalendarWeek = ({year, month, week, events, setEvent, addEventLabel
         </div>
         
     )
+}
+
+function dayEventFilter(year, month, day) {
+    return (event) => {
+        return isEventInDay(year, month, day, event)
+    }
 }

@@ -15,23 +15,14 @@ function App() {
 
     const [events, setEvents] = useState([])
     const [blackoutEvents, setBlackoutEvents] = useState([])
+    const [knownEvents, setKnownEvents] = useState([])
     useEffect(async () => {
-        const blackoutEvents = await fetchInitBlackoutEvents(asrcOrganizationID)
-        blackoutEvents.forEach(event => {
-            console.log("Before: ", event.date)
+        const knownEvents = await fetchKnownEvents(asrcOrganizationID)
+        knownEvents.forEach(event => {
             event.date = new Date(event.date)
-            console.log("After: ", event.date)
         })
-        setBlackoutEvents(blackoutEvents)
-        setEvents(blackoutEvents)
+        setKnownEvents(knownEvents)
     }, [])
-    // const [events, setEvents] = useState([
-    //     { start: new Date("2025-07-08T16:00:00Z"), end: new Date("2025-07-08T20:00:00Z"), title: "Club social", type:"blackout", slot:"morning"},
-    //     { start: new Date("2025-07-12T19:00:00Z"), end: new Date("2025-07-12T22:00:00Z"), title: "[W3.5] vs. Morgan Hill Tennis Club", type:"match", slot:"afternoon"},
-    //     { start: new Date("2025-07-13T16:00:00Z"), end: new Date("2025-07-13T19:00:00Z"), title: "[W3.5DT] vs. Bay Club Courtside", type:"match", slot:"morning"},
-    //     { start: new Date("2025-07-13T19:30:00Z"), end: new Date("2025-07-13T22:30:00Z"), title: "[M4.5] vs. Los Gatos", type:"match", slot:"afternoon"},
-    //     { start: new Date("2025-07-13T23:00:00Z"), end: new Date("2025-07-14T02:00:00Z"), title: "[M3.5] vs. Bramhall", type:"match", slot:"evening"},
-    // ])
 
     const [teams, setTeams] = useState([]);
     useEffect(async () => {
@@ -74,7 +65,7 @@ function App() {
         setEvents(newEvents)
     }
 
-    console.log({blackoutEvents, events})
+    console.log({knownEvents, blackoutEvents, events})
 
     // States:
     // - Team preferences set
@@ -106,6 +97,7 @@ function App() {
                 allowAdds={true}
                 allowDeletes={true}
                 header={header}
+                knownEvents={knownEvents}
             />
             step = 2
             stepLabel = "Set blackout slots"
@@ -131,6 +123,7 @@ function App() {
                 addEventLabel="match"
                 allowAdds={false}
                 allowDeletes={false}
+                knownEvents={knownEvents}
             />
             step = 3
             stepLabel = "Review schedule"
@@ -169,8 +162,8 @@ async function fetchUpcomingTeams(organizationID) {
     // return [json.teams[0], json.teams[1], json.teams[2]]
 }
 
-async function fetchInitBlackoutEvents(organizationID) {
-    const response = await fetch(`https://raw.githubusercontent.com/ycombinator/usta-match-scheduler/refs/heads/main/data/blackout-events-${organizationID}.json`)
+async function fetchKnownEvents(organizationID) {
+    const response = await fetch(`https://raw.githubusercontent.com/ycombinator/usta-match-scheduler/refs/heads/main/data/known-events-${organizationID}.json`)
     const json = await response.json()
     return json.events
 }

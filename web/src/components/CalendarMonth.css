@@ -15,7 +15,7 @@
 
 }
 
-.calendar-month .header {
+.calendar-month > .header {
     display: flex;
     margin-bottom: 1rem;
     gap: 1rem;
