@@ -4,7 +4,7 @@ import "./CalendarEvent.css"
 import { faTrash } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-export const CalendarEvent = ({year, month, day, event, setEvent, allowDelete}) => {
+export const CalendarEvent = ({year, month, day, event, setEvent, allowEdit, allowDelete}) => {
     const start = doesEventStartInDay(year, month, day, event)
         ? getPaddedTime(event.start)
         : "..."
@@ -16,7 +16,8 @@ export const CalendarEvent = ({year, month, day, event, setEvent, allowDelete}) 
     const [editEvent, setEditEvent] = useState(false)
     const [editEventText, setEditEventText] = useState(event.title)
 
-    const submitEditEvent = () => {
+    const submitEditEvent = (e) => {
+        e.stopPropagation()
         setEditEvent(false)
         const title = editEventText.trim()
         setEvent({id: event.id, type: event.type, slot: event.slot, start: event.start, end: event.end, title: title}); ;
@@ -32,22 +33,30 @@ export const CalendarEvent = ({year, month, day, event, setEvent, allowDelete}) 
 
     if (editEvent) {
         return (
-            <form onBlur={() => {submitEditEvent(); return false;}} onSubmit={() => {submitEditEvent(); return false;}}>
+            <form onBlur={(e) => {submitEditEvent(e); return false;}} onSubmit={(e) => {submitEditEvent(e); return false;}}>
                 <input type="text" autoFocus={true} value={editEventText} onChange={e => setEditEventText(e.target.value)}></input>
             </form>
         )
     }
 
     // TODO: show trash icon for deleting
+    if (allowEdit) {
+        return (
+            <span className={className}>
+                <span onClick={(e) => {e.stopPropagation(); setEditEvent(true); return false;}}>
+                    {getSlotLabel(event.slot)}: {event.title}
+                    {/* {start}-{end}: {title} */}
+                </span>
+                {deleteButton}
+            </span>
+        )
+    }
 
     return (
-        <span className={className}>
-            <span onClick={() => {setEditEvent(true); return false;}}>
+            <span className={className}>
                 {getSlotLabel(event.slot)}: {event.title}
-                {/* {start}-{end}: {title} */}
+                {deleteButton}
             </span>
-            {deleteButton}
-        </span>
     )
 }
 

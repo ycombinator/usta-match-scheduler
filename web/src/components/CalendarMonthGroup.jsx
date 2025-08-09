@@ -9,7 +9,7 @@ export class CalendarMonthGroup extends React.Component {
     }
 
     render() {
-        const {startYear, startMonth, setStartYearMonth, numMonths, events, setEvent, addEventLabel, allowAdds, allowDeletes, header, knownEvents} = this.props
+        const {startYear, startMonth, setStartYearMonth, numMonths, events, setEvent, addEventLabel, allowAdds, allowEdits, allowDeletes, header, knownEvents} = this.props
         // console.log("calendar month group: ", events)
         const months = []
         let year = startYear
@@ -27,7 +27,7 @@ export class CalendarMonthGroup extends React.Component {
                         year={year} month={month}
                         setStartYearMonth={setStartYearMonth}
                         events={monthEvents} setEvent={setEvent} addEventLabel={addEventLabel}
-                        allowAdds={allowAdds} allowDeletes={allowDeletes}
+                        allowAdds={allowAdds} allowEdits={allowEdits} allowDeletes={allowDeletes}
                         knownEvents={monthKnownEvents}
                     />
                 </div>

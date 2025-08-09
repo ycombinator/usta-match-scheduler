@@ -127,6 +127,7 @@ export default class App extends React.Component {
                     setEvent={setEvent}
                     addEventLabel="blackout"
                     allowAdds={true}
+                    allowEdits={true}
                     allowDeletes={true}
                     header={header}
                     knownEvents={self.state.knownEvents}
@@ -162,6 +163,7 @@ export default class App extends React.Component {
                             setEvent={setEvent}
                             addEventLabel="match"
                             allowAdds={false}
+                            allowEdits={false}
                             allowDeletes={false}
                             knownEvents={self.state.knownEvents}
                         />
