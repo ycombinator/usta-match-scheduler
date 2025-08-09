@@ -36,21 +36,29 @@ func (p *Preferring) Run() (*models.Schedule, error) {
 	lastDayOfMatches := p.input.LastDayOfMatches()
 	//fmt.Printf("first day of matches: [%s], last day of matches [%s]\n", firstDayOfMatches, lastDayOfMatches)
 	for currentDay := *firstDayOfMatches; currentDay.Before(lastDayOfMatches.AddDate(0, 0, 1)); currentDay = currentDay.AddDate(0, 0, 7) {
+		//logger.Info("Scheduling matches for week", "week_start_monday", currentDay.Format("2006-01-02"))
+
 		// Break out matches to be scheduled this week into
 		// daytime and evening matches
 		daytimeMatches := getMatchesForWeekAndScheduleGroup(p.input.Teams, currentDay, models.TeamScheduleGroupDaytime)
 		eveningMatches := getMatchesForWeekAndScheduleGroup(p.input.Teams, currentDay, models.TeamScheduleGroupEvening)
 
-		//fmt.Printf("daytime matches for week [%s]: %v\n", currentDay, daytimeMatches)
-		//fmt.Printf("evening matches for week [%s]: %v\n", currentDay, eveningMatches)
+		//logger.Debug("Daytime matches to schedule for the week", "matches_count", len(daytimeMatches))
+		//logger.Debug("Evening matches to schedule for the week", "matches_count", len(eveningMatches))
 
 		scheduledDaytimeMatches, unscheduledDaytimeMatches := scheduleMatches(daytimeMatches, models.TeamScheduleGroupDaytime, currentDay, scheduledEvents)
 		scheduledEvents = append(scheduledEvents, scheduledDaytimeMatches...)
 		unscheduledEvents = append(unscheduledEvents, unscheduledDaytimeMatches...)
 
+		logger.Debug("Daytime matches scheduled for the week", "matches_count", len(scheduledDaytimeMatches))
+		logger.Debug("Daytime matches unscheduled for the week", "matches_count", len(unscheduledDaytimeMatches))
+
 		scheduledEveningMatches, unscheduledEveningMatches := scheduleMatches(eveningMatches, models.TeamScheduleGroupEvening, currentDay, scheduledEvents)
 		scheduledEvents = append(scheduledEvents, scheduledEveningMatches...)
 		unscheduledEvents = append(unscheduledEvents, unscheduledEveningMatches...)
+
+		logger.Debug("Evening matches scheduled for the week", "matches_count", len(scheduledEveningMatches))
+		logger.Debug("Evening matches unscheduled for the week", "matches_count", len(unscheduledEveningMatches))
 	}
 
 	logger.Info("Finished scheduling home matches")
@@ -101,34 +109,44 @@ func getMatchesForWeekAndScheduleGroup(teams []models.SchedulingTeam, week time.
 }
 
 func scheduleMatches(matches []models.UnscheduledEvent, scheduleGroup models.TeamScheduleGroup, week time.Time, scheduledEvents []models.Event) ([]models.Event, []models.UnscheduledEvent) {
-	scheduledMatches := make([]models.Event, len(scheduledEvents))
-	copy(scheduledMatches, scheduledEvents)
+	logger := logging.NewLogger()
+	logger.Info("Scheduling matches for week", "week_start_monday", week.Format("2006-01-02"), "schedule_group", scheduleGroup, "matches_count", len(matches))
+
+	scheduledMatches := make([]models.Event, 0)
 	unscheduledMatches := make([]models.UnscheduledEvent, 0)
+
+	logScheduledEvents(logger, scheduledEvents)
+	logUnscheduledEvents(logger, unscheduledMatches)
 
 	// Randomize matches for the week. Go match by match.
 	matches = randomizeSlice(matches)
 	for _, match := range matches {
+		logger.Debug("Scheduling match", "match_title", match.Title, "match_type", match.Type, "day_preferences", match.DayPreferences)
+
 		// Find slot for match, considering slot availability, slot matching,
 		// and match preference (look for 1st, then 2nd, etc.).
-		scheduledMatch := findSlot(match, scheduleGroup, week, scheduledMatches, true)
+		scheduledMatch := findSlot(match, scheduleGroup, week, scheduledEvents, true)
 
 		// If slot is not found, leave match unscheduled; it will be assigned
 		// to an arbitrary available and matching slot later.
 		if scheduledMatch == nil {
 			unscheduledMatches = append(unscheduledMatches, match)
 		} else {
+			logger.Debug("Match scheduled", "match_title", scheduledMatch.Title, "match_type", scheduledMatch.Type, "date", scheduledMatch.Date.Format("2006-01-02"), "day", scheduledMatch.Date.Format("Monday"), "slot", scheduledMatch.Slot)
 			scheduledMatches = append(scheduledMatches, *scheduledMatch)
+			scheduledEvents = append(scheduledEvents, *scheduledMatch)
 		}
 	}
 
 	// Loop over unscheduled matches and assign to arbitrary available and matching slot.
 	finalUnscheduledMatches := make([]models.UnscheduledEvent, 0)
 	for _, match := range unscheduledMatches {
-		scheduledMatch := findSlot(match, scheduleGroup, week, scheduledMatches, false)
+		scheduledMatch := findSlot(match, scheduleGroup, week, scheduledEvents, false)
 		if scheduledMatch == nil {
 			finalUnscheduledMatches = append(finalUnscheduledMatches, match)
 		} else {
 			scheduledMatches = append(scheduledMatches, *scheduledMatch)
+			scheduledEvents = append(scheduledEvents, *scheduledMatch)
 		}
 	}
 
