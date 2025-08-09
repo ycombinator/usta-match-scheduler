@@ -69,8 +69,8 @@ export default class App extends React.Component {
             const newEvents = []
             let found = false
             for (let i = 0; i < self.state.events.length; i++) {
-                if (e.id != events[i].id) {
-                    newEvents.push(events[i])
+                if (e.id != self.state.events[i].id) {
+                    newEvents.push(self.state.events[i])
                     continue
                 }
 
