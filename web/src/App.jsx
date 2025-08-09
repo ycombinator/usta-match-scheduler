@@ -172,6 +172,8 @@ export default class App extends React.Component {
                 navPreviousLabel = "Set blackout slots"
                 navPrevious = () => {
                     setEvents(self.state.blackoutEvents)
+                    const now = new Date()
+                    setCalendarBounds(now.getFullYear(), now.getMonth(), 1)
                     setAppState("set_blackout_slots")
                 }
 
