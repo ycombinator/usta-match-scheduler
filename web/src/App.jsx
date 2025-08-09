@@ -59,30 +59,6 @@ export default class App extends React.Component {
         const setBlackoutEvents = events => this.setState({blackoutEvents: events})
         const setIsGeneratingSchedule = isGeneratingSchedule => this.setState({isGeneratingSchedule})
 
-        // const now = new Date()
-        // const [startYearMonth, setStartYearMonth] = useState({year: now.getFullYear(), month: now.getMonth()})
-
-        // const [events, setEvents] = useState([])
-        // const [blackoutEvents, setBlackoutEvents] = useState([])
-        // const [knownEvents, setKnownEvents] = useState([])
-
-        // const [isGeneratingSchedule, setIsGeneratingSchedule] = useState(false)
-
-        // useEffect(async () => {
-        //     const knownEvents = await fetchKnownEvents(asrcOrganizationID)
-        //     knownEvents.forEach(event => {
-        //         event.date = new Date(event.date)
-        //     })
-        //     setKnownEvents(knownEvents)
-        // }, [])
-
-        // const [teams, setTeams] = useState([]);
-        // useEffect(async () => {
-        //     const teams = await fetchUpcomingTeams(asrcOrganizationID)
-        //     teams.forEach(team => team.day_preferences = [])
-        //     setTeams(teams)
-        // }, [])
-
         const changePreferredMatchDays = function(teamIdx, days) {
             const newTeams = structuredClone(self.state.teams)
             newTeams[teamIdx].day_preferences = days
