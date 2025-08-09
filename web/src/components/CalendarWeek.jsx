@@ -34,7 +34,7 @@ export const CalendarWeek = ({year, month, week, events, setEvent, addEventLabel
 
             if (day > daysInMonth(year, month)) {
                 day = 1 + nextMonthDays
-                nextMonthDays++ 
+                nextMonthDays++
 
                 const { nextYear, nextMonth } = getNextYearMonth(thisYear, thisMonth)
                 year = nextYear
@@ -48,8 +48,8 @@ export const CalendarWeek = ({year, month, week, events, setEvent, addEventLabel
         days.push(
             <div key={key}>
                 <CalendarDay
-                    thisYear={thisYear} thisMonth={thisMonth} 
-                    year={year} month={month} day={day} 
+                    thisYear={thisYear} thisMonth={thisMonth}
+                    year={year} month={month} day={day}
                     events={dayEvents} setEvent={setEvent} addEventLabel={addEventLabel}
                     allowAdds={allowAdds} allowDeletes={allowDeletes}
                     knownEvents={dayKnownEvents}
@@ -62,7 +62,7 @@ export const CalendarWeek = ({year, month, week, events, setEvent, addEventLabel
         <div className="calendar-week">
             { days }
         </div>
-        
+
     )
 }
 

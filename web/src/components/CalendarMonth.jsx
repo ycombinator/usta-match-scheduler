@@ -22,8 +22,8 @@ export const CalendarMonth = ({year, month, setStartYearMonth, events, setEvent,
         const key = year+"_"+month+"_"+i
         calendarWeeks.push(
             <div key={key}>
-                <CalendarWeek 
-                    year={year} month={month} week={i} 
+                <CalendarWeek
+                    year={year} month={month} week={i}
                     events={events} setEvent={setEvent} addEventLabel={addEventLabel}
                     allowAdds={allowAdds} allowDeletes={allowDeletes}
                     knownEvents={knownEvents}

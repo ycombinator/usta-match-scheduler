@@ -23,8 +23,8 @@ export class CalendarMonthGroup extends React.Component {
             console.log({monthKnownEvents})
             months.push(
                 <div key={i} className="calendar-month-container">
-                    <CalendarMonth 
-                        year={year} month={month} 
+                    <CalendarMonth
+                        year={year} month={month}
                         setStartYearMonth={setStartYearMonth}
                         events={monthEvents} setEvent={setEvent} addEventLabel={addEventLabel}
                         allowAdds={allowAdds} allowDeletes={allowDeletes}

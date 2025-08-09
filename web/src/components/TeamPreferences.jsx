@@ -28,7 +28,7 @@ export const TeamPreferences = ({teams, changePreferredMatchDays}) => {
                     <OrderedSelectionGroup
                         allItems={allDays}
                         unselectableItems={unselectableDays}
-                        selectedItems={team.day_preferences} 
+                        selectedItems={team.day_preferences}
                         setSelectedItems={setSelectedMatchDays}
                     />
                 </td>

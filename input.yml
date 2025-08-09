@@ -25,37 +25,37 @@ teams:
     captain: Phu Bui-Quang
     scheduling_type: evening
     day_preferences: [ saturday, tuesday, friday ]
-    weeks: [ 20250407, 20250421, 20250428, 20250505, 20250609 ]  
+    weeks: [ 20250407, 20250421, 20250428, 20250505, 20250609 ]
   m35:
     title: Mens 3.5
     captain: Rick McKinney
     scheduling_type: evening
     day_preferences: [ sunday, tuesday, wednesday ]
-    weeks: [ 20250407, 20250421, 20250428, 20250505, 20250609 ]  
+    weeks: [ 20250407, 20250421, 20250428, 20250505, 20250609 ]
   m40:
     title: Mens 4.0
     captain: Cory Caouette
     scheduling_type: evening
     day_preferences: [ monday, friday, saturday ]
-    weeks: [ 20250414, 20250428, 20250505, 20250519, 20250602 ]  
+    weeks: [ 20250414, 20250428, 20250505, 20250519, 20250602 ]
   m45:
     title: Mens 4.5
     captain: Herve Alexanian
     scheduling_type: evening
     day_preferences: [ saturday, wednesday, friday ]
-    weeks: [ 20250407, 20250421, 20250505, 20250519, 20250602 ]  
+    weeks: [ 20250407, 20250421, 20250505, 20250519, 20250602 ]
   w30:
     title: Womens 3.0
     captain: Shelley Goglio
     scheduling_type: evening
     day_preferences: [ monday, thursday, sunday ]
-    weeks: [ 20250421, 20250505, 20250519, 20250602, 20250609 ]  
+    weeks: [ 20250421, 20250505, 20250519, 20250602, 20250609 ]
   w35:
     title: Womens 3.5
     captain: Julie Boncher
     scheduling_type: evening
     day_preferences: [ tuesday, thursday, saturday ]
-    weeks: [ 20250428, 20250512, 20250519, 20250602, 20250609 ]  
+    weeks: [ 20250428, 20250512, 20250519, 20250602, 20250609 ]
 scheduling_types:
   evening:
     start_times:

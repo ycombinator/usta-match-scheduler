@@ -5,7 +5,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 export const CalendarEvent = ({year, month, day, event, setEvent, allowDelete}) => {
-    const start = doesEventStartInDay(year, month, day, event) 
+    const start = doesEventStartInDay(year, month, day, event)
         ? getPaddedTime(event.start)
         : "..."
     const end = doesEventEndInDay(year, month, day, event)

@@ -45,7 +45,7 @@ export default class App extends React.Component {
     setStartYearMonth(year, month) {
         this.setState({year, month})
     }
-    
+
     setTeams(teams) {
         this.setState({teams})
     }
@@ -108,7 +108,7 @@ export default class App extends React.Component {
                     continue
                 }
 
-                found = true 
+                found = true
                 if (e.title == "") {
                     // Delete event by not adding it to newEvents
                     continue
@@ -150,11 +150,11 @@ export default class App extends React.Component {
             case "set_blackout_slots":
                 header = <h5>Blackout any slots where you don't want matches to be scheduled, e.g. for club events.</h5>
                 component = <CalendarMonthGroup
-                    startYear={startYear} 
-                    startMonth={startMonth} 
-                    numMonths={1} 
-                    setStartYearMonth={this.setStartYearMonth} 
-                    events={this.state.events} 
+                    startYear={startYear}
+                    startMonth={startMonth}
+                    numMonths={1}
+                    setStartYearMonth={this.setStartYearMonth}
+                    events={this.state.events}
                     setEvent={this.setEvent}
                     addEventLabel="blackout"
                     allowAdds={true}
@@ -180,11 +180,11 @@ export default class App extends React.Component {
                 break
             case "edit_schedule":
                 component = <CalendarMonthGroup
-                    startYear={startYear} 
-                    startMonth={startMonth} 
-                    numMonths={1} 
-                    setStartYearMonth={this.setStartYearMonth} 
-                    events={this.state.events} 
+                    startYear={startYear}
+                    startMonth={startMonth}
+                    numMonths={1}
+                    setStartYearMonth={this.setStartYearMonth}
+                    events={this.state.events}
                     setEvent={setEvent}
                     addEventLabel="match"
                     allowAdds={false}
@@ -249,7 +249,7 @@ async function mockEvents(events) {
         { start: new Date("2025-07-11T19:00:00Z"), end: new Date("2025-07-11T22:00:00Z"), title: "[CW3.5] vs. Morgan Hill Tennis Club", type:"match", slot:"evening"},
         { start: new Date("2025-07-13T16:00:00Z"), end: new Date("2025-07-13T19:00:00Z"), title: "[CW3.5DT] vs. Bay Club Courtside", type:"match", slot:"morning"},
         { start: new Date("2025-07-13T19:30:00Z"), end: new Date("2025-07-13T22:30:00Z"), title: "[CM4.5] vs. Los Gatos", type:"match", slot:"afternoon"},
-        { start: new Date("2025-07-13T23:00:00Z"), end: new Date("2025-07-14T02:00:00Z"), title: "[CM3.5] vs. Bramhall", type:"match", slot:"evening"},        
+        { start: new Date("2025-07-13T23:00:00Z"), end: new Date("2025-07-14T02:00:00Z"), title: "[CM3.5] vs. Bramhall", type:"match", slot:"evening"},
         { start: new Date("2025-07-16T19:00:00Z"), end: new Date("2025-07-16T22:00:00Z"), title: "[CW2.5+DT] vs. Brookside", type:"match", slot:"morning"},
     )
     return new Promise((resolve, reject) => resolve(scheduleEvents))

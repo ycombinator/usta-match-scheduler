@@ -86,4 +86,3 @@ export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setE
         </div>
     )
 }
-    
