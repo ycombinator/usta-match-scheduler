@@ -3,7 +3,7 @@ import { CalendarDay } from "./CalendarDay"
 import "./CalendarWeek.css"
 
 export const CalendarWeek = ({year, month, week, events, setEvent, addEventLabel, allowAdds, allowDeletes, knownEvents}) => {
-    console.log("calendar week: ", events)
+    // console.log("calendar week: ", events)
     const thisYear = year
     const thisMonth = month
 

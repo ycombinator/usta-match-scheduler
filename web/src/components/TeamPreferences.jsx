@@ -14,7 +14,7 @@ export const TeamPreferences = ({teams, changePreferredMatchDays}) => {
         const unselectableDays = (team.schedule_group == "Daytime") ? ["Saturday", "Sunday"] : []
 
         const setSelectedMatchDays = days => {
-            console.log({days})
+            // console.log({days})
             changePreferredMatchDays(teamIdx, days)
         }
         const teamType = team.type == "Adult"?  "" : team.type

@@ -10,7 +10,7 @@ export class CalendarMonthGroup extends React.Component {
 
     render() {
         const {startYear, startMonth, setStartYearMonth, numMonths, events, setEvent, addEventLabel, allowAdds, allowDeletes, header, knownEvents} = this.props
-        console.log("calendar month group: ", events)
+        // console.log("calendar month group: ", events)
         const months = []
         let year = startYear
         let month = startMonth
@@ -18,9 +18,9 @@ export class CalendarMonthGroup extends React.Component {
             // Include events from previous month, current month, and next month so display
             // works correctly
             const monthEvents = events.filter(monthEventFilter(year, month))
-            console.log({knownEvents})
+            // console.log({knownEvents})
             const monthKnownEvents = knownEvents.filter(monthEventFilter(year, month))
-            console.log({monthKnownEvents})
+            // console.log({monthKnownEvents})
             months.push(
                 <div key={i} className="calendar-month-container">
                     <CalendarMonth

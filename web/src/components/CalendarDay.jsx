@@ -4,7 +4,7 @@ import "./CalendarDay.css"
 import { useState } from "react"
 
 export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setEvent, addEventLabel, allowAdds, allowDeletes, knownEvents}) => {
-    console.log("calendar day: ", events)
+    // console.log("calendar day: ", events)
     const currentDay = new Date(year, month, day)
     const today = new Date()
     const isToday = isSameDay(today, currentDay)
@@ -32,7 +32,7 @@ export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setE
         const title = addEventText.trim()
         if (title != "") {
             const id = `${year}${month}${day}_${slot}`
-            console.log({currentDay, slot, id, addEventLabel, title})
+            // console.log({currentDay, slot, id, addEventLabel, title})
             setEvent({id: id, type: addEventLabel, slot: slot, date: currentDay, title: title});
         }
         setAddEventIdx(-1)

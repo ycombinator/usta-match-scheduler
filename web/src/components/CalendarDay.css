@@ -7,7 +7,8 @@
     height: 8rem;
     width: 12rem;
 
-    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .calendar-day > .header {

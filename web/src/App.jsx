@@ -1,4 +1,5 @@
 import React from 'react'
+import { toPng } from 'html-to-image';
 
 import './App.css'
 import { TeamPreferences } from './components/TeamPreferences'
@@ -18,6 +19,7 @@ export default class App extends React.Component {
             appState: "set_team_preferences",
             year: now.getFullYear(),
             month: now.getMonth(),
+            numMonths: 1,
             teams: [],
             events: [],
             blackoutEvents: [],
@@ -38,39 +40,27 @@ export default class App extends React.Component {
             this.setTeams(teams)
     }
 
-    setAppState(appState) {
-        this.setState({appState})
-    }
+    setKnownEvents = events => this.setState({knownEvents: events})
 
-    setStartYearMonth(year, month) {
-        this.setState({year, month})
-    }
-
-    setTeams(teams) {
-        this.setState({teams})
-    }
-
-    setEvents(events) {
-        this.setState({events})
-    }
-
-    setBlackoutEvents(events) {
-        this.setState({blackoutEvents: events})
-    }
-
-    setKnownEvents(events) {
-        this.setState({knownEvents: events})
-    }
-
-    setIsGeneratingSchedule(isGeneratingSchedule) {
-        this.setState({isGeneratingSchedule})
-    }
+    setTeams = (teams) => this.setState({teams})
 
     render() {
+        const self = this
+
+        const setAppState = appState => this.setState({appState})
+        const setCalendarBounds = (year, month, numMonths) => {
+            this.setState({year, month})
+            if (numMonths) {
+                this.setState({numMonths})
+            }
+        }
+        const setTeams = this.setTeams
+        const setEvents = events => this.setState({events})
+        const setBlackoutEvents = events => this.setState({blackoutEvents: events})
+        const setIsGeneratingSchedule = isGeneratingSchedule => this.setState({isGeneratingSchedule})
+
         // const now = new Date()
         // const [startYearMonth, setStartYearMonth] = useState({year: now.getFullYear(), month: now.getMonth()})
-        const startYear =this.state.year
-        const startMonth = this.state.month
 
         // const [events, setEvents] = useState([])
         // const [blackoutEvents, setBlackoutEvents] = useState([])
@@ -83,26 +73,26 @@ export default class App extends React.Component {
         //     knownEvents.forEach(event => {
         //         event.date = new Date(event.date)
         //     })
-        //     this.setKnownEvents(knownEvents)
+        //     setKnownEvents(knownEvents)
         // }, [])
 
         // const [teams, setTeams] = useState([]);
         // useEffect(async () => {
         //     const teams = await fetchUpcomingTeams(asrcOrganizationID)
         //     teams.forEach(team => team.day_preferences = [])
-        //     this.setTeams(teams)
+        //     setTeams(teams)
         // }, [])
 
         const changePreferredMatchDays = function(teamIdx, days) {
-            const newTeams = structuredClone(teams)
+            const newTeams = structuredClone(self.state.teams)
             newTeams[teamIdx].day_preferences = days
-            this.setTeams(newTeams)
+            setTeams(newTeams)
         }
 
         const setEvent = function(e) {
             const newEvents = []
             let found = false
-            for (let i = 0; i < events.length; i++) {
+            for (let i = 0; i < self.state.events.length; i++) {
                 if (e.id != events[i].id) {
                     newEvents.push(events[i])
                     continue
@@ -124,7 +114,7 @@ export default class App extends React.Component {
                 newEvents.push(e)
             }
 
-            this.setEvents(newEvents)
+            setEvents(newEvents)
         }
 
         console.log(this.state)
@@ -140,70 +130,91 @@ export default class App extends React.Component {
         const totalSteps = 3
         switch (this.state.appState) {
             case "set_team_preferences":
-                component = <TeamPreferences teams={this.state.teams} changePreferredMatchDays={changePreferredMatchDays} />
+                component = <TeamPreferences 
+                    teams={self.state.teams} 
+                    changePreferredMatchDays={changePreferredMatchDays} 
+                />
                 step = 1
                 stepLabel = "Set team preferences"
 
                 navNextLabel = "Set blackout slots"
-                navNext = () => this.setAppState("set_blackout_slots")
+                navNext = () => setAppState("set_blackout_slots")
                 break
             case "set_blackout_slots":
                 header = <h5>Blackout any slots where you don't want matches to be scheduled, e.g. for club events.</h5>
                 component = <CalendarMonthGroup
-                    startYear={startYear}
-                    startMonth={startMonth}
-                    numMonths={1}
-                    setStartYearMonth={this.setStartYearMonth}
-                    events={this.state.events}
-                    setEvent={this.setEvent}
+                    startYear={this.state.year}
+                    startMonth={this.state.month}
+                    numMonths={this.state.numMonths}
+                    setStartYearMonth={setCalendarBounds}
+                    events={self.state.events}
+                    setEvent={setEvent}
                     addEventLabel="blackout"
                     allowAdds={true}
                     allowDeletes={true}
                     header={header}
-                    knownEvents={this.state.knownEvents}
+                    knownEvents={self.state.knownEvents}
                 />
                 step = 2
                 stepLabel = "Set blackout slots"
 
                 navPreviousLabel = "Set team preferences"
-                navPrevious = () => this.setAppState("set_team_preferences")
+                navPrevious = () => setAppState("set_team_preferences")
                 navNextLabel = this.state.isGeneratingSchedule ? "Generating..." : "Generate schedule"
                 isNextProcessing = this.state.isGeneratingSchedule
                 navNext = async () => {
-                    this.setBlackoutEvents(this.state.events)
-                    this.setIsGeneratingSchedule(true)
-                    const schedule = await generateSchedule(this.state.teams, this.state.events)
-                    this.setEvents(schedule.scheduled_events)
-                    this.setIsGeneratingSchedule(false)
-                    this.setAppState("edit_schedule")
+                    setBlackoutEvents(self.state.events)
+                    setIsGeneratingSchedule(true)
+                    const schedule = await generateSchedule(self.state.teams, self.state.events)
+                    setEvents(schedule.scheduled_events)
+
+                    const { eventsStartYear, eventsStartMonth, eventsNumMonths } = findEventsBounds(schedule.scheduled_events)
+                    console.log({ eventsStartYear, eventsStartMonth, eventsNumMonths })
+                    setCalendarBounds(eventsStartYear, eventsStartMonth, eventsNumMonths)
+                    setIsGeneratingSchedule(false)
+                    setAppState("edit_schedule")
                 }
                 break
             case "edit_schedule":
-                component = <CalendarMonthGroup
-                    startYear={startYear}
-                    startMonth={startMonth}
-                    numMonths={1}
-                    setStartYearMonth={this.setStartYearMonth}
-                    events={this.state.events}
-                    setEvent={setEvent}
-                    addEventLabel="match"
-                    allowAdds={false}
-                    allowDeletes={false}
-                    knownEvents={this.state.knownEvents}
-                    ref={this.componentRef}
-                />
+                component = <div ref={this.componentRef}>
+                        <CalendarMonthGroup
+                            startYear={this.state.year}
+                            startMonth={this.state.month}
+                            numMonths={this.state.numMonths}
+                            setStartYearMonth={setCalendarBounds}
+                            events={self.state.events}
+                            setEvent={setEvent}
+                            addEventLabel="match"
+                            allowAdds={false}
+                            allowDeletes={false}
+                            knownEvents={self.state.knownEvents}
+                        />
+                    </div>
                 step = 3
                 stepLabel = "Review schedule"
 
                 navPreviousLabel = "Set blackout slots"
                 navPrevious = () => {
-                    this.setEvents(blackoutEvents)
-                    this.setAppState("set_blackout_slots")
+                    setEvents(self.state.blackoutEvents)
+                    setAppState("set_blackout_slots")
                 }
 
                 navNextLabel = "Print"
                 navNext = () => {
-                    // TODO
+                    if (self.componentRef === null) {
+                        return
+                    }
+
+                    toPng(self.componentRef.current, { cacheBust: true })
+                        .then((dataUrl) => {
+                            const link = document.createElement('a');
+                            link.download = 'schedule.png';
+                            link.href = dataUrl;
+                            link.click();
+                        })
+                        .catch((err) => {
+                            console.error('Oops, something went wrong!', err);
+                        });
                 }
                 break
         }
@@ -262,6 +273,40 @@ async function generateSchedule(teams, events) {
         body: JSON.stringify({teams, events})
     })
     const json = await response.json()
-    console.log({json})
     return json
+}
+
+function findEventsBounds(events) {
+    const now = new Date()
+    let eventsStartYear = now.getFullYear()
+    let eventsStartMonth = now.getMonth()
+    let eventsNumMonths = 0
+
+    if (events.length == 0) {
+        return { eventsStartYear, eventsStartMonth, eventsNumMonths }
+    }
+
+    events.sort((e1, e2) => Date.parse(e1.date) - Date.parse(e2.date))
+    console.log({events})
+
+    const firstEvent = events[0]
+    const firstEventDate = new Date(firstEvent.date)
+    eventsStartYear = firstEventDate.getFullYear()
+    eventsStartMonth = firstEventDate.getMonth()
+
+    if (events.length > 1) {
+        const lastEvent = events[events.length - 1]
+        const lastEventDate = new Date(lastEvent.date)
+        const eventsEndYear = lastEventDate.getFullYear()
+        const eventsEndMonth = lastEventDate.getMonth()
+
+        console.log({eventsEndYear, eventsStartYear, eventsEndMonth, eventsStartMonth})
+
+        eventsNumMonths = eventsEndMonth - eventsStartMonth
+            + 12 * (eventsEndYear - eventsStartYear)        
+    }
+
+    eventsNumMonths += 1
+
+    return { eventsStartYear, eventsStartMonth, eventsNumMonths }
 }
