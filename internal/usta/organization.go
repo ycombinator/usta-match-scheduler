@@ -10,6 +10,8 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
+
+	"github.com/ycombinator/usta-match-scheduler/internal/logging"
 	"github.com/ycombinator/usta-match-scheduler/internal/models"
 )
 
@@ -33,6 +35,9 @@ type TeamsFilter struct {
 }
 
 func GetOrganizationTeams(id int, opts ...TeamsFilterOpt) ([]models.Team, error) {
+	logger := logging.NewLogger()
+	logger.Info("Getting teams for organization", "organization_id", id)
+
 	var f TeamsFilter
 	for _, opt := range opts {
 		opt(&f)
@@ -48,7 +53,7 @@ func GetOrganizationTeams(id int, opts ...TeamsFilterOpt) ([]models.Team, error)
 			now = time.Date(2025, 7, 1, 0, 0, 0, 0, time.Local) // Mock date for upcoming season
 		}
 	} else {
-		fmt.Printf("Getting teams for organization [%d] from url [%s]...\n", id, u)
+		logger.Debug("Fetching organization page", "url", u)
 
 		resp, err := http.Get(u)
 		if err != nil {
@@ -133,5 +138,6 @@ func GetOrganizationTeams(id int, opts ...TeamsFilterOpt) ([]models.Team, error)
 		teams = append(teams, team)
 	})
 
+	logger.Info("Retrieved teams for organization", "organization_id", id, "teams_count", len(teams))
 	return teams, nil
 }
