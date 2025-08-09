@@ -85,7 +85,7 @@ function App() {
             navNext = () => setAppState("set_blackout_slots")
             break
         case "set_blackout_slots":
-            header = <h3>Add club events, USTA Sectionals events, etc.</h3>
+            header = <h5>Blackout any slots where you don't want matches to be scheduled, e.g. for club events.</h5>
             component = <CalendarMonthGroup
                 startYear={startYear} 
                 startMonth={startMonth} 
