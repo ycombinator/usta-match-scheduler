@@ -1,6 +1,30 @@
 {
     "events": [
         {
+            "date": "2025-01-01",
+            "title": "New Year's Day"
+        },
+        {
+            "date": "2025-01-20",
+            "title": "Martin Luther King, Jr. Day"
+        },
+        {
+            "date": "2025-02-17",
+            "title": "Presidents' Day"
+        },
+        {
+            "date": "2025-05-26",
+            "title": "Memorial Day"
+        },
+        {
+            "date": "2025-06-19",
+            "title": "Juneteenth"
+        },
+        {
+            "date": "2025-07-04",
+            "title": "Independence Day"
+        },
+        {
             "date": "2025-08-09",
             "title": "[18+ Daytime] Sectionals"
         },
@@ -17,6 +41,10 @@
             "title": "[18+ Evening] Sectionals"
         },
         {
+            "date": "2025-09-01",
+            "title": "Labor Day"
+        },
+        {
             "date": "2025-09-26",
             "title": "[40+ Mixed] Sectionals"
         },
@@ -29,6 +57,18 @@
             "title": "[40+ Mixed] Sectionals"
         },
         {
+            "date": "2025-10-13",
+            "title": "Columbus Day"
+        },
+        {
+            "date": "2025-11-11",
+            "title": "Veterans Day"
+        },
+        {
+            "date": "2025-11-27",
+            "title": "Thanksgiving Day"
+        },
+        {
             "date": "2025-12-05",
             "title": "[55+ Mixed] Sectionals"
         },
@@ -39,6 +79,10 @@
         {
             "date": "2025-12-07",
             "title": "[55+ Mixed] Sectionals"
+        },
+        {
+            "date": "2025-12-25",
+            "title": "Christmas Day"
         },
         {
             "date": "2026-01-23",
