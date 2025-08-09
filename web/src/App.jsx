@@ -16,6 +16,9 @@ function App() {
     const [events, setEvents] = useState([])
     const [blackoutEvents, setBlackoutEvents] = useState([])
     const [knownEvents, setKnownEvents] = useState([])
+
+    const [isGeneratingSchedule, setIsGeneratingSchedule] = useState(false)
+
     useEffect(async () => {
         const knownEvents = await fetchKnownEvents(asrcOrganizationID)
         knownEvents.forEach(event => {
@@ -74,6 +77,7 @@ function App() {
     const [ appState, setAppState ] = useState("set_team_preferences")
     let component, step, stepLabel, header
     let navPrevious, navNext, navPreviousLabel, navNextLabel
+    let isPreviousProcessing, isNextProcessing
     const totalSteps = 3
     switch (appState) {
         case "set_team_preferences":
@@ -104,11 +108,14 @@ function App() {
 
             navPreviousLabel = "Set team preferences"
             navPrevious = () => setAppState("set_team_preferences")
-            navNextLabel = "Generate schedule"
+            navNextLabel = isGeneratingSchedule ? "Generating..." : "Generate schedule"
+            isNextProcessing = isGeneratingSchedule
             navNext = async () => {
                 setBlackoutEvents(events)
+                setIsGeneratingSchedule(true)
                 const schedule = await generateSchedule(teams, events)
                 setEvents(schedule.scheduled_events)
+                setIsGeneratingSchedule(false)
                 setAppState("edit_schedule")
             }
             break
@@ -145,8 +152,10 @@ function App() {
                     <Nav
                         previous={navPrevious}
                         previousLabel={navPreviousLabel}
+                        isPreviousProcessing={isPreviousProcessing}
                         next={navNext}
                         nextLabel={navNextLabel}
+                        isNextProcessing={isNextProcessing}
                     />
                 </h2>
             </header>
