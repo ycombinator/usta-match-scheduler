@@ -77,11 +77,12 @@ export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setE
                     <p className={className} onClick={() => {setAddEventIdx(i); return false;}}>add {slot} {addEventLabel}</p>
                 </li>
             )
-        } else if (allowMoves) {
+        } else if (allowMoves && !draggingID) {
+            console.log("here")
             items.push(
-                <Droppable id={id}>
-                    {draggingID ? "Dropped!" : slot}
-                </Droppable>
+                <li className="calendar-day-event droppable-slot" key={i}>
+                    <Droppable id={id}>{slot}</Droppable>                    
+                </li>
             )
         }
     })

@@ -63,3 +63,14 @@
     margin-bottom: 0.2rem;
 }
 
+.droppable-slot {
+    padding: 0.25rem;
+    border-radius: 10px;
+    border-style: dashed;
+    border-color: lightgray;
+    border-width: 0.01rem;
+
+    color: lightgray;
+    font-family: Helvetica, sans-serif;
+    font-size: 0.7rem;
+}

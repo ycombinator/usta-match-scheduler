@@ -25,6 +25,7 @@ export default class App extends React.Component {
             blackoutEvents: [],
             knownEvents: [],
             isGeneratingSchedule: false,
+            isPrinting: false,
         }
     }
 
@@ -186,7 +187,7 @@ export default class App extends React.Component {
                             allowAdds={false}
                             allowEdits={false}
                             allowDeletes={false}
-                            allowMoves={true}
+                            allowMoves={!this.state.isPrinting}
                             knownEvents={self.state.knownEvents}
                         />
                     </div>
@@ -207,6 +208,8 @@ export default class App extends React.Component {
                         return
                     }
 
+                    self.setState({isPrinting: true})
+
                     toPng(self.componentRef.current, { cacheBust: true })
                         .then((dataUrl) => {
                             const link = document.createElement('a');
@@ -216,7 +219,8 @@ export default class App extends React.Component {
                         })
                         .catch((err) => {
                             console.error('Oops, something went wrong!', err);
-                        });
+                        })
+                        .finally(() => self.setState({isPrinting: false}))
                 }
                 break
         }

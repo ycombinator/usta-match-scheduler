@@ -7,12 +7,14 @@ export const Draggable = (props) => {
   });
   const style = transform ? {
     transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+    zIndex: 10,
+    position: `absolute`,
   } : undefined;
 
   
   return (
-    <div ref={setNodeRef} style={style} {...listeners} {...attributes} className="draggable">
+    <button ref={setNodeRef} style={style} {...listeners} {...attributes} className="draggable">
       {props.children}
-    </div>
+    </button>
   );
 }
