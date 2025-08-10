@@ -167,7 +167,7 @@ export default class App extends React.Component {
                     setEvents(schedule.scheduled_events)
 
                     const { eventsStartYear, eventsStartMonth, eventsNumMonths } = findEventsBounds(schedule.scheduled_events)
-                    console.log({ eventsStartYear, eventsStartMonth, eventsNumMonths })
+                    // console.log({ eventsStartYear, eventsStartMonth, eventsNumMonths })
                     setCalendarBounds(eventsStartYear, eventsStartMonth, eventsNumMonths)
                     setIsGeneratingSchedule(false)
                     setAppState("edit_schedule")
@@ -301,7 +301,7 @@ function findEventsBounds(events) {
     }
 
     events.sort((e1, e2) => Date.parse(e1.date) - Date.parse(e2.date))
-    console.log({events})
+    // console.log({events})
 
     const firstEvent = events[0]
     const firstEventDate = new Date(firstEvent.date)
@@ -314,7 +314,7 @@ function findEventsBounds(events) {
         const eventsEndYear = lastEventDate.getFullYear()
         const eventsEndMonth = lastEventDate.getMonth()
 
-        console.log({eventsEndYear, eventsStartYear, eventsEndMonth, eventsStartMonth})
+        // console.log({eventsEndYear, eventsStartYear, eventsEndMonth, eventsStartMonth})
 
         eventsNumMonths = eventsEndMonth - eventsStartMonth
             + 12 * (eventsEndYear - eventsStartYear)        
