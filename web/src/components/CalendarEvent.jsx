@@ -5,7 +5,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Draggable } from "./Draggable"
 
-export const CalendarEvent = ({year, month, day, event, setEvent, allowEdit, allowDelete, draggingID}) => {
+export const CalendarEvent = ({year, month, day, event, setEvent, allowEdit, allowDelete, draggingMatch}) => {
     const start = doesEventStartInDay(year, month, day, event)
         ? getPaddedTime(event.start)
         : "..."
@@ -60,7 +60,7 @@ export const CalendarEvent = ({year, month, day, event, setEvent, allowEdit, all
         )
     }
 
-    // if (!draggingID) {
+    // if (!draggingMatch) {
         // component = <Draggable id={event.id}>{component}</Draggable>
     // }
 

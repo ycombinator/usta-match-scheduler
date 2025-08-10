@@ -6,7 +6,7 @@ import "./CalendarMonth.css"
 import "./CalendarWeek.css"
 import { useState } from 'react'
 
-export const CalendarMonth = ({year, month, setStartYearMonth, events, setEvent, addEventLabel, allowAdds, allowEdits, allowDeletes, allowMoves, knownEvents, draggingID}) => {
+export const CalendarMonth = ({year, month, setStartYearMonth, events, setEvent, addEventLabel, allowAdds, allowEdits, allowDeletes, allowMoves, knownEvents, draggingMatch}) => {
     // console.log("calendar month: ", events)
     const numWeeks = weeksInMonth(year, month)
     const monthName = getMonthName(year, month)
@@ -28,7 +28,7 @@ export const CalendarMonth = ({year, month, setStartYearMonth, events, setEvent,
                     events={events} setEvent={setEvent} addEventLabel={addEventLabel}
                     allowAdds={allowAdds} allowEdits={allowEdits} allowDeletes={allowDeletes} allowMoves={allowMoves}
                     knownEvents={knownEvents}
-                    draggingID={draggingID}
+                    draggingMatch={draggingMatch}
                 />
             </div>
         )

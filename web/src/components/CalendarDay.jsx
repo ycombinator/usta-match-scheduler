@@ -6,7 +6,7 @@ import { useDraggable } from '@dnd-kit/core';
 import { Droppable } from "./Droppable";
 import { Draggable } from "./Draggable";
 
-export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setEvent, addEventLabel, allowAdds, allowEdits, allowDeletes, allowMoves, knownEvents, draggingID}) => {
+export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setEvent, addEventLabel, allowAdds, allowEdits, allowDeletes, allowMoves, knownEvents, draggingMatch}) => {
     // console.log("calendar day: ", events)
     const currentDay = new Date(year, month, day)
     const today = new Date()
@@ -57,7 +57,7 @@ export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setE
             items.push(
                 <li className="calendar-day-event"  key={i}>
                     <Draggable id={id}>
-                        <CalendarEvent year={year} month={month} day={day} event={slotEvent} setEvent={setEvent} allowEdit={allowEdits} allowDelete={allowDeletes} draggingID={draggingID} />
+                        <CalendarEvent year={year} month={month} day={day} event={slotEvent} setEvent={setEvent} allowEdit={allowEdits} allowDelete={allowDeletes} draggingMatch={draggingMatch} />
                     </Draggable>
                 </li>
             )
@@ -77,8 +77,7 @@ export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setE
                     <p className={className} onClick={() => {setAddEventIdx(i); return false;}}>add {slot} {addEventLabel}</p>
                 </li>
             )
-        } else if (allowMoves && !draggingID) {
-            console.log("here")
+        } else if (allowMoves && (!draggingMatch || isMatchingSlot(draggingMatch, year, month, day, slot))) {
             items.push(
                 <li className="calendar-day-event droppable-slot" key={i}>
                     <Droppable id={id}>{slot}</Droppable>                    
@@ -100,4 +99,29 @@ export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setE
             <ol>{items}</ol>
         </div>
     )
+}
+
+function isMatchingSlot(match, year, month, day, candidateSlot) {
+    const candidateDate = new Date(year, month, day)
+    switch (getMatchSchedulingType(match)) {
+        case "daytime":
+            // Allow to be moved to weekday morning slots
+            return !isWeekendDay(candidateDate) && (candidateSlot == "morning")
+        case "evening":
+            // Allow to be moved to any weekend slot or weekday evening slots
+            return isWeekendDay(candidateDate) || (candidateSlot == "evening")
+    }
+
+    return false
+}
+
+function getMatchSchedulingType(match) {
+    // If match is on a weekday and slot is morning, it's a
+    // daytime match. Otherwise, it's an evening match.
+    const matchDate = new Date(match.date)
+    if (!isWeekendDay(matchDate) && (match.slot == "morning")) {
+        return "daytime"
+    } else {
+        return "evening"
+    }
 }

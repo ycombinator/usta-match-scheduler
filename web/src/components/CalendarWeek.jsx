@@ -2,7 +2,7 @@ import { daysInMonth, isEventInDay, monthDaysInFirstWeek, getPreviousYearMonth, 
 import { CalendarDay } from "./CalendarDay"
 import "./CalendarWeek.css"
 
-export const CalendarWeek = ({year, month, week, events, setEvent, addEventLabel, allowAdds, allowEdits, allowDeletes, allowMoves, knownEvents, draggingID}) => {
+export const CalendarWeek = ({year, month, week, events, setEvent, addEventLabel, allowAdds, allowEdits, allowDeletes, allowMoves, knownEvents, draggingMatch}) => {
     // console.log("calendar week: ", events)
     const thisYear = year
     const thisMonth = month
@@ -53,7 +53,7 @@ export const CalendarWeek = ({year, month, week, events, setEvent, addEventLabel
                     events={dayEvents} setEvent={setEvent} addEventLabel={addEventLabel}
                     allowAdds={allowAdds} allowEdits={allowEdits} allowDeletes={allowDeletes} allowMoves={allowMoves}
                     knownEvents={dayKnownEvents}
-                    draggingID={draggingID}
+                    draggingMatch={draggingMatch}
                 />
             </div>
         )

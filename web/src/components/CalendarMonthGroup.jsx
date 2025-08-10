@@ -9,22 +9,30 @@ export class CalendarMonthGroup extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            draggingID: null,
+            draggingMatch: null,
             droppedID: null,
         }
     }
 
-    setDraggingID = (draggingID) => this.setState({draggingID})
+    setDraggingMatch = (draggingMatch) => this.setState({draggingMatch})
     setDroppedID = (droppedID) => this.setState({droppedID})
 
     handleDragEnd = (event) => {
-        console.log({event})
         if (event.over) {
-            console.log(`Dropped event with ID = ${event.active.id} on ID = ${event.over.id}`)
+            // console.log(`Dropped event with ID = ${event.active.id} on ID = ${event.over.id}`)
             this.props.moveEvent(event.active.id, event.over.id)
             this.setDroppedID(event.over.id)
-            this.setDraggingID(null);
+            this.setDraggingMatch(null);
         }
+    }
+
+    handleDragStart = (event) => {
+        const fromID = event.active.id
+        this.props.events.forEach(event => {
+            if (event.id == fromID) {
+                this.setDraggingMatch(event)
+            }
+        })
     }
 
     render() {
@@ -48,7 +56,7 @@ export class CalendarMonthGroup extends React.Component {
                         events={monthEvents} setEvent={setEvent} addEventLabel={addEventLabel}
                         allowAdds={allowAdds} allowEdits={allowEdits} allowDeletes={allowDeletes} allowMoves={allowMoves}
                         knownEvents={monthKnownEvents}
-                        draggingID={this.state.draggingID}
+                        draggingMatch={this.state.draggingMatch}
                     />
                 </div>
             )
@@ -63,7 +71,7 @@ export class CalendarMonthGroup extends React.Component {
 
         return (
             <div>
-                <DndContext onDragEnd={this.handleDragEnd} onDragStart={console.log}>
+                <DndContext onDragEnd={this.handleDragEnd} onDragStart={this.handleDragStart}>
                     { header }
                     <div className="calendar-month-group">
                         { months }
