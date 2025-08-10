@@ -2,9 +2,11 @@ import { isSameDay, isSameMonth, isWeekendDay } from "../lib/date_utils"
 import { CalendarEvent } from "./CalendarEvent"
 import "./CalendarDay.css"
 import { useState } from "react"
-import {useDroppable, useDraggable} from '@dnd-kit/core';
+import { useDraggable } from '@dnd-kit/core';
+import { Droppable } from "./Droppable";
+import { Draggable } from "./Draggable";
 
-export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setEvent, addEventLabel, allowAdds, allowEdits, allowDeletes, knownEvents}) => {
+export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setEvent, addEventLabel, allowAdds, allowEdits, allowDeletes, allowMoves, knownEvents, draggingID}) => {
     // console.log("calendar day: ", events)
     const currentDay = new Date(year, month, day)
     const today = new Date()
@@ -32,7 +34,7 @@ export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setE
     const submitAddEvent = (slot) => {
         const title = addEventText.trim()
         if (title != "") {
-            const id = `${year}${month}${day}_${slot}`
+            const id = `${year}_${month}_${day}_${slot}`
             // console.log({currentDay, slot, id, addEventLabel, title})
             setEvent({id: id, type: addEventLabel, slot: slot, date: currentDay, title: title});
         }
@@ -45,22 +47,18 @@ export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setE
     // Mix events + remaining slots and order results by slot
     let items = []
     allSlots.forEach((slot, i) => {
-        const id = `${year}${month}${day}_${slot}`
+        const id = `${year}_${month}_${day}_${slot}`
+        // console.log({id})
         const slotEvents = events.filter(e => e.slot == slot)
         if (slotEvents.length > 0) {
             // There is an event in this slot
             const slotEvent = slotEvents[0]
 
-            const {attributes, listeners, setNodeRef, transform} = useDraggable({
-                id: id,
-            });
-            const style = transform ? {
-                transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-            } : undefined;
-
             items.push(
-                <li className="calendar-day-event" style={style} key={i} {...listeners} {...attributes}>
-                    <CalendarEvent year={year} month={month} day={day} event={slotEvent} setEvent={setEvent} allowEdit={allowEdits} allowDelete={allowDeletes}/>
+                <li className="calendar-day-event"  key={i}>
+                    <Draggable id={id}>
+                        <CalendarEvent year={year} month={month} day={day} event={slotEvent} setEvent={setEvent} allowEdit={allowEdits} allowDelete={allowDeletes} draggingID={draggingID} />
+                    </Draggable>
                 </li>
             )
         } else if (i == addEventIdx) {
@@ -73,18 +71,17 @@ export const CalendarDay = ({thisYear, thisMonth, year, month, day, events, setE
                 </li>
             )
         } else if (allowAdds) {
-            const {isOver, setNodeRef} = useDroppable({
-                id: id,
-            });
-            const style = {
-                color: isOver ? 'green' : undefined,
-            };
- 
             const className = `calendar-event new`
             items.push(
                 <li className="calendar-day-event" key={i}>
-                    <p className={className} ref={setNodeRef} style={style} onClick={() => {setAddEventIdx(i); return false;}}>add {slot} {addEventLabel}</p>
+                    <p className={className} onClick={() => {setAddEventIdx(i); return false;}}>add {slot} {addEventLabel}</p>
                 </li>
+            )
+        } else if (allowMoves) {
+            items.push(
+                <Droppable id={id}>
+                    {draggingID ? "Dropped!" : slot}
+                </Droppable>
             )
         }
     })

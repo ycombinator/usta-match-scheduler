@@ -1,16 +1,34 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { DndContext } from '@dnd-kit/core';
 import { isEventInMonth, nextMonth, previousMonth } from "../lib/date_utils"
 import { CalendarMonth } from "./CalendarMonth"
+import { Droppable } from "./Droppable"
 import "./CalendarMonthGroup.css"
 
 export class CalendarMonthGroup extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            draggingID: null,
+            droppedID: null,
+        }
+    }
+
+    setDraggingID = (draggingID) => this.setState({draggingID})
+    setDroppedID = (droppedID) => this.setState({droppedID})
+
+    handleDragEnd = (event) => {
+        console.log({event})
+        if (event.over) {
+            console.log(`Dropped event with ID = ${event.active.id} on ID = ${event.over.id}`)
+            this.props.moveEvent(event.active.id, event.over.id)
+            this.setDroppedID(event.over.id)
+            this.setDraggingID(null);
+        }
     }
 
     render() {
-        const {startYear, startMonth, setStartYearMonth, numMonths, events, setEvent, addEventLabel, allowAdds, allowEdits, allowDeletes, header, knownEvents} = this.props
+        const {startYear, startMonth, setStartYearMonth, numMonths, events, setEvent, addEventLabel, allowAdds, allowEdits, allowDeletes, allowMoves, header, knownEvents} = this.props
         // console.log("calendar month group: ", events)
         const months = []
         let year = startYear
@@ -28,8 +46,9 @@ export class CalendarMonthGroup extends React.Component {
                         year={year} month={month}
                         setStartYearMonth={setStartYearMonth}
                         events={monthEvents} setEvent={setEvent} addEventLabel={addEventLabel}
-                        allowAdds={allowAdds} allowEdits={allowEdits} allowDeletes={allowDeletes}
+                        allowAdds={allowAdds} allowEdits={allowEdits} allowDeletes={allowDeletes} allowMoves={allowMoves}
                         knownEvents={monthKnownEvents}
+                        draggingID={this.state.draggingID}
                     />
                 </div>
             )
@@ -44,10 +63,12 @@ export class CalendarMonthGroup extends React.Component {
 
         return (
             <div>
-            { header }
-                <div className="calendar-month-group">
-                    { months }
-                </div>
+                <DndContext onDragEnd={this.handleDragEnd} onDragStart={console.log}>
+                    { header }
+                    <div className="calendar-month-group">
+                        { months }
+                    </div>
+                </DndContext>
             </div>
         )
     }

@@ -56,6 +56,25 @@ export default class App extends React.Component {
         }
         const setTeams = this.setTeams
         const setEvents = events => this.setState({events})
+        const moveEvent = (fromID, toID) => {
+            // console.log({fromID, toID})
+            const newEvents = structuredClone(self.state.events)
+            newEvents.forEach(event => {
+                // console.log(event)
+                if (event.id == fromID) {
+                    event.id = toID
+                    const [ year, month, day, slot] = toID.split("_")
+                    let currentDate = new Date(event.date)
+                    currentDate.setFullYear(year)
+                    currentDate.setMonth(month)
+                    currentDate.setDate(day)
+                    event.date = currentDate.toISOString()
+                    event.slot = slot
+                    // console.log({event})
+                }
+            })
+            setEvents(newEvents)
+        }
         const setBlackoutEvents = events => this.setState({blackoutEvents: events})
         const setIsGeneratingSchedule = isGeneratingSchedule => this.setState({isGeneratingSchedule})
 
@@ -129,6 +148,7 @@ export default class App extends React.Component {
                     allowAdds={true}
                     allowEdits={true}
                     allowDeletes={true}
+                    allowMoves={false}
                     header={header}
                     knownEvents={self.state.knownEvents}
                 />
@@ -161,10 +181,12 @@ export default class App extends React.Component {
                             setStartYearMonth={setCalendarBounds}
                             events={self.state.events}
                             setEvent={setEvent}
+                            moveEvent={moveEvent}
                             addEventLabel="match"
                             allowAdds={false}
                             allowEdits={false}
                             allowDeletes={false}
+                            allowMoves={true}
                             knownEvents={self.state.knownEvents}
                         />
                     </div>
@@ -253,6 +275,14 @@ async function generateSchedule(teams, events) {
         body: JSON.stringify({teams, events})
     })
     const json = await response.json()
+    json.scheduled_events.forEach(event => {
+        const eventDate = new Date(event.date)
+        const year = eventDate.getFullYear()
+        const month = eventDate.getMonth()
+        const day = eventDate.getDate()
+        const slot = event.slot
+        event.id = `${year}_${month}_${day}_${slot}`
+    })
     return json
 }
 

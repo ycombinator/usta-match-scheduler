@@ -4,10 +4,9 @@ import { getMonthName, getPreviousYearMonth, getNextYearMonth, weeksInMonth } fr
 import { CalendarWeek } from "./CalendarWeek"
 import "./CalendarMonth.css"
 import "./CalendarWeek.css"
-import { DndContext } from '@dnd-kit/core'
 import { useState } from 'react'
 
-export const CalendarMonth = ({year, month, setStartYearMonth, events, setEvent, addEventLabel, allowAdds, allowEdits, allowDeletes, knownEvents}) => {
+export const CalendarMonth = ({year, month, setStartYearMonth, events, setEvent, addEventLabel, allowAdds, allowEdits, allowDeletes, allowMoves, knownEvents, draggingID}) => {
     // console.log("calendar month: ", events)
     const numWeeks = weeksInMonth(year, month)
     const monthName = getMonthName(year, month)
@@ -27,8 +26,9 @@ export const CalendarMonth = ({year, month, setStartYearMonth, events, setEvent,
                 <CalendarWeek
                     year={year} month={month} week={i}
                     events={events} setEvent={setEvent} addEventLabel={addEventLabel}
-                    allowAdds={allowAdds} allowEdits={allowEdits} allowDeletes={allowDeletes}
+                    allowAdds={allowAdds} allowEdits={allowEdits} allowDeletes={allowDeletes} allowMoves={allowMoves}
                     knownEvents={knownEvents}
+                    draggingID={draggingID}
                 />
             </div>
         )
@@ -46,28 +46,17 @@ export const CalendarMonth = ({year, month, setStartYearMonth, events, setEvent,
         setStartYearMonth(nextYear, nextMonth)
     }
 
-    const [isDropped, setIsDropped] = useState(false);
-
     return (
-        <DndContext onDragEnd={handleDragEnd}>
-            <div className="calendar-month">
-                <div className="header">
-                    <a href="#" onClick={goBack}><FontAwesomeIcon icon={faBackward} /></a>
-                    <h3>{monthName} {year}</h3>
-                    <a href="#" onClick={goForward}><FontAwesomeIcon icon={faForward} /></a>
-                </div>
-                <div className="calendar-week">
-                    {weekdayNames}
-                </div>
-                { calendarWeeks }
+        <div className="calendar-month">
+            <div className="header">
+                <a href="#" onClick={goBack}><FontAwesomeIcon icon={faBackward} /></a>
+                <h3>{monthName} {year}</h3>
+                <a href="#" onClick={goForward}><FontAwesomeIcon icon={faForward} /></a>
             </div>
-        </DndContext>
+            <div className="calendar-week">
+                {weekdayNames}
+            </div>
+            { calendarWeeks }
+        </div>
     )
 }
-
-function handleDragEnd(event) {
-    console.log(event)
-    if (event.over && event.over.id === 'droppable') {
-      setIsDropped(true);
-    }
-}    

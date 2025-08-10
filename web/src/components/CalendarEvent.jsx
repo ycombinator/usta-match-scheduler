@@ -3,8 +3,9 @@ import { doesEventEndInDay, doesEventStartInDay, getPaddedTime } from "../lib/da
 import "./CalendarEvent.css"
 import { faTrash } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Draggable } from "./Draggable"
 
-export const CalendarEvent = ({year, month, day, event, setEvent, allowEdit, allowDelete}) => {
+export const CalendarEvent = ({year, month, day, event, setEvent, allowEdit, allowDelete, draggingID}) => {
     const start = doesEventStartInDay(year, month, day, event)
         ? getPaddedTime(event.start)
         : "..."
@@ -39,9 +40,9 @@ export const CalendarEvent = ({year, month, day, event, setEvent, allowEdit, all
         )
     }
 
-    // TODO: show trash icon for deleting
+    let component
     if (allowEdit) {
-        return (
+        component = (
             <span className={className}>
                 <span onClick={(e) => {e.stopPropagation(); setEditEvent(true); return false;}}>
                     {getSlotLabel(event.slot)}: {event.title}
@@ -50,14 +51,20 @@ export const CalendarEvent = ({year, month, day, event, setEvent, allowEdit, all
                 {deleteButton}
             </span>
         )
-    }
-
-    return (
+    } else {
+        component = (
             <span className={className}>
                 {getSlotLabel(event.slot)}: {event.title}
                 {deleteButton}
             </span>
-    )
+        )
+    }
+
+    // if (!draggingID) {
+        // component = <Draggable id={event.id}>{component}</Draggable>
+    // }
+
+    return component
 }
 
 function getSlotLabel(slot) {
