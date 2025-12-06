@@ -1,74 +1,6 @@
 {
     "events": [
         {
-            "date": "2025-01-01T00:00:00-0800",
-            "title": "New Year's Day"
-        },
-        {
-            "date": "2025-01-20T00:00:00-0800",
-            "title": "Martin Luther King, Jr. Day"
-        },
-        {
-            "date": "2025-02-17T00:00:00-0800",
-            "title": "Presidents' Day"
-        },
-        {
-            "date": "2025-05-26T00:00:00-0700",
-            "title": "Memorial Day"
-        },
-        {
-            "date": "2025-06-19T00:00:00-0700",
-            "title": "Juneteenth"
-        },
-        {
-            "date": "2025-07-04T00:00:00-0700",
-            "title": "Independence Day"
-        },
-        {
-            "date": "2025-08-09T00:00:00-0700",
-            "title": "[18+ Daytime] Sectionals"
-        },
-        {
-            "date": "2025-08-10T00:00:00-0700",
-            "title": "[18+ Daytime] Sectionals"
-        },
-        {
-            "date": "2025-08-15T00:00:00-0700",
-            "title": "[18+ Evening] Sectionals"
-        },
-        {
-            "date": "2025-08-16T00:00:00-0700",
-            "title": "[18+ Evening] Sectionals"
-        },
-        {
-            "date": "2025-09-01T00:00:00-0700",
-            "title": "Labor Day"
-        },
-        {
-            "date": "2025-09-26T00:00:00-0700",
-            "title": "[40+ Mixed] Sectionals"
-        },
-        {
-            "date": "2025-09-27T00:00:00-0700",
-            "title": "[40+ Mixed] Sectionals"
-        },
-        {
-            "date": "2025-09-28T00:00:00-0700",
-            "title": "[40+ Mixed] Sectionals"
-        },
-        {
-            "date": "2025-10-13T00:00:00-0700",
-            "title": "Columbus Day"
-        },
-        {
-            "date": "2025-11-11T00:00:00-0800",
-            "title": "Veterans Day"
-        },
-        {
-            "date": "2025-11-27T00:00:00-0800",
-            "title": "Thanksgiving Day"
-        },
-        {
             "date": "2025-12-05T00:00:00-0800",
             "title": "[55+ Mixed] Sectionals"
         },
@@ -85,6 +17,10 @@
             "title": "Christmas Day"
         },
         {
+            "date": "2026-01-01T00:00:00-0800",
+            "title": "New Year's Day"
+        },
+        {
             "date": "2026-01-13T00:00:00-0800",
             "title": "[Daytime Combo] Sectionals"
         },
@@ -97,6 +33,10 @@
             "title": "[Daytime Combo] Sectionals"
         },
         {
+            "date": "2026-01-19T00:00:00-0800",
+            "title": "Martin Luther King, Jr. Day"
+        },
+        {
             "date": "2026-01-23T00:00:00-0800",
             "title": "[Combo] Sectionals"
         },
@@ -107,6 +47,70 @@
         {
             "date": "2026-01-25T00:00:00-0800",
             "title": "[Combo] Sectionals"
+        },
+        {
+            "date": "2026-02-16T00:00:00-0800",
+            "title": "Presidents' Day"
+        },
+        {
+            "date": "2026-04-24T00:00:00-0700",
+            "title": "[18+ Mixed] Sectionals"
+        },
+        {
+            "date": "2026-04-25T00:00:00-0700",
+            "title": "[18+ Mixed] Sectionals"
+        },
+        {
+            "date": "2026-04-26T00:00:00-0700",
+            "title": "[18+ Mixed] Sectionals"
+        },        
+        {
+            "date": "2026-04-28T00:00:00-0700",
+            "title": "[40+ Daytime] Sectionals"
+        },
+        {
+            "date": "2026-04-29T00:00:00-0700",
+            "title": "[40+ Daytime] Sectionals"
+        },
+        {
+            "date": "2026-04-30T00:00:00-0700",
+            "title": "[40+ Daytime] Sectionals"
+        },
+        {
+            "date": "2026-05-08T00:00:00-0700",
+            "title": "[40+ Evening] Sectionals"
+        },
+        {
+            "date": "2026-05-09T00:00:00-0700",
+            "title": "[40+ Evening] Sectionals"
+        },
+        {
+            "date": "2026-05-10T00:00:00-0700",
+            "title": "[40+ Evening] Sectionals"
+        },
+        {
+            "date": "2026-05-15T00:00:00-0700",
+            "title": "[40+ Evening] Sectionals"
+        },
+        {
+            "date": "2026-05-16T00:00:00-0700",
+            "title": "[40+ Evening] Sectionals"
+        },
+        {
+            "date": "2026-05-17T00:00:00-0700",
+            "title": "[40+ Evening] Sectionals"
+        },
+        {
+            "date": "2026-05-25T00:00:00-0700",
+            "title": "Memorial Day"
+        },
+        {
+            "date": "2026-06-19T00:00:00-0700",
+            "title": "Juneteenth"
+        },
+        {
+            "dat[e": "2026-07-04T00:00:00-0700",
+            "title": "Independence Day"
         }
     ]
 }
