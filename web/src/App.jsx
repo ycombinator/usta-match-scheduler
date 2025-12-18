@@ -8,20 +8,36 @@ import { Step } from './components/Step'
 import { Nav } from './components/Nav'
 
 const asrcOrganizationID = 225
+const EVENTS_STORAGE_KEY = 'events';
 
 export default class App extends React.Component {
     constructor(props) {
         super(props)
         this.componentRef = React.createRef();
 
+        let appState = "set_team_preferences"
+
         const now = new Date()
+        let year = now.getFullYear()
+        let month = now.getMonth()
+        let numMonths = 1
+
+        const events = loadEventsFromStorage()
+        if (events.length > 0) {
+            appState = "edit_schedule"
+            const { eventsStartYear, eventsStartMonth, eventsNumMonths } = findEventsBounds(events)
+            year = eventsStartYear
+            month = eventsStartMonth
+            numMonths = eventsNumMonths
+        }
+
         this.state = {
-            appState: "set_team_preferences",
-            year: now.getFullYear(),
-            month: now.getMonth(),
-            numMonths: 1,
+            appState: appState,
+            year: year,
+            month: month,
+            numMonths: numMonths,
             teams: [],
-            events: [],
+            events: events,
             blackoutEvents: [],
             knownEvents: [],
             isGeneratingSchedule: false,
@@ -56,7 +72,9 @@ export default class App extends React.Component {
             }
         }
         const setTeams = this.setTeams
-        const setEvents = events => this.setState({events})
+        const setEvents = events => this.setState({events}, () => {
+            saveEventsToStorage(events);
+        })
         const moveEvent = (fromID, toID) => {
             // console.log({fromID, toID})
             const newEvents = structuredClone(self.state.events)
@@ -142,7 +160,7 @@ export default class App extends React.Component {
                     startYear={this.state.year}
                     startMonth={this.state.month}
                     numMonths={this.state.numMonths}
-                    setStartYearMonth={setCalendarBounds}
+                    setStartYearMonth={self.setCalendarBounds}
                     events={self.state.events}
                     setEvent={setEvent}
                     addEventLabel="blackout"
@@ -168,7 +186,7 @@ export default class App extends React.Component {
 
                     const { eventsStartYear, eventsStartMonth, eventsNumMonths } = findEventsBounds(schedule.scheduled_events)
                     // console.log({ eventsStartYear, eventsStartMonth, eventsNumMonths })
-                    setCalendarBounds(eventsStartYear, eventsStartMonth, eventsNumMonths)
+                    self.setCalendarBounds(eventsStartYear, eventsStartMonth, eventsNumMonths)
                     setIsGeneratingSchedule(false)
                     setAppState("edit_schedule")
                 }
@@ -179,7 +197,7 @@ export default class App extends React.Component {
                             startYear={this.state.year}
                             startMonth={this.state.month}
                             numMonths={this.state.numMonths}
-                            setStartYearMonth={setCalendarBounds}
+                            setStartYearMonth={self.setCalendarBounds}
                             events={self.state.events}
                             setEvent={setEvent}
                             moveEvent={moveEvent}
@@ -198,7 +216,7 @@ export default class App extends React.Component {
                 navPrevious = () => {
                     setEvents(self.state.blackoutEvents)
                     const now = new Date()
-                    setCalendarBounds(now.getFullYear(), now.getMonth(), 1)
+                    self.setCalendarBounds(now.getFullYear(), now.getMonth(), 1)
                     setAppState("set_blackout_slots")
                 }
 
@@ -324,3 +342,22 @@ function findEventsBounds(events) {
 
     return { eventsStartYear, eventsStartMonth, eventsNumMonths }
 }
+
+  function loadEventsFromStorage() {
+    try {
+      const stored = localStorage.getItem(EVENTS_STORAGE_KEY);
+      return stored ? JSON.parse(stored) : [];
+    } catch (err) {
+      console.error('Failed to load events from localStorage', err);
+      return [];
+    }
+  }
+
+
+  function saveEventsToStorage(events) {
+    try {
+      localStorage.setItem(EVENTS_STORAGE_KEY, JSON.stringify(events));
+    } catch (err) {
+      console.error('Failed to save events to localStorage', err);
+    }
+  }
