@@ -26,10 +26,15 @@ export const CalendarEvent = ({year, month, day, event, setEvent, allowEdit, all
 
     let deleteButton, deleteEvent
     if (allowDelete) {
-        deleteButton = <FontAwesomeIcon icon={faTrash} onClick={() => {deleteEvent(); return false;}}/>
         deleteEvent = () => {
+            console.log("in deleteEvent fn")
             setEvent({id: event.id, type: event.type, slot: event.slot, start: event.start, end: event.end, title: ""}); ;
         }
+        deleteButton = <FontAwesomeIcon
+            icon={faTrash}
+            onClick={e => {e.stopPropagation(); deleteEvent(); return false;}}
+            onPointerDown={e => {e.stopPropagation();}}
+        />
     }
 
     if (editEvent) {
