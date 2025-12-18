@@ -51,6 +51,7 @@ export default class App extends React.Component {
                 event.date = new Date(event.date)
             })
             this.setKnownEvents(knownEvents)
+            // this.setKnownEvents([])
 
             const teams = await fetchUpcomingTeams(asrcOrganizationID)
             teams.forEach(team => team.day_preferences = [])
@@ -160,7 +161,7 @@ export default class App extends React.Component {
                     startYear={this.state.year}
                     startMonth={this.state.month}
                     numMonths={this.state.numMonths}
-                    setStartYearMonth={self.setCalendarBounds}
+                    setStartYearMonth={setCalendarBounds}
                     events={self.state.events}
                     setEvent={setEvent}
                     addEventLabel="blackout"
@@ -175,7 +176,10 @@ export default class App extends React.Component {
                 stepLabel = "Set blackout slots"
 
                 navPreviousLabel = "Set team preferences"
-                navPrevious = () => setAppState("set_team_preferences")
+                navPrevious = () => {
+                    setEvents([])
+                    setAppState("set_team_preferences")
+                }
                 navNextLabel = this.state.isGeneratingSchedule ? "Generating..." : "Generate schedule"
                 isNextProcessing = this.state.isGeneratingSchedule
                 navNext = async () => {
@@ -186,7 +190,7 @@ export default class App extends React.Component {
 
                     const { eventsStartYear, eventsStartMonth, eventsNumMonths } = findEventsBounds(schedule.scheduled_events)
                     // console.log({ eventsStartYear, eventsStartMonth, eventsNumMonths })
-                    self.setCalendarBounds(eventsStartYear, eventsStartMonth, eventsNumMonths)
+                    setCalendarBounds(eventsStartYear, eventsStartMonth, eventsNumMonths)
                     setIsGeneratingSchedule(false)
                     setAppState("edit_schedule")
                 }
@@ -197,7 +201,7 @@ export default class App extends React.Component {
                             startYear={this.state.year}
                             startMonth={this.state.month}
                             numMonths={this.state.numMonths}
-                            setStartYearMonth={self.setCalendarBounds}
+                            setStartYearMonth={setCalendarBounds}
                             events={self.state.events}
                             setEvent={setEvent}
                             moveEvent={moveEvent}
@@ -216,7 +220,7 @@ export default class App extends React.Component {
                 navPrevious = () => {
                     setEvents(self.state.blackoutEvents)
                     const now = new Date()
-                    self.setCalendarBounds(now.getFullYear(), now.getMonth(), 1)
+                    setCalendarBounds(now.getFullYear(), now.getMonth(), 1)
                     setAppState("set_blackout_slots")
                 }
 
