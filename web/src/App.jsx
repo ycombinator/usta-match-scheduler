@@ -204,7 +204,7 @@ export default class App extends React.Component {
                             addEventLabel="match"
                             allowAdds={false}
                             allowEdits={false}
-                            allowDeletes={false}
+                            allowDeletes={true}
                             allowMoves={!this.state.isPrinting}
                             knownEvents={self.state.knownEvents}
                         />
