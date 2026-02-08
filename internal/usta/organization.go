@@ -50,7 +50,7 @@ func GetOrganizationTeams(id int, opts ...TeamsFilterOpt) ([]models.Team, error)
 	if useMockData() {
 		body = io.NopCloser(bytes.NewReader(organization225Html))
 		if f.isSeasonUpcoming != nil && *f.isSeasonUpcoming {
-			now = time.Date(2025, 7, 1, 0, 0, 0, 0, time.Local) // Mock date for upcoming season
+			now = time.Date(2026, 2, 1, 0, 0, 0, 0, time.Local) // Mock date for upcoming season
 		}
 	} else {
 		logger.Debug("Fetching organization page", "url", u)
