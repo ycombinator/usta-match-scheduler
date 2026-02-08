@@ -35,6 +35,13 @@ func (p *Preferring) Run() (*models.Schedule, error) {
 	// Go week by week
 	firstDayOfMatches := p.input.FirstDayOfMatches()
 	lastDayOfMatches := p.input.LastDayOfMatches()
+	if firstDayOfMatches == nil || lastDayOfMatches == nil {
+		s := models.Schedule{
+			ScheduledEvents:   scheduledEvents,
+			UnscheduledEvents: unscheduledEvents,
+		}
+		return &s, nil
+	}
 	//fmt.Printf("first day of matches: [%s], last day of matches [%s]\n", firstDayOfMatches, lastDayOfMatches)
 	for currentDay := *firstDayOfMatches; currentDay.Before(lastDayOfMatches.AddDate(0, 0, 1)); currentDay = currentDay.AddDate(0, 0, 7) {
 		//logger.Info("Scheduling matches for week", "week_start_monday", currentDay.Format("2006-01-02"))
