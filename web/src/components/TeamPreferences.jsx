@@ -36,7 +36,8 @@ export const TeamPreferences = ({teams, changePreferredMatchDays, changeWeight})
                     <input
                         type="number"
                         min="0"
-                        value={team.scheduling_weight}
+                        value={team.scheduling_weight || ''}
+                        placeholder="0"
                         onChange={e => changeWeight(teamIdx, parseInt(e.target.value) || 0)}
                         style={{width: '60px'}}
                     />
