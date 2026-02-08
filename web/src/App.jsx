@@ -54,7 +54,10 @@ export default class App extends React.Component {
             // this.setKnownEvents([])
 
             const teams = await fetchUpcomingTeams(asrcOrganizationID)
-            teams.forEach(team => team.day_preferences = [])
+            teams.forEach(team => {
+                team.day_preferences = []
+                team.scheduling_weight = 0
+            })
             this.setTeams(teams)
     }
 
@@ -104,6 +107,12 @@ export default class App extends React.Component {
             setTeams(newTeams)
         }
 
+        const changeWeight = function(teamIdx, value) {
+            const newTeams = structuredClone(self.state.teams)
+            newTeams[teamIdx].scheduling_weight = value
+            setTeams(newTeams)
+        }
+
         const setEvent = function(e) {
             const newEvents = []
             let found = false
@@ -145,9 +154,10 @@ export default class App extends React.Component {
         const totalSteps = 3
         switch (this.state.appState) {
             case "set_team_preferences":
-                component = <TeamPreferences 
-                    teams={self.state.teams} 
-                    changePreferredMatchDays={changePreferredMatchDays} 
+                component = <TeamPreferences
+                    teams={self.state.teams}
+                    changePreferredMatchDays={changePreferredMatchDays}
+                    changeWeight={changeWeight}
                 />
                 step = 1
                 stepLabel = "Set team preferences"

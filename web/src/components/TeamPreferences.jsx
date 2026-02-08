@@ -4,7 +4,7 @@ import "./TeamPreferences.css"
 
 const dayOfWeekMap = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-export const TeamPreferences = ({teams, changePreferredMatchDays}) => {
+export const TeamPreferences = ({teams, changePreferredMatchDays, changeWeight}) => {
     teams = teams.map((team, teamIdx)=> {
         const allDays = []
         for (let i = 0; i < 7; i++) {
@@ -32,6 +32,15 @@ export const TeamPreferences = ({teams, changePreferredMatchDays}) => {
                         setSelectedItems={setSelectedMatchDays}
                     />
                 </td>
+                <td>
+                    <input
+                        type="number"
+                        min="0"
+                        value={team.scheduling_weight}
+                        onChange={e => changeWeight(teamIdx, parseInt(e.target.value) || 0)}
+                        style={{width: '60px'}}
+                    />
+                </td>
             </tr>
         )
     })
@@ -42,6 +51,7 @@ export const TeamPreferences = ({teams, changePreferredMatchDays}) => {
                 <th>Team</th>
                 <th>Captain</th>
                 <th>Preferred Match Days</th>
+                <th>Scheduling Weight</th>
             </thead>
             <tbody>
                 {teams}

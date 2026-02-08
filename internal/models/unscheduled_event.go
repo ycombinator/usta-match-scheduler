@@ -10,6 +10,7 @@ type UnscheduledEvent struct {
 	Event
 	DayPreferences []time.Weekday
 	Constraints    Constraints `json:"constraints"`
+	SchedulingWeight int
 }
 
 type Constraints struct {

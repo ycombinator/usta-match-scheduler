@@ -1,6 +1,7 @@
 package scheduler
 
 import (
+	"sort"
 	"time"
 
 	"github.com/ycombinator/usta-match-scheduler/internal/logging"
@@ -102,6 +103,7 @@ func getMatchesForWeekAndScheduleGroup(teams []models.SchedulingTeam, week time.
 				Type:  models.EventTypeMatch,
 			},
 			DayPreferences: team.DayPreferences,
+			SchedulingWeight: team.SchedulingWeight,
 		})
 	}
 
@@ -118,8 +120,12 @@ func scheduleMatches(matches []models.UnscheduledEvent, scheduleGroup models.Tea
 	logScheduledEvents(logger, scheduledEvents)
 	logUnscheduledEvents(logger, unscheduledMatches)
 
-	// Randomize matches for the week. Go match by match.
+	// Randomize matches for the week, then stable sort by weight descending
+	// so higher-weight teams get priority while equal-weight teams stay randomized.
 	matches = randomizeSlice(matches)
+	sort.SliceStable(matches, func(i, j int) bool {
+		return matches[i].SchedulingWeight > matches[j].SchedulingWeight
+	})
 	for _, match := range matches {
 		logger.Debug("Scheduling match", "match_title", match.Title, "match_type", match.Type, "day_preferences", match.DayPreferences)
 
