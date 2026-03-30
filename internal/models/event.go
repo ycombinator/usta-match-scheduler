@@ -28,6 +28,16 @@ func (event Event) IsOnWeekend() bool {
 	return event.Date.Weekday() == time.Saturday || event.Date.Weekday() == time.Sunday
 }
 
+// SlotFromHour determines the DaySlot based on the hour of day (24-hour format).
+func SlotFromHour(hour int) DaySlot {
+	if hour < 12 {
+		return SlotMorning
+	} else if hour < 17 {
+		return SlotAfternoon
+	}
+	return SlotEvening
+}
+
 type ComparableEvent interface {
 	ID() string
 	IsEqualTo(another ComparableEvent) bool

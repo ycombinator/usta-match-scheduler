@@ -32,7 +32,22 @@ func ScheduleMatches(w http.ResponseWriter, r *http.Request) {
 
 		var weeks = make([]time.Time, 0)
 		for _, match := range matches {
-			weeks = append(weeks, match.Date)
+			if match.IsScheduled {
+				// Already-scheduled matches get placed directly as events,
+				// bypassing the scheduling algorithm.
+				slot := models.SlotFromHour(match.Date.Hour())
+				event := models.Event{
+					Title: team.DisplayName(),
+					Type:  models.EventTypeMatch,
+					Slot:  slot,
+					Date:  match.Date,
+				}
+				input.Events = append(input.Events, event)
+				logger.Debug("Pre-scheduled match", "team_name", team.DisplayName(), "date", match.Date.Format("2006-01-02 15:04"), "slot", slot)
+			} else {
+				// Unscheduled matches go to the algorithm for scheduling.
+				weeks = append(weeks, match.Date)
+			}
 		}
 
 		logger.Debug("Team matches retrieved", "team_name", team.DisplayName(), "home_weeks", weeks)
