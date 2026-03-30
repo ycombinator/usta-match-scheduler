@@ -23,7 +23,9 @@ func TestGetOrganizationTeams(t *testing.T) {
 	}))
 	defer testServer.Close()
 
+	originalBaseURL := baseURL
 	baseURL = testServer.URL
+	defer func() { baseURL = originalBaseURL }()
 
 	teams, err := GetOrganizationTeams(225)
 	require.NoError(t, err)
@@ -31,9 +33,14 @@ func TestGetOrganizationTeams(t *testing.T) {
 
 	expectedFirstTeam := models.Team{
 		ID:            106665,
-		Name:          "ALMADEN SR 40MX6.0A",
-		Captain:       "Bui-Quang, Phu",
-		StartDate:     time.Date(2025, 6, 9, 0, 0, 0, 0, time.Local),
+		RawName:       "ALMADEN SR 40MX6.0A (Mixed Drinkers)",
+		OrgName:       "ALMADEN SR",
+		MinAge:        40,
+		Type:          models.TeamTypeMixed,
+		Level:         "6.0",
+		Captain:       "Phu Bui-Quang",
+		Name:          "Mixed Drinkers",
+		StartDate:     time.Date(2026, 3, 2, 0, 0, 0, 0, time.Local),
 		ScheduleGroup: models.TeamScheduleGroupEvening,
 	}
 	require.Equal(t, expectedFirstTeam, teams[0])

@@ -216,7 +216,11 @@ func TestMakeUnscheduledEvents(t *testing.T) {
 				Teams: []models.SchedulingTeam{
 					{
 						Team: models.Team{
-							Name:          "M3.5 40+",
+							Type:          models.TeamTypeAdult,
+							MinAge:        40,
+							Gender:        models.GenderMale,
+							Level:         "3.5",
+							Captain:       "Smith",
 							ScheduleGroup: models.TeamScheduleGroupDaytime,
 						},
 						Weeks: []time.Time{
@@ -228,7 +232,7 @@ func TestMakeUnscheduledEvents(t *testing.T) {
 			expected: []models.UnscheduledEvent{
 				{
 					Event: models.Event{
-						Title: "M3.5 40+",
+						Title: "40+ Men's 3.5 Daytime (Smith)",
 						Type:  models.EventTypeMatch,
 					},
 					Constraints: models.Constraints{
@@ -239,6 +243,11 @@ func TestMakeUnscheduledEvents(t *testing.T) {
 							},
 							models.SlotConstraint{TeamScheduleGroup: models.TeamScheduleGroupDaytime},
 						},
+						Preferences: []models.ProbabilisticConstraint{
+							models.DayPreferenceConstraint{
+								Probabilities: map[time.Weekday]float64{},
+							},
+						},
 					},
 				},
 			},
@@ -248,7 +257,11 @@ func TestMakeUnscheduledEvents(t *testing.T) {
 				Teams: []models.SchedulingTeam{
 					{
 						Team: models.Team{
-							Name:          "M3.5 40+",
+							Type:          models.TeamTypeAdult,
+							MinAge:        40,
+							Gender:        models.GenderMale,
+							Level:         "3.5",
+							Captain:       "Smith",
 							ScheduleGroup: models.TeamScheduleGroupDaytime,
 						},
 						Weeks: []time.Time{
@@ -261,7 +274,7 @@ func TestMakeUnscheduledEvents(t *testing.T) {
 			expected: []models.UnscheduledEvent{
 				{
 					Event: models.Event{
-						Title: "M3.5 40+",
+						Title: "40+ Men's 3.5 Daytime (Smith)",
 						Type:  models.EventTypeMatch,
 					},
 					Constraints: models.Constraints{
@@ -272,11 +285,16 @@ func TestMakeUnscheduledEvents(t *testing.T) {
 							},
 							models.SlotConstraint{TeamScheduleGroup: models.TeamScheduleGroupDaytime},
 						},
+						Preferences: []models.ProbabilisticConstraint{
+							models.DayPreferenceConstraint{
+								Probabilities: map[time.Weekday]float64{},
+							},
+						},
 					},
 				},
 				{
 					Event: models.Event{
-						Title: "M3.5 40+",
+						Title: "40+ Men's 3.5 Daytime (Smith)",
 						Type:  models.EventTypeMatch,
 					},
 					Constraints: models.Constraints{
@@ -287,6 +305,11 @@ func TestMakeUnscheduledEvents(t *testing.T) {
 							},
 							models.SlotConstraint{TeamScheduleGroup: models.TeamScheduleGroupDaytime},
 						},
+						Preferences: []models.ProbabilisticConstraint{
+							models.DayPreferenceConstraint{
+								Probabilities: map[time.Weekday]float64{},
+							},
+						},
 					},
 				},
 			},
@@ -296,7 +319,11 @@ func TestMakeUnscheduledEvents(t *testing.T) {
 				Teams: []models.SchedulingTeam{
 					{
 						Team: models.Team{
-							Name:          "M3.5 40+ DT",
+							Type:          models.TeamTypeAdult,
+							MinAge:        40,
+							Gender:        models.GenderMale,
+							Level:         "3.5",
+							Captain:       "Smith",
 							ScheduleGroup: models.TeamScheduleGroupDaytime,
 						},
 						Weeks: []time.Time{
@@ -305,7 +332,11 @@ func TestMakeUnscheduledEvents(t *testing.T) {
 					},
 					{
 						Team: models.Team{
-							Name:          "W3.5 40+",
+							Type:          models.TeamTypeAdult,
+							MinAge:        40,
+							Gender:        models.GenderFemale,
+							Level:         "3.5",
+							Captain:       "Jones",
 							ScheduleGroup: models.TeamScheduleGroupEvening,
 						},
 						Weeks: []time.Time{
@@ -317,7 +348,7 @@ func TestMakeUnscheduledEvents(t *testing.T) {
 			expected: []models.UnscheduledEvent{
 				{
 					Event: models.Event{
-						Title: "M3.5 40+ DT",
+						Title: "40+ Men's 3.5 Daytime (Smith)",
 						Type:  models.EventTypeMatch,
 					},
 					Constraints: models.Constraints{
@@ -328,11 +359,16 @@ func TestMakeUnscheduledEvents(t *testing.T) {
 							},
 							models.SlotConstraint{TeamScheduleGroup: models.TeamScheduleGroupDaytime},
 						},
+						Preferences: []models.ProbabilisticConstraint{
+							models.DayPreferenceConstraint{
+								Probabilities: map[time.Weekday]float64{},
+							},
+						},
 					},
 				},
 				{
 					Event: models.Event{
-						Title: "W3.5 40+",
+						Title: "40+ Women's 3.5 (Jones)",
 						Type:  models.EventTypeMatch,
 					},
 					Constraints: models.Constraints{
@@ -342,6 +378,11 @@ func TestMakeUnscheduledEvents(t *testing.T) {
 								Before:    time.Date(2025, 7, 21, 0, 0, 0, 0, time.UTC),
 							},
 							models.SlotConstraint{TeamScheduleGroup: models.TeamScheduleGroupEvening},
+						},
+						Preferences: []models.ProbabilisticConstraint{
+							models.DayPreferenceConstraint{
+								Probabilities: map[time.Weekday]float64{},
+							},
 						},
 					},
 				},
@@ -447,7 +488,11 @@ func TestConstraining_Run(t *testing.T) {
 				Teams: []models.SchedulingTeam{
 					{
 						Team: models.Team{
-							Name:          "M3.5 40+",
+							Type:          models.TeamTypeMixed,
+							MinAge:        40,
+							Gender:        models.GenderMale,
+							Level:         "3.5",
+							Captain:       "Smith",
 							ScheduleGroup: models.TeamScheduleGroupEvening,
 						},
 						Weeks: []time.Time{
@@ -462,7 +507,7 @@ func TestConstraining_Run(t *testing.T) {
 			assertFn: func(t *testing.T, schedule *models.Schedule) {
 				require.Equal(t, []models.Event{
 					{
-						Title: "M3.5 40+",
+						Title: "40+ Mixed 3.5 (Smith)",
 						Type:  models.EventTypeMatch,
 						Date:  time.Date(2025, 7, 16, 0, 0, 0, 0, time.UTC),
 						Slot:  models.SlotEvening,
@@ -476,7 +521,11 @@ func TestConstraining_Run(t *testing.T) {
 				Teams: []models.SchedulingTeam{
 					{
 						Team: models.Team{
-							Name:          "M3.5 40+",
+							Type:          models.TeamTypeMixed,
+							MinAge:        40,
+							Gender:        models.GenderMale,
+							Level:         "3.5",
+							Captain:       "Smith",
 							ScheduleGroup: models.TeamScheduleGroupEvening,
 						},
 						Weeks: []time.Time{
@@ -488,7 +537,11 @@ func TestConstraining_Run(t *testing.T) {
 					},
 					{
 						Team: models.Team{
-							Name:          "M4.0 40+",
+							Type:          models.TeamTypeMixed,
+							MinAge:        40,
+							Gender:        models.GenderMale,
+							Level:         "4.0",
+							Captain:       "Jones",
 							ScheduleGroup: models.TeamScheduleGroupEvening,
 						},
 						Weeks: []time.Time{
@@ -503,13 +556,13 @@ func TestConstraining_Run(t *testing.T) {
 			assertFn: func(t *testing.T, schedule *models.Schedule) {
 				require.Equal(t, []models.Event{
 					{
-						Title: "M3.5 40+",
+						Title: "40+ Mixed 3.5 (Smith)",
 						Type:  models.EventTypeMatch,
 						Date:  time.Date(2025, 7, 16, 0, 0, 0, 0, time.UTC),
 						Slot:  models.SlotEvening,
 					},
 					{
-						Title: "M4.0 40+",
+						Title: "40+ Mixed 4.0 (Jones)",
 						Type:  models.EventTypeMatch,
 						Date:  time.Date(2025, 7, 15, 0, 0, 0, 0, time.UTC),
 						Slot:  models.SlotEvening,
@@ -523,7 +576,11 @@ func TestConstraining_Run(t *testing.T) {
 				Teams: []models.SchedulingTeam{
 					{
 						Team: models.Team{
-							Name:          "M3.5 40+",
+							Type:          models.TeamTypeMixed,
+							MinAge:        40,
+							Gender:        models.GenderMale,
+							Level:         "3.5",
+							Captain:       "Smith",
 							ScheduleGroup: models.TeamScheduleGroupEvening,
 						},
 						Weeks: []time.Time{
@@ -535,7 +592,11 @@ func TestConstraining_Run(t *testing.T) {
 					},
 					{
 						Team: models.Team{
-							Name:          "M4.0 40+",
+							Type:          models.TeamTypeMixed,
+							MinAge:        40,
+							Gender:        models.GenderMale,
+							Level:         "4.0",
+							Captain:       "Jones",
 							ScheduleGroup: models.TeamScheduleGroupEvening,
 						},
 						Weeks: []time.Time{
