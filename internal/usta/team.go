@@ -135,6 +135,15 @@ func GetTeamMatches(t models.Team, opts ...TeamMatchesFilterOpt) ([]models.TeamM
 			return
 		}
 
+		// Detect playoff matches from cell 1 (round info column)
+		isPlayoff := false
+		if cells.Length() > 1 {
+			roundText := strings.TrimSpace(cells.Eq(1).Text())
+			if strings.Contains(roundText, "PlayOff") {
+				isPlayoff = true
+			}
+		}
+
 		// Parse match times
 		c = cells.Get(4).FirstChild
 
@@ -185,6 +194,7 @@ func GetTeamMatches(t models.Team, opts ...TeamMatchesFilterOpt) ([]models.TeamM
 			HomeTeam:     homeTeam,
 			VisitingTeam: visitingTeam,
 			IsScheduled:  isScheduled,
+			IsPlayoff:    isPlayoff,
 		}
 
 		// Parse outcome

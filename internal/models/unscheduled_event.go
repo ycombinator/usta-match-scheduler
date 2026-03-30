@@ -8,9 +8,10 @@ import (
 
 type UnscheduledEvent struct {
 	Event
-	DayPreferences []time.Weekday
-	Constraints    Constraints `json:"constraints"`
+	DayPreferences   []time.Weekday
+	Constraints      Constraints `json:"constraints"`
 	SchedulingWeight int
+	IsPlayoff        bool
 }
 
 type Constraints struct {

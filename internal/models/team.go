@@ -71,9 +71,10 @@ type TeamMatch struct {
 
 type SchedulingTeam struct {
 	Team
-	DayPreferences []time.Weekday `yaml:"day_preferences" json:"day_preferences"`
-	Weeks          []time.Time    `yaml:"weeks" json:"weeks"`
-	SchedulingWeight int          `yaml:"scheduling_weight" json:"scheduling_weight"`
+	DayPreferences   []time.Weekday      `yaml:"day_preferences" json:"day_preferences"`
+	Weeks            []time.Time          `yaml:"weeks" json:"weeks"`
+	PlayoffWeeks     map[time.Time]bool   `yaml:"-" json:"-"`
+	SchedulingWeight int                  `yaml:"scheduling_weight" json:"scheduling_weight"`
 }
 
 func (st *SchedulingTeam) HasPreferenceFor(day time.Weekday) bool {

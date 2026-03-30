@@ -104,13 +104,15 @@ func getMatchesForWeekAndScheduleGroup(teams []models.SchedulingTeam, week time.
 		}
 
 		// Schedule a match for the team this week.
+		isPlayoff := team.PlayoffWeeks != nil && team.PlayoffWeeks[week]
 		matches = append(matches, models.UnscheduledEvent{
 			Event: models.Event{
 				Title: team.DisplayName(),
 				Type:  models.EventTypeMatch,
 			},
-			DayPreferences: team.DayPreferences,
+			DayPreferences:   team.DayPreferences,
 			SchedulingWeight: team.SchedulingWeight,
+			IsPlayoff:        isPlayoff,
 		})
 	}
 
@@ -194,6 +196,14 @@ func findSlot(
 	}
 
 	for _, currentDay := range candidateDates {
+		// Evening playoff matches can only be scheduled Thu-Sun
+		if match.IsPlayoff && scheduleGroup == models.TeamScheduleGroupEvening {
+			day := currentDay.Weekday()
+			if day == time.Monday || day == time.Tuesday || day == time.Wednesday {
+				continue
+			}
+		}
+
 		if !isWeekend(currentDay) {
 			// If match is a daytime match, check if morning slot is available
 			if scheduleGroup == models.TeamScheduleGroupDaytime && isSlotAvailable(scheduledEvents, currentDay, models.SlotMorning) {

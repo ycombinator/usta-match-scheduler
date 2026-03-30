@@ -20,6 +20,13 @@ func ScheduleMatches(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Load playoff weeks data
+	playoffData, err := usta.LoadPlayoffWeeks("data/playoff-weeks-225.json")
+	if err != nil {
+		logger.Info("No playoff weeks data loaded", "error", err)
+		playoffData = make(usta.PlayoffWeeksData)
+	}
+
 	logger.Info("Getting team matches", "teams_count", len(input.Teams))
 	teamMatchesHomeFilter := usta.WithFilterMatchLocation(models.MatchLocationHome)
 	for idx, team := range input.Teams {
@@ -30,7 +37,11 @@ func ScheduleMatches(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		// Correct playoff match dates using the playoff weeks data
+		matches = usta.CorrectPlayoffDates(matches, team.ID, playoffData)
+
 		var weeks = make([]time.Time, 0)
+		playoffWeeks := make(map[time.Time]bool)
 		for _, match := range matches {
 			if match.IsScheduled {
 				// Already-scheduled matches get placed directly as events,
@@ -47,11 +58,15 @@ func ScheduleMatches(w http.ResponseWriter, r *http.Request) {
 			} else {
 				// Unscheduled matches go to the algorithm for scheduling.
 				weeks = append(weeks, match.Date)
+				if match.IsPlayoff {
+					playoffWeeks[match.Date] = true
+				}
 			}
 		}
 
 		logger.Debug("Team matches retrieved", "team_name", team.DisplayName(), "home_weeks", weeks)
 		input.Teams[idx].Weeks = weeks
+		input.Teams[idx].PlayoffWeeks = playoffWeeks
 	}
 
 	s := scheduler.NewPreferring(&input)

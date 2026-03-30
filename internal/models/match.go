@@ -27,6 +27,7 @@ func MatchLocationFromString(location string) (MatchLocation, error) {
 type Match struct {
 	Date        time.Time `json:"date"`
 	IsScheduled bool      `json:"is_scheduled"`
+	IsPlayoff   bool      `json:"is_playoff"`
 
 	HomeTeam     Team `json:"home_team"`
 	VisitingTeam Team `json:"visiting_team"`
