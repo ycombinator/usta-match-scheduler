@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"os"
-	"time"
 
 	"github.com/ycombinator/usta-match-scheduler/internal/models"
 	"github.com/ycombinator/usta-match-scheduler/internal/scheduler"
@@ -29,11 +28,7 @@ func main() {
 	//fmt.Printf("%#+v\n", input)
 
 	//s, err := scheduler.NewEager(input)
-	s, err := scheduler.NewPreferring(input)
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(3)
-	}
+	s := scheduler.NewPreferring(&input)
 
 	schedule, err := s.Run()
 	//s.Run()
@@ -43,23 +38,11 @@ func main() {
 	}
 
 	// Print schedule
-	schedule.ResetIterator()
-	for day := schedule.Next(); day != nil; day = schedule.Next() {
-		fmt.Printf("%12s: ", day.Date.Format("Mon, 01/02"))
-		teamTitle := ""
-		if day.DaytimeTeam != nil {
-			teamTitle = day.DaytimeTeam.Name
-		}
-		fmt.Printf("%25s\t", teamTitle)
+	for _, event := range schedule.ScheduledEvents {
+		fmt.Printf("%12s: %s [%s]\n", event.Date.Format("Mon, 01/02"), event.Title, event.Slot)
+	}
 
-		teamTitle = ""
-		if day.EveningTeam != nil {
-			teamTitle = day.EveningTeam.Name
-		}
-		fmt.Printf("%15s\n", teamTitle)
-
-		if day.Date.Weekday() == time.Sunday {
-			fmt.Println()
-		}
+	if len(schedule.UnscheduledEvents) > 0 {
+		fmt.Printf("\nUnscheduled: %d events\n", len(schedule.UnscheduledEvents))
 	}
 }
