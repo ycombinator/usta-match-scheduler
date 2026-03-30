@@ -76,6 +76,13 @@ func (dpc DayPreferenceConstraint) ShouldSchedule(candidateEvent Event, useProba
 	return true
 }
 
+func (ue UnscheduledEvent) Match(candidateEvent Event) float64 {
+	if !ue.MatchRequired(candidateEvent) {
+		return 0
+	}
+	return 1
+}
+
 func (ue UnscheduledEvent) MatchRequired(candidateEvent Event) bool {
 	//fmt.Printf("MatchRequired: candidateEvent: %#v\n", candidateEvent)
 	// Return false if candidate event fails to meet
